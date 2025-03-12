@@ -45,6 +45,10 @@ test('VC 홈 메뉴 확인', async({ page }) => {
 
     await page.getByRole('button', { name: 'LanguageIcon English dropdown-' }).click();
     await page.getByText('한국어').click();
-    await expect(page).toHaveURL(/\/en\//);
+    await expect(page).toHaveURL(/\/ko\//);
 
+
+});
+test.afterAll(async ({page}) => {
+    await page.close();
 });
