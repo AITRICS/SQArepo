@@ -34,11 +34,11 @@ async function globalSetup(config: FullConfig) {
         
         const dashboardResetURL = `${process.env.API_BASE}${process.env.DASHBOARD_RESET}`;
         console.log('🔹 대시보드 설정 초기화 URL:', dashboardResetURL);
-        await axios.post(dashboardResetURL, {
+        await axios.post(dashboardResetURL, {},{
             headers:{
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            }
+            },
         });
 
     } catch (error) {
