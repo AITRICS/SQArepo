@@ -211,11 +211,6 @@ test('대시보드 노트 닫기 버튼 확인', async({ page }) => {
 });
 
 
-
-
-
-
-
 test.afterAll(async ({page}) => {
   await page.close();
 });

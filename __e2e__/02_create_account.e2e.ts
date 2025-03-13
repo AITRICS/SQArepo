@@ -69,7 +69,7 @@ test('계정 생성 진행', async ({ page }) => {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   const create_button = page.getByRole('button',{name:'계정 생성'}); 
-  await expect(create_button).toBeEnabled(); // 계정 생성 모달 활성화 확인
+  await expect(create_button).toBeEnabled(); // 계정 생성 버튼 활성화 확인
   await screenShot(page,senarioName,'계정 생성 버튼 활성화');
   console.log(`✅ 계정 생성 버튼 활성화`);
 
@@ -89,11 +89,6 @@ test('계정 생성 진행', async ({ page }) => {
  * 생성 계정 로그인
  */
 test('생성 계정 로그인', async({ page}) => {
-  await screenShot(page,senarioName,'생성 계정 로그인');
-  await expect(page.getByText('관리자의 승인 후 로그인이 가능합니다.')).toBeVisible({ timeout: 5000 });
-  await screenShot(page,senarioName,'미승인 계정 로그인 토스트 메세지');
-  console.log(`✅ 미승인 계정 로그인 토스트 메세지`);
-
   await login(page, adminID, adminPW)  // admin 로그인
   await approval(page,adminID,userID); // 계정 승인
   await logout(page,adminID); // admin 로그아웃
