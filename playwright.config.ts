@@ -29,7 +29,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://192.168.132.5:3000',
     trace: 'on-first-retry',
-    headless: false, // UI 모드 활성화
+    // headless: false, // UI 모드 활성화
+    headless: process.env.CI === 'true',
     viewport: null, //뷰포트 크기를 브라우저 창 크기에 맞춤
   },
   
