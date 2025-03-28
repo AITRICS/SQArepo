@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import axios from 'axios';
 
 dotenv.config();
@@ -52,8 +51,4 @@ test('VC 홈 메뉴 확인', async({ page }) => {
     await page.getByText('한국어').click();
     await expect(page).toHaveURL(/\/ko\//);
 
-});
-
-test.afterAll(async ({page}) => {
-    await page.close();
 });

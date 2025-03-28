@@ -1,17 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 
-const senarioName = '[02.로그인 페이지 UI 확인]'
+const senarioName = '[01.로그인 페이지 UI 확인]'
 
 test.beforeEach(async ({page}) => {
   await page.goto('/ko/login')
 });
-
-// test.beforeAll(async ({}) => {
-//   const fakeConfig = {projects: []} as any;
-//    await globalSetup(fakeConfig);
-// });
 
 /**
  * 계정 생성 모달 오픈, 버튼 비활성화 확인
@@ -47,9 +41,4 @@ test('UI 확인', async({ page }) => {
   await screenShot(page,senarioName,'계정 생성 버튼');
   console.log(`✅ 계정 생성 버튼`);
 
-});
-
-
-test.afterAll(async ({page}) => {
-  await page.close();
 });

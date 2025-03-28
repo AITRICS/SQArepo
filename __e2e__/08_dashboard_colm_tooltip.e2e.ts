@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import axios from 'axios';
 import { executeQuery, closeConnection } from '../playwright/fixture/setDatabase.js';
 import { promises } from 'dns';
@@ -75,7 +74,6 @@ async function getValue(subcategory: string): Promise<number> {
 };
 
 
-test.afterAll(async ({page}) => {
+test.afterAll(async ({}) => {
   await closeConnection();
-  await page.close();
 });

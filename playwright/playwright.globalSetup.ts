@@ -1,5 +1,5 @@
 import { FullConfig } from '@playwright/test';
-import { executeQuery } from './setDatabase.js';
+import { executeQuery } from './fixture/setDatabase.js';
 import axios from 'axios';
 import dotenv from 'dotenv'
 

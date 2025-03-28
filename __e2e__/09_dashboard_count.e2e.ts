@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import { getScreenedCount, getReviewedCount, getDismissedCount} from '../playwright/fixture/patientCount.js';
 import { closeConnection } from '../playwright/fixture/setDatabase.js'
 
@@ -113,7 +112,6 @@ async function checkDismissedCounts(page): Promise<number> {
     return match && match[1] !== undefined && match[1] !== '' ? parseInt(match[1], 10) : 0;
 }
 
-test.afterAll(async ({page}) => {
+test.afterAll(async ({}) => {
     await closeConnection();
-    await page.close();
   });

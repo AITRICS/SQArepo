@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
+import globalSetup from '../playwright/playwright.globalSetup.js';
 import axios from 'axios';
 
 dotenv.config();
@@ -62,13 +62,8 @@ test('대시보드 info 컬럼 정렬', async({ page }) => {
 });
 
 
-
 async function waitforloading(page): Promise<void> {
     await page.waitForTimeout(500);
     const loadingLocator = page.locator('.absolute').first();
     await expect(loadingLocator).not.toBeVisible({timeout: 10000}); 
 }
-
-test.afterAll(async ({page}) => {
-    await page.close();
-  });

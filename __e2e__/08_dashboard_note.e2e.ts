@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
 import { logout } from '../playwright/fixture/logout.js';
 import { createAccount } from '../playwright/fixture/account.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
+import globalSetup from '../playwright/playwright.globalSetup.js';
 import { executeQuery } from '../playwright/fixture/setDatabase.js';
 import { approval } from '../playwright/fixture/approval.js';
 import { isModalOpen,isModalClosed } from '../playwright/fixture/util.js';
@@ -208,9 +208,4 @@ test('대시보드 노트 닫기 버튼 확인', async({ page }) => {
     await screenShot(page,senarioName,'노트 닫은 후 저장 안됨');
     console.log('✅ 노트 닫은 후 저장 안됨');
   }
-});
-
-
-test.afterAll(async ({page}) => {
-  await page.close();
 });
