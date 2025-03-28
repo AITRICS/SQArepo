@@ -3,7 +3,6 @@ import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
 import { createAccount } from '../playwright/fixture/account.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import { executeQuery,closeConnection } from '../playwright/fixture/setDatabase.js';
 
 
@@ -34,7 +33,6 @@ const accounts = [
 const loginAttempts = 5 //로그인 시도 횟수
 
 test.beforeEach(async ({page}) => {
-  test.setTimeout(60000);
   await page.goto('/ko/login')
 });
 
@@ -115,7 +113,6 @@ test('권한별 잠긴 계정 로그인 확인', async({ page }) => {
   }
 });
 
-test.afterAll(async ({page}) => {
+test.afterAll(async ({}) => {
     await closeConnection();
-    await page.close();
   });

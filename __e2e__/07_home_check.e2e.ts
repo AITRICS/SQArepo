@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { screenShot } from '../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import axios from 'axios';
 
 dotenv.config();
@@ -10,7 +9,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[10. VC 홈 메뉴 확인]'
+const senarioName = '[07. VC 홈 메뉴 확인]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -52,8 +51,4 @@ test('VC 홈 메뉴 확인', async({ page }) => {
     await page.getByText('한국어').click();
     await expect(page).toHaveURL(/\/ko\//);
 
-});
-
-test.afterAll(async ({page}) => {
-    await page.close();
 });

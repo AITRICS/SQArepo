@@ -5,8 +5,6 @@ import { login } from '../playwright/fixture/login.js';
 import { logout } from '../playwright/fixture/logout.js';
 import { approval } from '../playwright/fixture/approval.js';
 import { isModalOpen,isModalClosed } from '../playwright/fixture/util.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
-
 
 dotenv.config();
 
@@ -17,16 +15,11 @@ const userName = process.env.USERNAME || 'defaultName';
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[01.계정 생성]'
+const senarioName = '[02.계정 생성]'
 
 test.beforeEach(async ({page}) => {
   await page.goto('/ko/login')
 });
-
-// test.beforeAll(async ({}) => {
-//   const fakeConfig = {projects: []} as any;
-//    await globalSetup(fakeConfig);
-// });
 
 /**
  * 계정 생성 모달 오픈, 버튼 비활성화 확인
@@ -97,8 +90,4 @@ test('생성 계정 로그인', async({ page}) => {
   await page.waitForURL((url) => url.pathname.includes('/screening/screened'));
   await expect(page).toHaveURL(/\/screening\/screened/);
   console.log(`✅ 생성 계정 로그인`);
-});
-
-test.afterAll(async ({page}) => {
-  await page.close();
 });

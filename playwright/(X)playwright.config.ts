@@ -6,9 +6,9 @@
 
 // // import { sourceFilter, sourcePath } from './coverage.options.js';
 
-import { defineConfig, devices, ScreenshotMode, TraceMode, VideoMode } from '@playwright/test';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
+// import { defineConfig, devices, ScreenshotMode, TraceMode, VideoMode } from '@playwright/test';
+// import * as dotenv from 'dotenv';
+// import * as path from 'path';
 
 
 // // Playwright 환경변수 로드
@@ -26,20 +26,20 @@ import * as path from 'path';
 // // 테스트 경로 설정
 // const isDev = process.env.NODE_ENV === 'development';
 
-function getScreenshotMode(): ScreenshotMode {
-  const mode = process.env.SCREENSHOT;
+// function getScreenshotMode(): ScreenshotMode {
+//   const mode = process.env.SCREENSHOT;
 
-  switch (mode) {
-    case 'on':
-    case 'off':
-    case 'only-on-failure':
-    case 'on-first-failure':
-      return mode;
-    default:
-      // 개발 환경에서는 테스트 실패 시 스크린샷 저장
-      return isDev ? 'only-on-failure' : 'off';
-  }
-}
+//   switch (mode) {
+//     case 'on':
+//     case 'off':
+//     case 'only-on-failure':
+//     case 'on-first-failure':
+//       return mode;
+//     default:
+//       // 개발 환경에서는 테스트 실패 시 스크린샷 저장
+//       return isDev ? 'only-on-failure' : 'off';
+//   }
+// }
 
 // function getVideoMode(): VideoMode {
 //   const mode = process.env.VIDEO;
@@ -163,16 +163,16 @@ function getScreenshotMode(): ScreenshotMode {
 
 
 // 환경 변수 로드
-const envConfig = dotenv.config({
-  path: path.join(__dirname, '.env.playwright'),
-});
+// const envConfig = dotenv.config({
+//   path: path.join(__dirname, '.env.playwright'),
+// });
 
-if (envConfig.error) {
-  throw new Error('Error loading .env.playwright file');
-}
+// if (envConfig.error) {
+//   throw new Error('Error loading .env.playwright file');
+// }
 
-// 개발 모드인지 확인
-const isDev = process.env.NODE_ENV === 'development';
+// // 개발 모드인지 확인
+// const isDev = process.env.NODE_ENV === 'development';
 
 
 
@@ -189,33 +189,36 @@ const isDev = process.env.NODE_ENV === 'development';
 //   return process.env.TRACE || (isDev ? 'retain-on-failure' : 'off');
 // }
 
+
+
+
 /**
  * 통합 Playwright 설정
  */
-export default defineConfig({
-  testDir: '__e2e__', // E2E 테스트 폴더 지정
-  testMatch: '**/*.e2e.@(ts|tsx|js|jsx)',  // E2E 테스트 파일 패턴
+// export default defineConfig({
+//   testDir: '__e2e__', // E2E 테스트 폴더 지정
+//   testMatch: '**/*.e2e.@(ts|tsx|js|jsx)',  // E2E 테스트 파일 패턴
 
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  outputDir: path.join(__dirname, 'e2e-results'), // 테스트 결과 저장 폴더
-  globalSetup: path.resolve(__dirname,'./fixture/globalSetup.ts'),
-  use: {
-    baseURL: process.env.BASE_URL || 'http://192.168.132.5:3000', // 웹서버 없음 → 기본값 설정
-    screenshot: getScreenshotMode(),
-    // video: getVideoMode(),
-    // trace: getTraceMode(),
-    launchOptions: {
-      slowMo: process.env.SLOW_MO ? parseInt(process.env.SLOW_MO) : 0,
-    },
-  },
+//   fullyParallel: true,
+//   forbidOnly: !!process.env.CI,
+//   retries: process.env.CI ? 2 : 0,
+//   workers: process.env.CI ? 1 : undefined,
+//   outputDir: path.join(__dirname, 'e2e-results'), // 테스트 결과 저장 폴더
+//   globalSetup: path.resolve(__dirname,'./fixture/globalSetup.ts'),
+//   use: {
+//     baseURL: process.env.BASE_URL || 'http://192.168.132.5:3000', // 웹서버 없음 → 기본값 설정
+//     screenshot: getScreenshotMode(),
+//     // video: getVideoMode(),
+//     // trace: getTraceMode(),
+//     launchOptions: {
+//       slowMo: process.env.SLOW_MO ? parseInt(process.env.SLOW_MO) : 0,
+//     },
+//   },
 
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
-});
+//   projects: [
+//     {
+//       name: 'chromium',
+//       use: { ...devices['Desktop Chrome'] },
+//     },
+//   ],
+// });

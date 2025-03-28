@@ -4,7 +4,6 @@ import * as dotenv from 'dotenv';
 import { login } from '../playwright/fixture/login.js';
 import { logout } from '../playwright/fixture/logout.js';
 import { createAccount } from '../playwright/fixture/account.js';
-import globalSetup from '../playwright/fixture/globalSetup.js';
 import { executeQuery, closeConnection } from '../playwright/fixture/setDatabase.js';
 import { approval } from '../playwright/fixture/approval.js';
 import { isModalOpen,isModalClosed } from '../playwright/fixture/util.js';
@@ -171,7 +170,6 @@ test('관리자 사용자 유형/소속 선택 후 로그인 확인', async({ pa
 
 });
 
-test.afterAll(async ({page}) => {
+test.afterAll(async ({}) => {
     await closeConnection();
-    await page.close();
   });

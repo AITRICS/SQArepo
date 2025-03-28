@@ -6,13 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Playwright 환경변수 로드
-const envConfig = dotenv.config({
-  path: path.join(__dirname, '.env.playwright'),
-});
-
-// if (envConfig.error) {
-//   throw new Error('Error loading .env.playwright file');
-// }
+dotenv.config();
 
 export default defineConfig({
   testDir: '../',
@@ -24,10 +18,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined, //Opt out of parallel tests on CI.
   reporter: 'html',
 
-  globalSetup: path.resolve(__dirname,'playwright/fixture/globalSetup.ts'), // Global Setup 실행
+  // globalSetup: path.resolve(__dirname,'playwright/fixture/globalSetup.ts'), // Global Setup 실행
   
   use: {
-    baseURL: 'http://192.168.132.5:3000',
+    baseURL: process.env.BASE_URL,//'http://192.168.132.5:3000',
     trace: 'on-first-retry',
     // headless: false, // UI 모드 활성화
     headless: process.env.CI === 'true',
@@ -45,4 +39,7 @@ export default defineConfig({
       },
     },
   ],
+  globalSetup: path.resolve(__dirname, 'playwright/playwright.globalSetup.ts'),
+  globalTeardown: path.resolve(__dirname, 'playwright/playwright.teardown.ts'),
+ 
 });
