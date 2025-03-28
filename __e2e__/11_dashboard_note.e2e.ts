@@ -15,7 +15,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[06. 대시보드 노트]'
+const senarioName = '[11. 대시보드 노트]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

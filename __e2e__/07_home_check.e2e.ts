@@ -9,7 +9,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[10. VC 홈 메뉴 확인]'
+const senarioName = '[07. VC 홈 메뉴 확인]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

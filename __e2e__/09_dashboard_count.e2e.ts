@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[08. 대시보드 환자 카운트]'
+const senarioName = '[09. 대시보드 환자 카운트]'
 
 
 

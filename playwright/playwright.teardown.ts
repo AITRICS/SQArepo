@@ -17,7 +17,7 @@ const globalTeardown = async (config: FullConfig) => {
 
 //   await client.writeCoverage();
 //   await client.close();
-    execSync('pkill -f playwright || taskkill /F /IM playwright.exe',{stdio: 'ignore'});
+    // execSync('taskkill /F /IM playwright.exe',{stdio: 'ignore'});
     console.log('✅ globalTeardown 실행됨');
 };
 
