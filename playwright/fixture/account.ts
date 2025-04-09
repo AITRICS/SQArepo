@@ -29,5 +29,5 @@ export async function createAccount(page: Page, accountId: string, password: str
   });//스크롤
 
   await page.getByRole('button', { name: '계정 생성' }).click();
-
+  await page.waitForTimeout(1000);
 }

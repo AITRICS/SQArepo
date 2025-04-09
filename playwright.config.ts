@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 export default defineConfig({
-  testDir: '../',
+  testDir: './__e2e__',
   testMatch: '**/*.e2e.@(ts|tsx|js|jsx)',  // 모든 하위 디렉토리의 .spec.ts 파일을 테스트로 인식
   
   fullyParallel: true, //Run tests in files in parallel
@@ -21,11 +21,14 @@ export default defineConfig({
   // globalSetup: path.resolve(__dirname,'playwright/fixture/globalSetup.ts'), // Global Setup 실행
   
   use: {
-    baseURL: process.env.BASE_URL,//'http://192.168.132.5:3000',
+    baseURL: process.env.BASE_URL,//'http://192.168.132.211:3000',
     trace: 'on-first-retry',
     // headless: false, // UI 모드 활성화
     headless: process.env.CI === 'true',
     viewport: null, //뷰포트 크기를 브라우저 창 크기에 맞춤
+    contextOptions: {
+      permissions: ['clipboard-read'],
+    },
   },
   
   projects: [
