@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { screenShot } from '../playwright/fixture/screenshot.js';
+import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
-import { login } from '../playwright/fixture/login.js';
+import { login } from '../../playwright/fixture/login.js';
 import axios from 'axios';
 
 dotenv.config();

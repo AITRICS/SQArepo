@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { screenShot } from '../playwright/fixture/screenshot.js';
+import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
-import { login } from '../playwright/fixture/login.js';
-import { getScreenedCount, getReviewedCount, getDismissedCount} from '../playwright/fixture/patientCount.js';
-import { closeConnection } from '../playwright/fixture/setDatabase.js'
+import { login } from '../../playwright/fixture/login.js';
+import { getScreenedCount, getReviewedCount, getDismissedCount} from '../../playwright/fixture/patientCount.js';
+import { closeConnection } from '../../playwright/fixture/setDatabase.js'
 
 dotenv.config();
 

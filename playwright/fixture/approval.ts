@@ -36,4 +36,5 @@ export async function approval(page: Page, loginuser: string, username: string) 
   }
 
   expect(found).toBeTruthy();
+  await page.waitForTimeout(1000);
 }

@@ -16,7 +16,7 @@ export async function login(page: Page, username: string, password: string) {
   await inputPw.fill(password);
   await expect(buttonLogin).toBeEnabled();
   await buttonLogin.click();
-
+  await page.waitForTimeout(1000);
   // await page.waitForURL((url) => url.pathname.includes('/screening/screened'));
   // await expect(page).toHaveURL(/\/screening\/screened/);
 }

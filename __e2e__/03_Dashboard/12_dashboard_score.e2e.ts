@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { screenShot } from '../playwright/fixture/screenshot.js';
+import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
-import { login } from '../playwright/fixture/login.js';
-import globalSetup from '../playwright/playwright.globalSetup.js';
+import { login } from '../../playwright/fixture/login.js';
+import globalSetup from '../../playwright/playwright.globalSetup.js';
 import axios from 'axios';
-import { executeQuery, closeConnection } from '../playwright/fixture/setDatabase.js';
+import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
 
 dotenv.config();
 

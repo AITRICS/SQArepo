@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { screenShot } from '../playwright/fixture/screenshot.js';
+import { screenShot } from '../../playwright/fixture/screenshot.js';
 
 const senarioName = '[01.로그인 페이지 UI 확인]'
 

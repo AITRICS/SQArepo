@@ -11,7 +11,7 @@ let connection: mysql.Connection | null = null;
 export async function connectToMySQL(): Promise<mysql.Connection> {
   if (!connection) {
     connection = await mysql.createConnection({
-      host: process.env.DB_HOST || '192.168.132.5',
+      host: process.env.DB_HOST || '192.168.132.211',
       port: Number(process.env.DB_PORT) || 3306,
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || 'cV72Buj3[m:7hl=@!',
