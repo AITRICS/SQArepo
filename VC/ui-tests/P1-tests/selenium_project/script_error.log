@@ -1,0 +1,48 @@
+....E.........
+======================================================================
+ERROR: test_account_policy_agreement (account_policy_agreement.AccountPolicyAgreementTest.test_account_policy_agreement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\PycharmProjects\P1_UI_TEST\account_policy_agreement.py", line 167, in tearDown
+    pre_setting.user_logout(self,pre_setting.userid)  #  로그아웃
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PycharmProjects\P1_UI_TEST\pre_setting.py", line 236, in user_logout
+    driver.find_element(By.XPATH, f'//button[.//span[text()="{user_id}"]]').click()  # 이름 선택
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PycharmProjects\VC_USER_FLOW_213\.venv1\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 922, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PycharmProjects\VC_USER_FLOW_213\.venv1\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 454, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "D:\PycharmProjects\VC_USER_FLOW_213\.venv1\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 232, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"//button[.//span[text()="nora00"]]"}
+  (Session info: chrome=145.0.7632.111); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0x7ff6f553aa55
+	0x7ff6f5298630
+	0x7ff6f502d75d
+	0x7ff6f508862e
+	0x7ff6f508893c
+	0x7ff6f50d8d87
+	0x7ff6f50d591c
+	0x7ff6f5079098
+	0x7ff6f5079f83
+	0x7ff6f5567810
+	0x7ff6f5561afd
+	0x7ff6f5582c1a
+	0x7ff6f52b3345
+	0x7ff6f52bb81c
+	0x7ff6f52a1924
+	0x7ff6f52a1ad6
+	0x7ff6f5287e47
+	0x7ff89e52e8d7
+	0x7ff89f8ac40c
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 927.668s
+
+FAILED (errors=1)
