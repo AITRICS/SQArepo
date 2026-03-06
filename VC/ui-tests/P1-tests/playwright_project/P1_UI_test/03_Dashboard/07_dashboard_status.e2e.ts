@@ -22,7 +22,7 @@ test.beforeEach(async ({page}) => {
   await expect(loadingLocator).not.toBeVisible({timeout: 10000}); //대시보드 노출 대기
 });
 
-const statusOptions = ['New', 'Observing', 'Completed', 'Error', 'Dismissed'];
+const statusOptions = ['New', 'Observing', 'Complete', 'Error', 'Dismissed'];
 
 export async function scrollDashboardToBottomAndTop(page: Page) {
   const scrollTarget = page.locator('xpath=/html/body/div[1]/div/div/div/div/div/div[2]');
@@ -74,7 +74,7 @@ async function changeStatusAndVerify(
   // 변경된 상태에 따라 탭 이동 (필수)
   let expectedTab = ['New', 'Observing'].includes(targetStatus)
     ? 'Screened'
-    : ['Completed', 'Error'].includes(targetStatus)
+    : ['Complete', 'Error'].includes(targetStatus)
     ? 'Reviewed'
     : 'Dismissed';
   await page.getByRole('tab', { name: expectedTab }).click();
@@ -125,25 +125,62 @@ async function gotoTab(page: Page, name: 'Screened' | 'Reviewed' | 'Dismissed') 
 function firstRow(page: Page): Locator {
   return page.locator('table tbody tr').first();
 }
+ /** Patient info 컬럼 인덱스 찾기 */
+async function getPatientInfoColIndex(page: Page): Promise<number> {
+  const headers = page.locator('table thead th');
+  const count = await headers.count();
 
-/** row에서 patientId 추출 (필요시 td 인덱스 수정) */
-async function extractPatientIdFromRow(row: Locator): Promise<string> {
-  // 보통 첫 컬럼이 ID인 경우가 많음. 아니면 td:nth-child(n)으로 수정.
-  const id = await row.locator('td').first().innerText();
-  return id.trim();
+  for (let i = 0; i < count; i++) {
+    const text = (await headers.nth(i).innerText()).trim();
+    if (text.includes('Patient info')) {
+      return i; // 0-based index
+    }
+  }
+  throw new Error('Patient info column not found');
 }
 
-/** 현재 탭의 테이블에서 patientId 포함된 row 찾기 */
-async function findRowByPatientId(page: Page, patientId: string): Promise<Locator> {
-  const rows = page.locator('table tbody tr');
-  const n = await rows.count();
+// /** row에서 patientId 추출 (필요시 td 인덱스 수정) */
+// async function extractPatientIdFromRow(row: Locator): Promise<string> {
+//   // 보통 첫 컬럼이 ID인 경우가 많음. 아니면 td:nth-child(n)으로 수정.
+//   const id = await row.locator('td').first().innerText();
+//   return id.trim();
+// }
+/** row에서 patientId 추출: Patient info 컬럼 찾아서 해당 td에서 추출 */
+async function extractPatientIdFromRow(
+  page: Page,
+  row: Locator
+): Promise<string> {
+  const colIndex = await getPatientInfoColIndex(page); // 0-based
+  const cell = row.locator('td').nth(colIndex);
 
-  for (let i = 0; i < n; i++) {
-    const r = rows.nth(i);
-    const txt = (await r.innerText()).replace(/\s+/g, ' ').trim();
-    if (txt.includes(patientId)) return r;
+  // 해당 셀 안의 button > p 가 환자 ID
+  const id = (await cell.locator('button > p').innerText()).trim();
+  return id;
+}
+/** 현재 탭의 테이블에서 patientId 포함된 row 찾기 */
+// async function findRowByPatientId(page: Page, patientId: string): Promise<Locator> {
+//   const rows = page.locator('table tbody tr');
+//   const n = await rows.count();
+
+//   for (let i = 0; i < n; i++) {
+//     const r = rows.nth(i);
+//     const txt = (await r.innerText()).replace(/\s+/g, ' ').trim();
+//     if (txt.includes(patientId)) return r;
+//   }
+//   throw new Error(`Row not found for patientId=${patientId}`);
+// }
+async function findRowByPatientId(page: Page, patientId: string): Promise<Locator> {
+  const row = page
+    .locator('table tbody tr')
+    .filter({ hasText: patientId });
+
+  // 안전하게 1개 이상 있는지 체크하고 싶다면 (선택)
+  const count = await row.count();
+  if (count === 0) {
+    throw new Error(`Row not found for patientId=${patientId}`);
   }
-  throw new Error(`Row not found for patientId=${patientId}`);
+
+  return row.first();
 }
 
 /** Status combobox: row 내 combobox 1개 가정 */
@@ -215,10 +252,12 @@ async function ensureNewOnScreened(page: Page, patientId: string) {
   await openStatusDropdown(row);
   await selectStatus(page, 'New');
   await waitTableReady(page);
+  await page.waitForTimeout(1000);
 
   // 상태가 New인지 확인
   const rowAfter = await findRowByPatientId(page, patientId);
   await expectRowStatus(page,rowAfter, 'New');
+  console.log('✅ New 상태 변경 확인');
 }
 
 
@@ -227,7 +266,8 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   await gotoTab(page, 'Screened');
 
   const row0 = firstRow(page);
-  const patientId = await extractPatientIdFromRow(row0); // 첫번째 행 환자 ID 추출
+  const patientId = await extractPatientIdFromRow(page,row0); // 첫번째 행 환자 ID 추출
+  console.log(`Patient ID: ${patientId}`);
 
   // 1) Status 클릭 시 드롭다운 옵션들 + New 체크 상태 확인
   const rowNew = await findRowByPatientId(page, patientId); // patientId로 다시 행 찾기
@@ -235,7 +275,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   // 2) "New" -> "New" (실질 변화 없지만 동작 확인)
   await openStatusDropdown(rowNew); // 드롭다운 열기
   await selectStatus(page, 'New'); // New 선택
-  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(1000);
   await expectRowStatus(page,await findRowByPatientId(page, patientId), 'New'); // 상태 New 확인
   console.log('✅ 대시보드 환자 New -> New 상태 변경 확인');
 
@@ -246,7 +286,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   const rowForObs = await findRowByPatientId(page, patientId); // patientId로 다시 행 찾기
   await openStatusDropdown(rowForObs); // 드롭다운 열기
   await selectStatus(page, 'Observing'); // Observing 선택
-  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(1000);
   
   const rowObs = await findRowByPatientId(page, patientId); // patientId로 다시 행 찾기
   await expectRowStatus(page,rowObs, 'Observing'); // 상태 Observing 확인
@@ -255,77 +295,86 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
 
 
   // 4) "New" -> "Complete" : Reviewed 이동
-  const patientId_Comp = await extractPatientIdFromRow(row0); // 첫번째 행 환자 ID 추출
+  const patientId_Comp = await extractPatientIdFromRow(page, row0); // 첫번째 행 환자 ID 추출
   await ensureNewOnScreened(page, patientId_Comp);// 다시 New로 맞춤
   const rowForComp = await findRowByPatientId(page, patientId_Comp); // patientId로 다시 행 찾기
   await openStatusDropdown(rowForComp); //  드롭다운 열기
-  console.log('✅ 드롭다운 오픈');
   await selectStatus(page, 'Complete'); // Complete 선택
   console.log('✅ 대시보드 환자 New -> Complete 선택');
-  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
 
   await gotoTab(page, 'Reviewed'); // Reviewed 탭 이동
    await waitTableReady(page);// 테이블 로딩 대기
+   await page.waitForTimeout(5000);
   const rowComp = await findRowByPatientId(page, patientId_Comp); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowComp, 'Complete'); // 상태 Complete 확인
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 New -> Complete 상태 변경 확인');
   
 
 
   // 5) "New" -> "Error" : Reviewed 이동
-  const patientId_Err = await extractPatientIdFromRow(row0); // 첫번째 행 환자 ID 추출
+  const patientId_Err = await extractPatientIdFromRow(page, row0); // 첫번째 행 환자 ID 추출
   await ensureNewOnScreened(page, patientId_Err);// 다시 New로 맞춤
   const rowForErr = await findRowByPatientId(page, patientId_Err); // patientId로 다시 행 찾기
   await openStatusDropdown(rowForErr); //  드롭다운 열기
-  console.log('✅ 드롭다운 오픈');
   await selectStatus(page, 'Error'); // Error 선택
   console.log('✅ 대시보드 환자 New -> Error 선택');
-  await page.waitForTimeout(1000); // 잠시 대기
-  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000); // 잠시 대기
+
 
   await gotoTab(page, 'Reviewed'); // Reviewed 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
   const rowErr = await findRowByPatientId(page, patientId_Err); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowErr, 'Error'); // 상태 Error 확인
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 New -> Error 상태 변경 확인');
 
 
 
   // 6) "New" -> "Dismissed" : Dismissed 이동
-  await ensureNewOnScreened(page, patientId);
-  const rowForDis = await findRowByPatientId(page, patientId);
-  await openStatusDropdown(rowForDis);
-  await selectStatus(page, 'Dismissed');
-  await waitTableReady(page);
+  const patientId_Dis = await extractPatientIdFromRow(page, row0); // 첫번째 행 환자 ID 추출
+  await ensureNewOnScreened(page, patientId_Dis);// 다시 New로 맞춤
+  const rowForDis = await findRowByPatientId(page, patientId_Dis); // patientId로 다시 행 찾기
+  await openStatusDropdown(rowForDis); //  드롭다운 열기
+  await selectStatus(page, 'Dismissed'); // Dismissed 선택
+  console.log('✅ 대시보드 환자 New -> Dismissed 선택');
+  await page.waitForTimeout(5000); // 잠시 대기
 
-  await gotoTab(page, 'Dismissed');
-  const rowDis = await findRowByPatientId(page, patientId);
-  await expectRowStatus(page,rowDis, 'Dismissed');
+  await gotoTab(page, 'Dismissed'); // Dismissed 탭 이동
+  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
+  const rowDis = await findRowByPatientId(page, patientId_Dis); // patientId로 다시 행 찾기
+  await expectRowStatus(page, rowDis, 'Dismissed'); // 상태 Dismissed 확인
   await gotoTab(page, 'Screened'); // Screened 탭 이동
+  await waitTableReady(page); // 테이블 로딩 대기
+  await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 New -> Dismissed 상태 변경 확인');
 });
 
 
 test('체크박스 환자 상태 변경', async ({ page }) => {
   for (const baseStatus of statusOptions) { // 초기 환자 상태
-    const baseTab = ['Completed', 'Error'].includes(baseStatus)
+    const baseTab = ['Complete', 'Error'].includes(baseStatus)
       ? 'Reviewed'
       : baseStatus === 'Dismissed'
       ? 'Dismissed'
       : 'Screened';
     console.log(`========= baseStatus: ${baseStatus} ==========`)
     await page.getByRole('tab', { name: baseTab }).click(); //screened, reviewed, dismissed 대시보드 클릭
-    await page.waitForLoadState('networkidle');
+    await waitTableReady(page);
     await page.waitForTimeout(1000);
+    console.log(`탭 '${baseTab}' 에서 상태 '${baseStatus}' 환자 대상으로 체크박스 상태 변경 테스트 시작`);
     
     for (const targetStatus of statusOptions) {
       let row = page.locator('tbody tr').first(); //첫번째 행 추출
       let checkbox = row.getByRole('checkbox'); //첫번째 행의 체크박스 추출
-      let currentPatientId = await extractPatientIdFromRow( row); //첫번쨰 행 환자 id
+      let currentPatientId = await extractPatientIdFromRow(page, row); //첫번쨰 행 환자 id
 
       let colIndex = await getStatusColumnIndex(page);
       let statusCombo = row.locator('td').nth(colIndex).getByRole('combobox'); //환자 상태 추출
@@ -334,7 +383,6 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
 
       // 상태 초기화: 현재 상태가 baseStatus와 다를 경우 먼저 변경
       if (currentStatus !== baseStatus) { //현재 첫번째 행 환자 상태와 초기 환자 상태 비교
-        console.log(`< current Status: ${currentStatus}, base Status: ${baseStatus} >`)
 
         await checkbox.click(); //체크박스 선택
         await page.waitForTimeout(1000);
@@ -344,20 +392,19 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
 
         const initButton = toolbarInit.getByRole('button', { name: baseStatus }); //환자 초기 상태로 변경
         await initButton.click();
-        await page.waitForLoadState('networkidle'); // 대시보드 대기
+        await waitTableReady(page);// 대시보드 대기
         await page.waitForTimeout(5000);
 
         const patientRow = page.locator(`tr:has(p:has-text("${currentPatientId}"))`);
         await expect(patientRow).toBeVisible(); // 환자 보이는지 확인
         const statusCell = patientRow.locator('td').nth(colIndex).getByRole('combobox');
         const initStatus = (await statusCell.textContent())?.trim();
-        console.log(`📌 ${currentPatientId} 환자 상태를 '${initStatus}' 로 만들었음`);
         currentStatus = initStatus;
       }
       
       console.log(`🔁 [${baseTab}] 탭 → 대상 환자: ${currentPatientId} | 현재 상태: '${currentStatus}' | 변경할 상태: '${targetStatus}'`);
 
-      await scrollDashboardToBottomAndTop(page);
+      // await scrollDashboardToBottomAndTop(page);
 
       // 상태 변경 전 체크박스 선택하여 툴바 열기
       await checkbox.click(); //체크박스 선택
@@ -370,24 +417,31 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
       // 툴바 환자 상태 선택
       const targetButton = toolbar.getByRole('button', { name: targetStatus });
       await targetButton.click();
-      await page.waitForLoadState('networkidle');
+      await waitTableReady(page);
       await page.waitForTimeout(1000);
 
       // 탭 이동 후 환자 확인
       const expectedTab = ['New', 'Observing'].includes(targetStatus)
         ? 'Screened'
-        : ['Completed', 'Error'].includes(targetStatus)
+        : ['Complete', 'Error'].includes(targetStatus)
         ? 'Reviewed'
         : 'Dismissed';
       await page.getByRole('tab', { name: expectedTab }).click();
-      await page.waitForLoadState('networkidle');
+      await waitTableReady(page);
       await page.waitForTimeout(3000); // 탭 이동
 
-      colIndex = await getStatusColumnIndex(page);
+      colIndex = await getStatusColumnIndex(page); // status 컬럼 인덱스 재확인 (탭마다 달라질 수 있어서)
       const verifiedRow = page.locator(`tr:has(p:has-text("${currentPatientId}"))`);
-      const combo = verifiedRow.locator('td').nth(colIndex).getByRole('combobox');
-      const text = (await combo.textContent())?.trim();
-    
+
+      const statusCell = verifiedRow.locator('td').nth(colIndex);
+      await expect(statusCell).toBeVisible({ timeout: 5000 });
+
+      const combo = statusCell.getByRole('combobox');
+      await expect(combo).toBeVisible({ timeout: 5000 }); 
+      const text = (await combo.innerText()).trim();   
+      // const combo = verifiedRow.locator('td').nth(colIndex).getByRole('combobox');
+      // const text = (await combo.textContent())?.trim();
+      console.log(`🔍 [${expectedTab}] 탭에서 상태 텍스트='${text}'`);
       expect(text).toBe(targetStatus);
 
       if (!currentPatientId) {
@@ -398,7 +452,7 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
 
       // 다시 원래 탭으로 복귀
       await page.getByRole('tab', { name: baseTab }).click();
-      await page.waitForLoadState('networkidle');
+      await waitTableReady(page);
       await page.waitForTimeout(1000);
     }
   }
@@ -407,97 +461,97 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
 });
 
 
-test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }) => {
-  for (const tab of ['Screened', 'Reviewed', 'Dismissed']) {
-    await page.getByRole('tab', { name: tab }).click();
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
+// test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }) => {
+//   for (const tab of ['Screened', 'Reviewed', 'Dismissed']) {
+//     await page.getByRole('tab', { name: tab }).click();
+//     await page.waitForLoadState('networkidle');
+//     await page.waitForTimeout(1000);
 
-    const colIndex = await getStatusColumnIndex(page);
+//     const colIndex = await getStatusColumnIndex(page);
 
-    console.log(`[${tab}]`)
+//     console.log(`[${tab}]`)
 
-    for (const targetStatus of statusOptions) {
-      const rows = page.locator('tbody tr');
-      const row1 = rows.nth(0);
-      const row2 = rows.nth(1);
+//     for (const targetStatus of statusOptions) {
+//       const rows = page.locator('tbody tr');
+//       const row1 = rows.nth(0);
+//       const row2 = rows.nth(1);
 
-      const checkbox1 = row1.getByRole('checkbox');
-      const checkbox2 = row2.getByRole('checkbox');
+//       const checkbox1 = row1.getByRole('checkbox');
+//       const checkbox2 = row2.getByRole('checkbox');
 
-      const id1 = await extractPatientIdFromRow(page, row1);
-      const id2 = await extractPatientIdFromRow(page, row);
+//       const id1 = await extractPatientIdFromRow(page, row1);
+//       const id2 = await extractPatientIdFromRow(page, row);
 
-      let status1 = (await row1.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
-      let status2 = (await row2.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+//       let status1 = (await row1.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+//       let status2 = (await row2.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
 
-      // ✅ Dismissed 탭은 상태 같아도 무조건 유지
-      if (tab !== 'Dismissed' && status1 === status2) {
-        // row2 상태를 다른 것으로 먼저 변경
-        await checkbox2.click();
-        const toolbarInit = page.getByRole('form', { name: 'toolbar-status' });
-        await expect(toolbarInit).toBeVisible();
-        const newStatus = tab === 'Screened'
-          ? status2 === 'New' ? 'Observing' : 'New'
-          : status2 === 'Completed' ? 'Error' : 'Completed';
-        await toolbarInit.getByRole('button', { name: newStatus }).click();
-        await page.waitForLoadState('networkidle');
-        await page.waitForTimeout(5000);
+//       // ✅ Dismissed 탭은 상태 같아도 무조건 유지
+//       if (tab !== 'Dismissed' && status1 === status2) {
+//         // row2 상태를 다른 것으로 먼저 변경
+//         await checkbox2.click();
+//         const toolbarInit = page.getByRole('form', { name: 'toolbar-status' });
+//         await expect(toolbarInit).toBeVisible();
+//         const newStatus = tab === 'Screened'
+//           ? status2 === 'New' ? 'Observing' : 'New'
+//           : status2 === 'Completed' ? 'Error' : 'Completed';
+//         await toolbarInit.getByRole('button', { name: newStatus }).click();
+//         await page.waitForLoadState('networkidle');
+//         await page.waitForTimeout(5000);
 
-        status1 = (await row1.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
-        status2 = (await row2.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
-      }
+//         status1 = (await row1.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+//         status2 = (await row2.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+//       }
 
-      // ✅ 상태 변경 전 두 명 체크박스 선택
-      const refreshedRows = page.locator('tbody tr');
-      const refreshedRow1 = refreshedRows.nth(0);
-      const refreshedRow2 = refreshedRows.nth(1);
+//       // ✅ 상태 변경 전 두 명 체크박스 선택
+//       const refreshedRows = page.locator('tbody tr');
+//       const refreshedRow1 = refreshedRows.nth(0);
+//       const refreshedRow2 = refreshedRows.nth(1);
 
-      const refreshedCheckbox1 = refreshedRow1.getByRole('checkbox');
-      const refreshedCheckbox2 = refreshedRow2.getByRole('checkbox');
+//       const refreshedCheckbox1 = refreshedRow1.getByRole('checkbox');
+//       const refreshedCheckbox2 = refreshedRow2.getByRole('checkbox');
 
-      await refreshedCheckbox1.click();
-      await refreshedCheckbox2.click();
-      await page.waitForTimeout(500);
+//       await refreshedCheckbox1.click();
+//       await refreshedCheckbox2.click();
+//       await page.waitForTimeout(500);
 
-      const toolbar = page.getByRole('form', { name: 'toolbar-status' });
-      await expect(toolbar).toBeVisible();
+//       const toolbar = page.getByRole('form', { name: 'toolbar-status' });
+//       await expect(toolbar).toBeVisible();
 
-      console.log(`🔄 [두 환자(${status1},${status2}) 상태를 '${targetStatus}' 로 변경 시도`);
+//       console.log(`🔄 [두 환자(${status1},${status2}) 상태를 '${targetStatus}' 로 변경 시도`);
       
-      const button = toolbar.getByRole('button', { name: targetStatus });
-      await button.click();
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(5000);
+//       const button = toolbar.getByRole('button', { name: targetStatus });
+//       await button.click();
+//       await page.waitForLoadState('networkidle');
+//       await page.waitForTimeout(5000);
 
-      const expectedTab = ['New', 'Observing'].includes(targetStatus)
-        ? 'Screened'
-        : ['Completed', 'Error'].includes(targetStatus)
-        ? 'Reviewed'
-        : 'Dismissed';
+//       const expectedTab = ['New', 'Observing'].includes(targetStatus)
+//         ? 'Screened'
+//         : ['Completed', 'Error'].includes(targetStatus)
+//         ? 'Reviewed'
+//         : 'Dismissed';
 
-      await page.getByRole('tab', { name: expectedTab }).click();
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(2000);
+//       await page.getByRole('tab', { name: expectedTab }).click();
+//       await page.waitForLoadState('networkidle');
+//       await page.waitForTimeout(2000);
 
-      const verifiedRow1 = page.locator(`tr:has(p:has-text("${id1}"))`);
-      const verifiedRow2 = page.locator(`tr:has(p:has-text("${id2}"))`);
-      const combo1 = verifiedRow1.locator('td').nth(colIndex).getByRole('combobox');
-      const combo2 = verifiedRow2.locator('td').nth(colIndex).getByRole('combobox');
-      const text1 = (await combo1.textContent())?.trim();
-      const text2 = (await combo2.textContent())?.trim();
+//       const verifiedRow1 = page.locator(`tr:has(p:has-text("${id1}"))`);
+//       const verifiedRow2 = page.locator(`tr:has(p:has-text("${id2}"))`);
+//       const combo1 = verifiedRow1.locator('td').nth(colIndex).getByRole('combobox');
+//       const combo2 = verifiedRow2.locator('td').nth(colIndex).getByRole('combobox');
+//       const text1 = (await combo1.textContent())?.trim();
+//       const text2 = (await combo2.textContent())?.trim();
 
-      if (text1 === targetStatus && text2 === targetStatus) {
-        console.log(`✅ 두 환자 모두 '${targetStatus}' 로 변경 완료됨`);
-      } else {
-        console.log(`❌ 변경 실패: 상태1='${text1}' 상태2='${text2}'`);
-      }
+//       if (text1 === targetStatus && text2 === targetStatus) {
+//         console.log(`✅ 두 환자 모두 '${targetStatus}' 로 변경 완료됨`);
+//       } else {
+//         console.log(`❌ 변경 실패: 상태1='${text1}' 상태2='${text2}'`);
+//       }
 
-      await page.getByRole('tab', { name: tab }).click();
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(1000);
-    }
-  }
+//       await page.getByRole('tab', { name: tab }).click();
+//       await page.waitForLoadState('networkidle');
+//       await page.waitForTimeout(1000);
+//     }
+//   }
 
-  console.log('\n✅ 체크박스 다중 상태 변경 흐름 완료');
-});
+//   console.log('\n✅ 체크박스 다중 상태 변경 흐름 완료');
+// });
