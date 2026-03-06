@@ -1,0 +1,25 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "k6 run main.js (quiet)",
+            "type": "shell",
+            "command": "k6",
+            "args": [
+                "run", 
+                "main.js", 
+                "--quiet"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/VC/k6-tests"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
