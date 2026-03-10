@@ -26,6 +26,6 @@ test.beforeEach(async ({page}) => {
   await expect(loadingLocator).not.toBeVisible({timeout: 10000}); //대시보드 노출 대기
 });
 
-test('계정별 대시보드 설정 확인', async ({ page }) => {
+test('계정별 대시보드 설정 확인', async ({ page }) => {  
     
 });
