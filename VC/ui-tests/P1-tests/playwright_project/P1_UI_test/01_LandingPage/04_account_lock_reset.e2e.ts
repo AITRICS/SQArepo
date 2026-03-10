@@ -45,7 +45,7 @@ test.beforeAll(async () => {
     const res = await createUser({
       username: userID,
       password: userPW,
-      name: 'memnora',      
+      name: 'p1nora',      
       phone: '000',
       userType: 'Physician',
       userGroup: 'RRT',
