@@ -4,6 +4,10 @@ import * as dotenv from 'dotenv';
 import { login} from '../../playwright/fixture/login.js';
 import { logout } from '../../playwright/fixture/logout.js';
 import { isModalOpen,isModalClosed } from '../../playwright/fixture/util.js';
+import { deleteUser } from '../../playwright/fixture/apiHelper.js';
+import { createAccount } from '../../playwright/fixture/account.js';
+import { createUser} from '../../playwright/fixture/apiHelper.js';
+import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
 
 dotenv.config();
 
@@ -170,28 +174,174 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     '[manager] MAES + 환자 기본 정보 설정 적용 확인'
   );
 
-  // 3차: member - MAES, CARED, SEPS, MORS
-  await configureAndVerify(
-    page, memberID, memberPW,
-    ['MAES', 'SEPS', 'MORS', 'CARED'],
-    ['MAES sort', 'SEPS sort', 'MORS sort', 'CARED sort'],
-    ['Location sort', 'Dept sort', 'Physician sort', 'Note', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort'],
-    '[member] MAES/CARED/SEPS/MORS 설정 적용 확인'
-  );
+   // 3차: 신규 계정 기본 대시보드 설정 확인
+  const newUserID = `test_user_${Date.now()}`;
+  const newUserPW = 'Test1234!';
+
+  const allToggleItems = [
+    'MAES', 'SEPS', 'MORS', 'CARED',
+    'Location', 'Dept', 'Physician', 'Note',
+    'NEWS', 'MEWS', 'SBP', 'DBP', 'PR', 'RR', 'BT', 'SpO2'
+  ];
+
+  // 3-1. manager - 스코어 컬럼만 활성화 설정
+  await loginAndWaitDashboard(page, managerID, managerPW);
+  await goToSettingSection(page, managerID);
+  await resetDashboardSettings(page);
+  await applyToggleSettings(page, ['MAES', 'SEPS', 'MORS', 'CARED']);
+  await saveSettings(page);
+  await logout(page, managerID);
+
+  // 3-2. 신규 계정 생성
+  await createUser({
+      username: newUserID,
+      password: newUserPW,
+      name: newUserID,      
+      phone: '000',
+      userType: 'Physician',
+      userGroup: 'RRT',
+    });
+  await executeQuery(`UPDATE accounts_user SET is_active = 1 WHERE username = '${newUserID}';`); //승인
+
+  // 3-3. 신규 계정으로 로그인
+  await loginAndWaitDashboard(page, newUserID, newUserPW);
+  await goToDashboard(page);
+
+  const newUserThead = getTableHeader(page);
+
+  // 3-4-1. 항상 표시되는 컬럼 확인
+  await expectItemsVisible(page, newUserThead, ALWAYS_VISIBLE_ITEMS);
+
+  // 3-4-2. 설정 가능한 모든 컬럼이 기본값으로 표시되는지 확인
+  const itemsWithSort = ['MAES', 'SEPS', 'MORS', 'CARED', 'Location', 'Dept', 'Physician', 'NEWS', 'MEWS', 'SBP', 'DBP', 'PR', 'RR', 'BT', 'SpO2'];
+  const itemsWithoutSort = ['Note'];
+
+  for (const item of itemsWithSort) {
+    await expect(newUserThead.getByRole('cell', { name: `${item} sort` })).toBeVisible();
+  }
+  for (const item of itemsWithoutSort) {
+    await expect(newUserThead.getByRole('cell', { name: item })).toBeVisible();
+  }
+
+  await logout(page, newUserID);
+  await deleteUser(newUserID);
 
 });
 
 /**
- * 대시보드 컬럼 표시 변경 기능 확인
+ * 대시보드 컬럼 순서 변경 기능 확인
  * **/
-test('대시보드 컬럼 표시 변경 기능 확인', async ({ page }) => {
+test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
+    // 목표 순서
+  const targetOrder = ['Bookmark', 'Location', 'Dept', 'Physician', 'Status', 'Patient info'];
 
-  await configureAndVerify(
-    page, adminID, adminPW,
-    ['MAES', 'SEPS', 'MORS', 'CARED'],
-    ['MAES sort', 'SEPS sort', 'MORS sort', 'CARED sort'],
-    ['Location sort', 'Dept sort', 'Physician sort', 'Note', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort'],
-    '[admin] MAES/SEPS/MORS/CARED 설정 적용 확인'
-  );
+  // ========== 헬퍼 함수 ==========
 
+  /** 항목명으로 drag handle 찾기 */
+  function getDragHandle(itemName: string) {
+    return page.locator('div').filter({ hasText: new RegExp(`^${itemName}`) }).first().locator('.cursor-grab');
+  }
+
+  /** 순서대로 드래그 정렬 */
+  async function reorderItems(order: string[]) {
+    for (let i = 0; i < order.length; i++) {
+      const source = getDragHandle(order[i]);
+      const target = page.locator('.cursor-grab').nth(i);
+      await source.dragTo(target);
+      await page.waitForTimeout(500);
+    }
+  }
+
+  /** 대시보드 헤더 순서 검증 */
+  async function verifyColumnOrder(expectedOrder: string[]) {
+    const thead = getTableHeader(page);
+    const cells = thead.getByRole('cell');
+    const cellTexts = await cells.allTextContents();
+    const cleanedTexts = cellTexts.map(t => t.replace(/sort/g, '').trim()).filter(Boolean);
+
+    for (let i = 0; i < expectedOrder.length; i++) {
+      const idx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i]));
+      expect(idx).not.toBe(-1); // 항목 존재 확인
+      if (i > 0) {
+        const prevIdx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i - 1]));
+        expect(prevIdx).toBeLessThan(idx); // 이전 항목이 앞에 있는지 확인
+      }
+    }
+  }
+
+  // ========== admin ==========
+
+  await loginAndWaitDashboard(page, adminID, adminPW);
+  await goToSettingSection(page, adminID);
+  await resetDashboardSettings(page);
+
+  // 순서 변경: Bookmark, Location, Dept, Physician, Status, Patient info
+  await reorderItems(targetOrder);
+  await saveSettings(page);
+
+  // 대시보드에서 순서 확인
+  await goToDashboard(page);
+  await verifyColumnOrder(targetOrder);
+
+  // 설정으로 돌아와서 Location 토글 OFF
+  await goToSettingSection(page, adminID);
+  await page.locator('#Location-switch').click();
+  await saveSettings(page);
+
+  // 대시보드에서 Location 비표시 확인
+  await goToDashboard(page);
+  const adminThead = getTableHeader(page);
+  await expect(adminThead.getByRole('cell', { name: 'Location sort' })).not.toBeVisible();
+  await logout(page, adminID);
+
+  // ========== manager ==========
+
+  await loginAndWaitDashboard(page, managerID, managerPW);
+  await goToSettingSection(page, managerID);
+  await resetDashboardSettings(page);
+
+  await reorderItems(targetOrder);
+  await saveSettings(page);
+
+  await goToDashboard(page);
+  await verifyColumnOrder(targetOrder);
+
+  // 설정으로 돌아와서 Physician 토글 OFF
+  await goToSettingSection(page, managerID);
+  await page.locator('#Physician-switch').click();
+  await saveSettings(page);
+
+  await goToDashboard(page);
+  const managerThead = getTableHeader(page);
+  await expect(managerThead.getByRole('cell', { name: 'Physician sort' })).not.toBeVisible();
+  await logout(page, managerID);
+
+  // ========== member ==========
+
+  await loginAndWaitDashboard(page, memberID, memberPW);
+  await goToSettingSection(page, memberID);
+  await resetDashboardSettings(page);
+
+  await reorderItems(targetOrder);
+  await saveSettings(page);
+
+  await goToDashboard(page);
+  await verifyColumnOrder(targetOrder);
+
+  // 설정으로 돌아와서 Dept 토글 OFF
+  await goToSettingSection(page, memberID);
+  await page.locator('#Dept-switch').click();
+  await saveSettings(page);
+
+  await goToDashboard(page);
+  const memberThead = getTableHeader(page);
+  await expect(memberThead.getByRole('cell', { name: 'Dept sort' })).not.toBeVisible();
+  await logout(page, memberID);
+
+
+
+});
+
+test.afterAll(async ({}) => {
+    await closeConnection();
 });
