@@ -16601,7 +16601,51 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
               </collectionProp>
             </elementProp>
           </HTTPSamplerProxy>
-          <hashTree/>
+          <hashTree>
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">try {
+	jsonResponse = new groovy.json.JsonSlurper().parseText(prev.getResponseDataAsString())
+} catch (Exception e) {
+	log.error(&quot;Failed to parse JSON response: ${e.message}&quot;)
+}
+
+def reportid = jsonResponse.data.id.toString()
+vars.put(&quot;reportid&quot;, reportid) 
+log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
+            </JSR223PostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_Language_Null(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;historyId&quot;: &quot;${reportid}&quot;,&#xd;
+    &quot;reason&quot;: &quot;월 1회 정기점검&quot;,&#xd;
+    &quot;isOption&quot;: true,&#xd;
+    &quot;screeningType&quot;: &quot;screened&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
+              <stringProp name="ConstantTimer.delay">10000</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Dashboard_Screened_Language_Empty(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
@@ -16698,7 +16742,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -16803,7 +16847,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_includeoption_true" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_includeoption_true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16825,7 +16869,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
               <stringProp name="ConstantTimer.delay">10000</stringProp>
             </ConstantTimer>
             <hashTree/>
@@ -20988,7 +21032,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="09.vc-admin" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="09.vc-admin">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -21156,7 +21200,7 @@ log.info(&quot;End Date: ${enddt}&quot;)
 log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
