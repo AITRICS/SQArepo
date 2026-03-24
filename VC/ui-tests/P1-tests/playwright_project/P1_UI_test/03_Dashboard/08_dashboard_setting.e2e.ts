@@ -226,72 +226,110 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
   await logout(page, newUserID);
   await deleteUser(newUserID);
 
-});
+}); 
 
 /**
  * 대시보드 컬럼 순서 변경 기능 확인
  * **/
 test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
-    // 목표 순서
+
   const targetOrder = ['Bookmark', 'Location', 'Dept', 'Physician', 'Status', 'Patient info'];
 
   // ========== 헬퍼 함수 ==========
 
-  /** 항목명으로 drag handle 찾기 */
   function getDragHandle(itemName: string) {
-    return page.locator('div').filter({ hasText: new RegExp(`^${itemName}`) }).first().locator('.cursor-grab');
+    return page
+      .locator('div')
+      .filter({ hasText: new RegExp(`^${itemName}`) })
+      .first()
+      .locator('.cursor-grab');
   }
 
-  /** 순서대로 드래그 정렬 */
-  async function reorderItems(order: string[]) {
-    for (let i = 0; i < order.length; i++) {
-      const source = getDragHandle(order[i]);
-      const target = page.locator('.cursor-grab').nth(i);
-      await source.dragTo(target);
-      await page.waitForTimeout(500);
-    }
+  /** 특정 항목을 target 뒤로 이동 */
+  async function moveAfter(sourceName: string, targetName: string) {
+    const source = getDragHandle(sourceName);
+    const target = getDragHandle(targetName);
+
+    await source.waitFor({ state: 'visible' });
+    await target.waitFor({ state: 'visible' });
+
+    await source.dragTo(target);
+  }
+
+  /** 특정 항목을 맨 아래로 이동 */
+  async function moveToBottom(itemName: string) {
+    const source = getDragHandle(itemName);
+    const last = page.locator('.cursor-grab').last();
+
+    await source.waitFor({ state: 'visible' });
+    await last.waitFor({ state: 'visible' });
+
+    await source.dragTo(last);
+  }
+
+  /** 목표 순서로 재정렬 (초기 상태 무관) */
+  async function reorderItemsFixed() {
+
+    // 0. pin 먼저 아래로 보내서 간섭 제거
+    await moveToBottom('pin');
+
+    // 1. Location → Bookmark 뒤
+    await moveAfter('Location', 'Bookmark');
+
+    // 2. Dept → Location 뒤
+    await moveAfter('Dept', 'Location');
+
+    // 3. Physician → Dept 뒤
+    await moveAfter('Physician', 'Dept');
+
+    // 4. Status → Physician 뒤
+    await moveAfter('Status', 'Physician');
+
+    // 5. Patient info → Status 뒤
+    await moveAfter('Patient info', 'Status');
   }
 
   /** 대시보드 헤더 순서 검증 */
   async function verifyColumnOrder(expectedOrder: string[]) {
     const thead = getTableHeader(page);
     const cells = thead.getByRole('cell');
+
     const cellTexts = await cells.allTextContents();
-    const cleanedTexts = cellTexts.map(t => t.replace(/sort/g, '').trim()).filter(Boolean);
+    const cleanedTexts = cellTexts
+      .map(t => t.replace(/sort/g, '').trim())
+      .filter(Boolean);
 
     for (let i = 0; i < expectedOrder.length; i++) {
       const idx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i]));
-      expect(idx).not.toBe(-1); // 항목 존재 확인
+      expect(idx).not.toBe(-1);
+
       if (i > 0) {
         const prevIdx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i - 1]));
-        expect(prevIdx).toBeLessThan(idx); // 이전 항목이 앞에 있는지 확인
+        expect(prevIdx).toBeLessThan(idx);
       }
     }
   }
 
-  // ========== admin ==========
+   // ========== admin ==========
 
   await loginAndWaitDashboard(page, adminID, adminPW);
   await goToSettingSection(page, adminID);
   await resetDashboardSettings(page);
 
-  // 순서 변경: Bookmark, Location, Dept, Physician, Status, Patient info
-  await reorderItems(targetOrder);
+  await reorderItemsFixed();
   await saveSettings(page);
 
-  // 대시보드에서 순서 확인
   await goToDashboard(page);
   await verifyColumnOrder(targetOrder);
 
-  // 설정으로 돌아와서 Location 토글 OFF
   await goToSettingSection(page, adminID);
   await page.locator('#Location-switch').click();
   await saveSettings(page);
 
-  // 대시보드에서 Location 비표시 확인
   await goToDashboard(page);
   const adminThead = getTableHeader(page);
   await expect(adminThead.getByRole('cell', { name: 'Location sort' })).not.toBeVisible();
+
   await logout(page, adminID);
 
   // ========== manager ==========
@@ -300,13 +338,12 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToSettingSection(page, managerID);
   await resetDashboardSettings(page);
 
-  await reorderItems(targetOrder);
+  await reorderItemsFixed();
   await saveSettings(page);
 
   await goToDashboard(page);
   await verifyColumnOrder(targetOrder);
 
-  // 설정으로 돌아와서 Physician 토글 OFF
   await goToSettingSection(page, managerID);
   await page.locator('#Physician-switch').click();
   await saveSettings(page);
@@ -314,6 +351,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToDashboard(page);
   const managerThead = getTableHeader(page);
   await expect(managerThead.getByRole('cell', { name: 'Physician sort' })).not.toBeVisible();
+
   await logout(page, managerID);
 
   // ========== member ==========
@@ -322,13 +360,12 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToSettingSection(page, memberID);
   await resetDashboardSettings(page);
 
-  await reorderItems(targetOrder);
+  await reorderItemsFixed();
   await saveSettings(page);
 
   await goToDashboard(page);
   await verifyColumnOrder(targetOrder);
 
-  // 설정으로 돌아와서 Dept 토글 OFF
   await goToSettingSection(page, memberID);
   await page.locator('#Dept-switch').click();
   await saveSettings(page);
@@ -336,12 +373,10 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToDashboard(page);
   const memberThead = getTableHeader(page);
   await expect(memberThead.getByRole('cell', { name: 'Dept sort' })).not.toBeVisible();
+
   await logout(page, memberID);
-
-
-
 });
 
-test.afterAll(async ({}) => {
-    await closeConnection();
+test.afterAll(async () => {
+  await closeConnection();
 });
