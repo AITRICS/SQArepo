@@ -332,7 +332,7 @@
         <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxDBRawBackendListenerClient</stringProp>
       </BackendListener>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -9501,7 +9501,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="03.emr" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="03.emr">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -9666,7 +9666,7 @@ log.info(&quot;Start Date: ${startdt}&quot;)
 log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="emr" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="emr"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_EMR_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -9708,7 +9708,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -14665,7 +14665,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="report"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Login_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Login_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/login</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -15178,7 +15178,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Report_AdmissionListSearch_Admission" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Report_AdmissionListSearch_Admission">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/${real_patient_id}/search/admission?offset=0&amp;limit=100&amp;timezone=Asia/Seoul</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -15416,7 +15416,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Patients_Date_Language_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Patients_Date_Language_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/${real_patient_id}/date</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15440,7 +15440,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Patients_Date_Language_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Patients_Date_Language_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/${real_patient_id}/date</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18058,7 +18058,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_Dashboard_Download_Dismissed_includeoption_false_HistoryID_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_Dashboard_Download_Dismissed_includeoption_false_HistoryID_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18269,7 +18269,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </ConstantTimer>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Reviewed_isoption_false_LengthLong_Includeoption_true" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Reviewed_isoption_false_LengthLong_Includeoption_true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18310,7 +18310,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Reviewed_isoption_false_LengthLong_Includeoption_true_Download" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Reviewed_isoption_false_LengthLong_Includeoption_true_Download">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18337,7 +18337,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </ConstantTimer>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Dismissed_isoption_false_LengthLong_Includeoption_true" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Dismissed_isoption_false_LengthLong_Includeoption_true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18378,7 +18378,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Dismissed_isoption_false_LengthLong_Includeoption_true_Download" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Dismissed_isoption_false_LengthLong_Includeoption_true_Download">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18639,7 +18639,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -18804,7 +18804,7 @@ log.info(&quot;Start Date: ${startdt}&quot;)
 log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -18834,7 +18834,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -18894,7 +18894,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Name_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Name_LengthExceeded">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18990,7 +18990,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Address_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Address_LengthExceeded">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19182,7 +19182,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Logo_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Logo_Invalid">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19278,7 +19278,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_Logo_false" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_Logo_false">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19326,7 +19326,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Invalid">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19374,7 +19374,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Empty">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19415,7 +19415,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Null" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_Null">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19444,13 +19444,6 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">contact</stringProp>
-                </elementProp>
-                <elementProp name="isLogoInitialized" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">true</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">isLogoInitialized</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
@@ -19459,11 +19452,18 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
                 </elementProp>
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name"></stringProp>
+                </elementProp>
               </collectionProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_1" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_1(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19502,7 +19502,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_ACTIVITY_LOGGED</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -19511,7 +19511,19 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_2" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_1(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_2(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19550,7 +19562,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">사용 중 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_SAFE_USE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -19559,7 +19571,19 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_3" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_2(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_3(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19598,7 +19622,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용 시 법적 책임이 따를 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_LEGAL_LIABILITY</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -19607,7 +19631,19 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_4" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_3(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_4(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19646,12 +19682,24 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">시스템 사용은 모니터링되며 모든 활동이 기록됩니다. 무단 접근은 법으로 금지되며, 민형사상 처벌을 포함한 법적 조치가 취해질 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_FULL_LEGAL_NOTICE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
                 </elementProp>
               </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_4(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
@@ -19751,7 +19799,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Settings_Logging_Month_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Settings_Logging_Month_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs?year=2025&amp;offset=0&amp;limit=15&amp;timezone=Asia%2FSeoul</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -19847,7 +19895,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Year_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Year_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19861,7 +19909,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: &quot;&quot;,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19883,7 +19932,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 25,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19891,7 +19941,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Month_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Month_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19905,7 +19955,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: &quot;&quot;,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19913,7 +19964,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Logging_Download_Month_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Logging_Download_Month_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19927,7 +19978,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 13,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19949,7 +20001,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19957,7 +20010,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Reason_LengthShort" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Reason_LengthShort">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19971,7 +20024,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;3글자&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -19979,7 +20033,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Reason_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Reason_LengthExceeded">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19993,6 +20047,75 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;${randomString300}&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Timezone_Empty">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Timezone_Invalid">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logging_Download_Language_Null(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
     &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -20001,7 +20124,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Timezone_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Language_Empty(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -20015,7 +20138,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -20023,7 +20147,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Timezone_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Settings_Logging_Download_Language_Invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -20037,7 +20161,8 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;_en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -20045,7 +20170,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logging_Download" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logging_Download">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -20122,7 +20247,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Logging_failure" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Logging_failure">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/failures?offset=0&amp;limit=15</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -20158,7 +20283,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -20201,9 +20326,33 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_screened_history" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_screened_history">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/screened-history</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -20397,7 +20546,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403007] POST_Settings_Logging_Download_Unauthorized" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403007] POST_Settings_Logging_Download_Unauthorized">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -20489,6 +20638,30 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Notices_ID" enabled="false">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/notices/${notice_id}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -20732,7 +20905,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="08.root" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="08.root">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -20899,7 +21072,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="root" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Root_Info" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Root_Info">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/system/info</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -21295,7 +21468,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Login_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Login_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/login/admin</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22258,7 +22431,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_VC-Admin_Manual_activate_invalid_id(NEW)">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_activate_invalid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}00/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22302,19 +22475,51 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Manual_active(NEW)">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400053] POST_VC-Admin_Manual_activate_valid_id_onmore(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+              <collectionProp name="HTTPFileArgs.files">
+                <elementProp name="${manualDir}" elementType="HTTPFileArg">
+                  <stringProp name="File.mimetype">application/pdf</stringProp>
+                  <stringProp name="File.path">${manualDir}</stringProp>
+                  <stringProp name="File.paramname">file</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] POST_VC-Admin_Manual_deprecate_invalid_id(NEW)">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400056] POST_VC-Admin_Manual_deprecate_active_id(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/deprecate</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+              <collectionProp name="HTTPFileArgs.files">
+                <elementProp name="${manualDir}" elementType="HTTPFileArg">
+                  <stringProp name="File.mimetype">application/pdf</stringProp>
+                  <stringProp name="File.path">${manualDir}</stringProp>
+                  <stringProp name="File.paramname">file</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_deprecate_invalid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}00/deprecate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22358,7 +22563,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400057] POST_VC-Admin_Manual_deprecate_active_valid_id(NEW)">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400052] POST_VC-Admin_Manual_deprecate_active_valid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22374,6 +22579,81 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
               <collectionProp name="Arguments.arguments"/>
@@ -34383,7 +34663,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report-expiredtoken" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report-expiredtoken">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -34936,7 +35216,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="report(expiredaccessToken)"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Login_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Login_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/login</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -35044,7 +35324,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_PatientSearch_PatientName_Null" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_PatientSearch_PatientName_Null">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/search?type=name&amp;ordering=desc&amp;limit=30&amp;offset=0&amp;value=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -35068,7 +35348,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_PatientSearch_PatientName_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_PatientSearch_PatientName_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/search?ordering=desc&amp;limit=30&amp;offset=0&amp;value=${real_patient_name}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -36625,30 +36905,6 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_includeoption_Empty">
-            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-    &quot;screeningType&quot;: &quot;screened&quot;,&#xd;
-    &quot;reason&quot; : &quot;3글자&quot;,&#xd;
-    &quot;isOption&quot;: true,&#xd;
-    &quot;includeConcurrentAlarms&quot;: &quot;&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
-    &quot;language&quot;: &quot;ko&quot;&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
@@ -36713,6 +36969,30 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
     &quot;includeConcurrentAlarms&quot;: true,&#xd;
     &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
     &quot;language&quot;: &quot;ko_&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_includeoption_Empty">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;screeningType&quot;: &quot;screened&quot;,&#xd;
+    &quot;reason&quot; : &quot;3글자&quot;,&#xd;
+    &quot;isOption&quot;: true,&#xd;
+    &quot;includeConcurrentAlarms&quot;: &quot;&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;ko&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -37706,7 +37986,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Dismissed_includeoption_true_HistoryID_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Dismissed_includeoption_true_HistoryID_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -38284,7 +38564,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings-expiredtoken" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings-expiredtoken">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -38540,7 +38820,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin(expiredaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin(expiredaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -38795,7 +39075,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_Contact_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_Contact_LengthExceeded">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39000,7 +39280,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_Invalid">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39089,7 +39369,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_Null" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_Null">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39137,7 +39417,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_1" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_1(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39176,7 +39456,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_ACTIVITY_LOGGED</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -39185,7 +39465,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_2" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_2(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39224,7 +39504,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">사용 중 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_SAFE_USE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -39233,7 +39513,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_3" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_3(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39272,7 +39552,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용 시 법적 책임이 따를 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_LEGAL_LIABILITY</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -39281,7 +39561,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_4" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Hospital_Update_systemMessage_4(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39320,7 +39600,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">시스템 사용은 모니터링되며 모든 활동이 기록됩니다. 무단 접근은 법으로 금지되며, 민형사상 처벌을 포함한 법적 조치가 취해질 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_FULL_LEGAL_NOTICE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -39521,7 +39801,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Year_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Year_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39535,7 +39815,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: &quot;&quot;,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39557,7 +39838,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 25,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39565,7 +39847,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Month_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Month_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39579,7 +39861,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: &quot;&quot;,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39587,7 +39870,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Month_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Month_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39601,7 +39884,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 13,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39609,7 +39893,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39623,7 +39907,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39631,7 +39916,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_LengthShort" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_LengthShort">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39645,7 +39930,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;3글자&quot;,&#xd;
-    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39653,7 +39939,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Reason_LengthExceeded">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39667,6 +39953,75 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;${randomString300}&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Timezone_Empty">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Timezone_Invalid">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Language_Null(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
     &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -39675,7 +40030,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Timezone_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Language_Empty(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39689,7 +40044,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39697,7 +40053,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Timezone_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_Logging_Download_Language_Invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39711,7 +40067,8 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
     &quot;year&quot;: 2025,&#xd;
     &quot;month&quot;: 1,&#xd;
     &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
-    &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;_en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -39719,7 +40076,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_certificates_Download_type_valid_certificate" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Settings_certificates_Download_type_valid_certificate">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/certificates/download?crtType=certificate</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -39775,7 +40132,31 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logout_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logout_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/logout</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -39985,6 +40366,30 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Settings_Logging_failure_Unauthorized" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/failures?offset=0&amp;limit=15</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -40398,7 +40803,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING" enabled="false"/>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin(expiredaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin(expiredaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -40829,7 +41234,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Units" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Units">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/units</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -40841,7 +41246,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Unit_Add" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Unit_Add">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/unit</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -40866,7 +41271,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Unit_Add_Duplicate" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Unit_Add_Duplicate">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/unit</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41014,6 +41419,127 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/unit/${unit_type}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">DELETE</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Manual_Upload(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+              <collectionProp name="HTTPFileArgs.files">
+                <elementProp name="${manualDir}" elementType="HTTPFileArg">
+                  <stringProp name="File.mimetype">application/pdf</stringProp>
+                  <stringProp name="File.path">${manualDir}</stringProp>
+                  <stringProp name="File.paramname">file</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual_display(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/display-settings</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
@@ -53295,7 +53821,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report-missingtoken" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report-missingtoken">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -53460,7 +53986,7 @@ log.info(&quot;Start Date: ${startdt}&quot;)
 log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_DefaultSet_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -56576,7 +57102,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_includeoption_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_includeoption_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -56600,7 +57126,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_includeoption_true" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_includeoption_true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -57267,7 +57793,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings-missingtoken" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings-missingtoken">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -57278,7 +57804,7 @@ if (logResults != null) {
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
@@ -57523,7 +58049,7 @@ log.info(&quot;noticeid: ${noticeid}&quot;)</stringProp>
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin(missingaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="settings-admin(missingaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -58131,7 +58657,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_1" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_1(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -58170,7 +58696,7 @@ if (headerManager != null) {
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_ACTIVITY_LOGGED</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -58179,7 +58705,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_2" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_2(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -58218,7 +58744,7 @@ if (headerManager != null) {
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">사용 중 활동 내역이 기록되며, 무단 사용은 제한됩니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_SAFE_USE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -58227,7 +58753,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_3" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_3(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -58266,7 +58792,7 @@ if (headerManager != null) {
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">안전한 시스템 사용을 위해 활동 내역이 기록되며, 무단 사용 시 법적 책임이 따를 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_LEGAL_LIABILITY</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -58275,7 +58801,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_4" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Hospital_Update_systemMessage_4(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -58314,7 +58840,7 @@ if (headerManager != null) {
                 </elementProp>
                 <elementProp name="systemMessage" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">시스템 사용은 모니터링되며 모든 활동이 기록됩니다. 무단 접근은 법으로 금지되며, 민형사상 처벌을 포함한 법적 조치가 취해질 수 있습니다.</stringProp>
+                  <stringProp name="Argument.value">SYSTEM_BANNER_FULL_LEGAL_NOTICE</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">systemMessage</stringProp>
@@ -58713,6 +59239,74 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403 POST_Settings_Logging_Download_Language_Null(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Logging_Download_Language_Empty(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Logging_Download_Language_Invalid(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;year&quot;: 2025,&#xd;
+    &quot;month&quot;: 1,&#xd;
+    &quot;reason&quot;: &quot;테스트요청&quot;,&#xd;
+    &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+    &quot;language&quot;: &quot;_en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Settings_Logging_Download" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/download</stringProp>
@@ -58769,7 +59363,31 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logout_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Logout_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/logout</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -59011,6 +59629,30 @@ if (headerManager != null) {
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Settings_Logging_failure_Unauthorized" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/logs/failures?offset=0&amp;limit=15</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Settings_Manual_active(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/settings/user-manuals/active</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -59299,7 +59941,7 @@ if (logResults != null) {
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="setname Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="setname Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -59445,7 +60087,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING" enabled="false"/>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin(missingaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vc-admin(missingaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -59732,7 +60374,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Score_On_MORS" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Score_On_MORS">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/score</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -59778,7 +60420,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Score_Off_All" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Score_Off_All">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/score</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -59931,7 +60573,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Unit_Add" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Unit_Add">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/unit</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -60099,7 +60741,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] DEL_VC-Admin_Unit_Delete" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] DEL_VC-Admin_Unit_Delete">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/unit/${unit_type}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -60111,7 +60753,128 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Logout_Admin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Manual_Upload(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+              <collectionProp name="HTTPFileArgs.files">
+                <elementProp name="${manualDir}" elementType="HTTPFileArg">
+                  <stringProp name="File.mimetype">application/pdf</stringProp>
+                  <stringProp name="File.path">${manualDir}</stringProp>
+                  <stringProp name="File.paramname">file</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Manual(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Manual_display(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/display-settings</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
+	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Settings_product-purpose(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Logout_Admin">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/auth/logout/admin</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
