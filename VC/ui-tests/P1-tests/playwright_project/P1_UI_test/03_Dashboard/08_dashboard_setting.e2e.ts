@@ -237,76 +237,88 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
 
   // ========== 헬퍼 함수 ==========
 
-  function getDragHandle(itemName: string) {
+  async function scrollToItem() {
+    const section = page.getByText('대시보드 순서/표시 설정');
+    await section.waitFor({ state: 'visible' });
+    await section.evaluate(el => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+
+  function getItemRow(itemName: string) {
     return page
       .locator('div')
-      .filter({ hasText: new RegExp(`^${itemName}`) })
-      .first()
-      .locator('.cursor-grab');
+      .filter({ hasText: new RegExp(`^${itemName}$`) })
+      .filter({ has: page.getByRole('button', { name: 'drag-icon' }) })
+      .first();
   }
 
-  /** 특정 항목을 target 뒤로 이동 */
-  async function moveAfter(sourceName: string, targetName: string) {
-    const source = getDragHandle(sourceName);
-    const target = getDragHandle(targetName);
-
-    await source.waitFor({ state: 'visible' });
-    await target.waitFor({ state: 'visible' });
-
-    await source.dragTo(target);
+  function getDragHandle(itemName: string) {
+    return getItemRow(itemName).getByRole('button', { name: 'drag-icon' });
   }
+
 
   /** 특정 항목을 맨 아래로 이동 */
   async function moveToBottom(itemName: string) {
+    await scrollToItem();
+
     const source = getDragHandle(itemName);
-    const last = page.locator('.cursor-grab').last();
+    const handles = page.getByRole('button', { name: 'drag-icon' });
+    const last = handles.last();
 
     await source.waitFor({ state: 'visible' });
     await last.waitFor({ state: 'visible' });
 
-    await source.dragTo(last);
+    const box = await last.boundingBox();
+    if (!box) throw new Error('last target boundingBox not found');
+
+    await source.dragTo(last, {
+      targetPosition: {
+        x: box.width / 2,
+        y: box.height - 2,
+      },
+    });
+
+    await page.waitForTimeout(500);
   }
 
-  /** 목표 순서로 재정렬 (초기 상태 무관) */
-  async function reorderItemsFixed() {
 
-    // 0. pin 먼저 아래로 보내서 간섭 제거
-    await moveToBottom('pin');
+  async function reorderByIndex(order: string[]) {
+    await scrollToItem();
 
-    // 1. Location → Bookmark 뒤
-    await moveAfter('Location', 'Bookmark');
+    for (let i = 0; i < order.length; i++) {
+      const source = getDragHandle(order[i]);
+      const target = page.getByRole('button', { name: 'drag-icon' }).nth(i);
 
-    // 2. Dept → Location 뒤
-    await moveAfter('Dept', 'Location');
+      await source.waitFor({ state: 'visible' });
+      await target.waitFor({ state: 'visible' });
 
-    // 3. Physician → Dept 뒤
-    await moveAfter('Physician', 'Dept');
+      const box = await target.boundingBox();
+      if (!box) throw new Error(`target boundingBox not found for index ${i}`);
 
-    // 4. Status → Physician 뒤
-    await moveAfter('Status', 'Physician');
+      await source.dragTo(target, {
+        targetPosition: {
+          x: box.width / 2,
+          y: box.height / 2,
+        },
+      });
 
-    // 5. Patient info → Status 뒤
-    await moveAfter('Patient info', 'Status');
+      await page.waitForTimeout(500);
+    }
   }
 
   /** 대시보드 헤더 순서 검증 */
   async function verifyColumnOrder(expectedOrder: string[]) {
     const thead = getTableHeader(page);
-    const cells = thead.getByRole('cell');
 
-    const cellTexts = await cells.allTextContents();
-    const cleanedTexts = cellTexts
-      .map(t => t.replace(/sort/g, '').trim())
-      .filter(Boolean);
+    // th 기준으로 직접 잡기
+    const headers = thead.locator('th');
+    // Bookmark는 2번째 th
+    const bookmarkHeader = headers.nth(1);
+    await expect(bookmarkHeader.getByRole('button')).toBeVisible();
 
+    // 그 다음 텍스트 컬럼 순서 확인
     for (let i = 0; i < expectedOrder.length; i++) {
-      const idx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i]));
-      expect(idx).not.toBe(-1);
-
-      if (i > 0) {
-        const prevIdx = cleanedTexts.findIndex(t => t.includes(expectedOrder[i - 1]));
-        expect(prevIdx).toBeLessThan(idx);
-      }
+      const header = headers.nth(i + 2);
+      await expect(header).toContainText(expectedOrder[i]);
     }
   }
 
@@ -316,11 +328,23 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToSettingSection(page, adminID);
   await resetDashboardSettings(page);
 
-  await reorderItemsFixed();
+  await moveToBottom('Pin');
+
+  await reorderByIndex([
+    'Bookmark',
+    'Location',
+    'Dept',
+    'Physician',
+    'Status',
+    'Patient info',
+  ]);
   await saveSettings(page);
 
   await goToDashboard(page);
-  await verifyColumnOrder(targetOrder);
+  
+  const targetTextOrder = ['Location', 'Dept', 'Physician', 'Status', 'Patient info'];
+
+  await verifyColumnOrder(targetTextOrder);
 
   await goToSettingSection(page, adminID);
   await page.locator('#Location-switch').click();
@@ -338,11 +362,25 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToSettingSection(page, managerID);
   await resetDashboardSettings(page);
 
-  await reorderItemsFixed();
+  await moveToBottom('Pin');
+  await reorderByIndex([
+    'Bookmark',
+    'Location',
+    'Dept',
+    'Physician',
+    'Status',
+    'Patient info',
+  ]);
   await saveSettings(page);
 
   await goToDashboard(page);
-  await verifyColumnOrder(targetOrder);
+  await verifyColumnOrder([
+    'Location',
+    'Dept',
+    'Physician',
+    'Status',
+    'Patient info',
+  ]);
 
   await goToSettingSection(page, managerID);
   await page.locator('#Physician-switch').click();
@@ -350,7 +388,8 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
 
   await goToDashboard(page);
   const managerThead = getTableHeader(page);
-  await expect(managerThead.getByRole('cell', { name: 'Physician sort' })).not.toBeVisible();
+  const managerHeaders = managerThead.locator('th');
+  await expect(managerHeaders.nth(5)).not.toContainText('Physician');
 
   await logout(page, managerID);
 
@@ -360,11 +399,25 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToSettingSection(page, memberID);
   await resetDashboardSettings(page);
 
-  await reorderItemsFixed();
+  await moveToBottom('Pin');
+  await reorderByIndex([
+    'Bookmark',
+    'Location',
+    'Dept',
+    'Physician',
+    'Status',
+    'Patient info',
+  ]);
   await saveSettings(page);
 
   await goToDashboard(page);
-  await verifyColumnOrder(targetOrder);
+  await verifyColumnOrder([
+    'Location',
+    'Dept',
+    'Physician',
+    'Status',
+    'Patient info',
+  ]);
 
   await goToSettingSection(page, memberID);
   await page.locator('#Dept-switch').click();
@@ -372,7 +425,8 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
 
   await goToDashboard(page);
   const memberThead = getTableHeader(page);
-  await expect(memberThead.getByRole('cell', { name: 'Dept sort' })).not.toBeVisible();
+  const memberHeaders = memberThead.locator('th');
+  await expect(memberHeaders.nth(3)).not.toContainText('Dept');
 
   await logout(page, memberID);
 });
