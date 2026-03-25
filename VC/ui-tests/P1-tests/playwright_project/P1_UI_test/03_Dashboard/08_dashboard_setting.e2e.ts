@@ -3,11 +3,10 @@ import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login} from '../../playwright/fixture/login.js';
 import { logout } from '../../playwright/fixture/logout.js';
-import { isModalOpen,isModalClosed } from '../../playwright/fixture/util.js';
 import { deleteUser } from '../../playwright/fixture/apiHelper.js';
-import { createAccount } from '../../playwright/fixture/account.js';
 import { createUser} from '../../playwright/fixture/apiHelper.js';
 import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
+test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
 dotenv.config();
 
@@ -111,8 +110,7 @@ async function configureAndVerify(
   pw: string,
   activeItems: string[],
   visibleItems: string[],
-  hiddenItems: string[],
-  screenshotLabel: string
+  hiddenItems: string[]
 ) {
   await loginAndWaitDashboard(page, id, pw);
   await goToSettingSection(page, id);
@@ -126,7 +124,6 @@ async function configureAndVerify(
   await expectItemsVisible(page, thead, ALWAYS_VISIBLE_ITEMS);
   await expectItemsHidden(page, thead, hiddenItems);
 
-  // await screenShot(page, `${senarioName} - ${screenshotLabel}`);
   await logout(page, id);
 }
 
@@ -162,7 +159,8 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort',
     'PR sort', 'RR sort', 'BT sort', 'SpO2 sort'
   ]);
-  // await screenShot(page, `${senarioName} - [admin] SEPS 설정 적용 확인`);
+  
+  await screenShot(page,senarioName, '[admin] 대시보드 컬럼 표시 설정 확인');
   await logout(page, adminID);
 
   // 2차: manager - MAES + 환자 기본 정보
@@ -170,10 +168,9 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     page, managerID, managerPW,
     ['MAES', 'Location', 'Dept', 'Physician', 'Note'],
     ['MAES sort', 'Location sort', 'Dept sort', 'Physician sort', 'Note'],
-    ['SEPS sort', 'MORS sort', 'CARED sort', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort'],
-    '[manager] MAES + 환자 기본 정보 설정 적용 확인'
+    ['SEPS sort', 'MORS sort', 'CARED sort', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort']
   );
-
+  await screenShot(page,senarioName, '[manager] 대시보드 컬럼 표시 설정 확인');
    // 3차: 신규 계정 기본 대시보드 설정 확인
   const newUserID = `test_user_${Date.now()}`;
   const newUserPW = 'Test1234!';
@@ -222,6 +219,7 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
   for (const item of itemsWithoutSort) {
     await expect(newUserThead.getByRole('cell', { name: item })).toBeVisible();
   }
+  await screenShot(page,senarioName, '[member] 신규 계정 대시보드 기본 컬럼 표시 확인');
 
   await logout(page, newUserID);
   await deleteUser(newUserID);
@@ -345,6 +343,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   const targetTextOrder = ['Location', 'Dept', 'Physician', 'Status', 'Patient info'];
 
   await verifyColumnOrder(targetTextOrder);
+  await screenShot(page,senarioName, '[admin] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, adminID);
   await page.locator('#Location-switch').click();
@@ -353,6 +352,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await goToDashboard(page);
   const adminThead = getTableHeader(page);
   await expect(adminThead.getByRole('cell', { name: 'Location sort' })).not.toBeVisible();
+  await screenShot(page,senarioName, '[admin] 대시보드 컬럼 비활성화 확인');
 
   await logout(page, adminID);
 
@@ -381,6 +381,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
     'Status',
     'Patient info',
   ]);
+  await screenShot(page,senarioName, '[manager] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, managerID);
   await page.locator('#Physician-switch').click();
@@ -390,6 +391,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   const managerThead = getTableHeader(page);
   const managerHeaders = managerThead.locator('th');
   await expect(managerHeaders.nth(5)).not.toContainText('Physician');
+  await screenShot(page,senarioName, '[manager] 대시보드 컬럼 비활성화 확인');
 
   await logout(page, managerID);
 
@@ -418,6 +420,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
     'Status',
     'Patient info',
   ]);
+  await screenShot(page,senarioName, '[member] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, memberID);
   await page.locator('#Dept-switch').click();
@@ -427,6 +430,7 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   const memberThead = getTableHeader(page);
   const memberHeaders = memberThead.locator('th');
   await expect(memberHeaders.nth(3)).not.toContainText('Dept');
+  await screenShot(page,senarioName, '[member] 대시보드 컬럼 비활성화 확인');
 
   await logout(page, memberID);
 });

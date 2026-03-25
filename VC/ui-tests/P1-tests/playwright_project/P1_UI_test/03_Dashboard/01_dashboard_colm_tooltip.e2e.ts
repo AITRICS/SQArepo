@@ -5,6 +5,7 @@ import { login } from '../../playwright/fixture/login.js';
 import axios from 'axios';
 import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
 import { promises } from 'dns';
+test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
 dotenv.config();
 

@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import { login } from '../../playwright/fixture/login.js';
 import { getScreenedCount, getReviewedCount, getDismissedCount} from '../../playwright/fixture/patientCount.js';
 import { executeQuery,closeConnection } from '../../playwright/fixture/setDatabase.js'
+test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
 dotenv.config();
 
@@ -63,12 +64,13 @@ test('Screened 환자 상태 필터 확인', async({ page }) => {
     await setCheckbox(page, 'checkbox-OBSERVING', true);
     await waitTableReady(page);
 
-    // "New" 항목이 없어야 함
+    // 1) NEW OFF, OBSERVING ON -> "New" 항목이 없어야 함
     await expectNoStatusValue(page, 'New');
-    console.log('✅ New 상태 필터 확인');
+    await screenShot(page,senarioName,'Observing On 확인');
+    console.log('✅ Observing 상태 필터 확인');
 
     // -------------------------
-    // 2) SCREENED ON, OBSERVING OFF -> Observing 없어야 함
+    // 2) NEW ON, OBSERVING OFF -> Observing 없어야 함
     // -------------------------
     await setCheckbox(page, 'checkbox-SCREENED', true);
     await setCheckbox(page, 'checkbox-OBSERVING', false);
@@ -76,16 +78,18 @@ test('Screened 환자 상태 필터 확인', async({ page }) => {
 
     // "Observing" 항목이 없어야 함
     await expectNoStatusValue(page, 'Observing');
-    console.log('✅ Observing 상태 필터 확인');
+    await screenShot(page,senarioName,'New On 확인');
+    console.log('✅ New 상태 필터 확인');
 
     // -------------------------
-    // 3) SCREENED OFF, OBSERVING OFF -> 환자 목록이 없습니다 노출
+    // 3) NEW OFF, OBSERVING OFF -> 환자 목록이 없습니다 노출
     // -------------------------
     await setCheckbox(page, 'checkbox-SCREENED', false);
     await setCheckbox(page, 'checkbox-OBSERVING', false);
     await waitTableReady(page);
 
     await expect(page.getByText('환자 목록이 없습니다')).toBeVisible({ timeout: 5000 });
+    await screenShot(page,senarioName,'New Off, Observing Off 확인');
     console.log('✅ 환자 목록이 없습니다 노출 확인');
 });
 

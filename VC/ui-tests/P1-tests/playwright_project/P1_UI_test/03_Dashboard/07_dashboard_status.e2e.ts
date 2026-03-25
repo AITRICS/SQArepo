@@ -5,13 +5,14 @@ import { login } from '../../playwright/fixture/login.js';
 import globalSetup from '../../playwright/playwright.globalSetup.js';
 import axios from 'axios';
 import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
+test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
 dotenv.config();
 
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[13. 대시보드 환자 상태 변경]'
+const senarioName = '[07. 대시보드 환자 상태 변경]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -260,6 +261,21 @@ async function ensureNewOnScreened(page: Page, patientId: string) {
   console.log('✅ New 상태 변경 확인');
 }
 
+/** Screened에서 환자를 Observing으로 맞춤 (프리컨디션) */
+async function ensureObservingOnScreened(page: Page, patientId: string) {
+  await gotoTab(page, 'Screened');
+  const row = await findRowByPatientId(page, patientId);
+
+  await openStatusDropdown(row);
+  await selectStatus(page, 'Observing');
+  await waitTableReady(page);
+  await page.waitForTimeout(1000);
+
+  const rowAfter = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowAfter, 'Observing');
+  console.log('✅ Observing 상태 변경 확인');
+}
+
 async function verifyStatusWithSearch(page: Page,currentPatientId: string,targetStatus: string) 
 {
   console.log(`ℹ️ 테이블에 환자 미노출, 검색 모달로 상태 확인 진행: ${currentPatientId}`);
@@ -291,7 +307,7 @@ async function verifyStatusWithSearch(page: Page,currentPatientId: string,target
 }
 
 
-test('대시보드 환자 상태 변경 확인', async ({ page }) => {
+test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ page }) => {
   // 0) Screened 탭에서 1번째 row 환자 선택
   await gotoTab(page, 'Screened');
 
@@ -307,6 +323,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   await selectStatus(page, 'New'); // New 선택
   await page.waitForTimeout(1000);
   await expectRowStatus(page,await findRowByPatientId(page, patientId), 'New'); // 상태 New 확인
+  await screenShot(page,senarioName,'New - New 상태 변경 확인');
   console.log('✅ 대시보드 환자 New -> New 상태 변경 확인');
 
 
@@ -320,6 +337,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   
   const rowObs = await findRowByPatientId(page, patientId); // patientId로 다시 행 찾기
   await expectRowStatus(page,rowObs, 'Observing'); // 상태 Observing 확인
+  await screenShot(page,senarioName,'New - Observing 상태 변경 확인');
   console.log('✅ 대시보드 환자 New -> Observing 상태 변경 확인');
 
 
@@ -338,6 +356,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
    await page.waitForTimeout(5000);
   const rowComp = await findRowByPatientId(page, patientId_Comp); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowComp, 'Complete'); // 상태 Complete 확인
+  await screenShot(page,senarioName,'New - Complete 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
@@ -360,6 +379,7 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   await page.waitForTimeout(5000);
   const rowErr = await findRowByPatientId(page, patientId_Err); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowErr, 'Error'); // 상태 Error 확인
+  await screenShot(page,senarioName,'New - Error 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
@@ -381,10 +401,109 @@ test('대시보드 환자 상태 변경 확인', async ({ page }) => {
   await page.waitForTimeout(5000);
   const rowDis = await findRowByPatientId(page, patientId_Dis); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowDis, 'Dismissed'); // 상태 Dismissed 확인
+  await screenShot(page,senarioName,'New - Dismissed 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 New -> Dismissed 상태 변경 확인');
+});
+
+
+test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async ({ page }) => {
+  await gotoTab(page, 'Screened');
+
+  const row0 = firstRow(page);
+  const patientId = await extractPatientIdFromRow(page, row0);
+  console.log(`Patient ID: ${patientId}`);
+
+  // 1) Observing -> New : Screened 유지
+  await ensureObservingOnScreened(page, patientId);
+  const rowForNew = await findRowByPatientId(page, patientId);
+  await openStatusDropdown(rowForNew);
+  await selectStatus(page, 'New');
+  await page.waitForTimeout(1000);
+
+  const rowNew = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowNew, 'New');
+  await screenShot(page, senarioName, 'Observing - New 상태 변경 확인');
+  console.log('✅ 대시보드 환자 Observing -> New 상태 변경 확인');
+
+
+
+  // 2) Observing -> Observing : Screened 유지
+  await ensureObservingOnScreened(page, patientId);
+  const rowForObs = await findRowByPatientId(page, patientId);
+  await openStatusDropdown(rowForObs);
+  await selectStatus(page, 'Observing');
+  await page.waitForTimeout(1000);
+
+  const rowObs = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowObs, 'Observing');
+  await screenShot(page, senarioName, 'Observing - Observing 상태 변경 확인');
+  console.log('✅ 대시보드 환자 Observing -> Observing 상태 변경 확인');
+
+
+
+  // 3) Observing -> Complete : Reviewed 이동
+  await ensureObservingOnScreened(page, patientId);
+  const rowForComp = await findRowByPatientId(page, patientId);
+  await openStatusDropdown(rowForComp);
+  await selectStatus(page, 'Complete');
+  console.log('✅ 대시보드 환자 Observing -> Complete 선택');
+  await page.waitForTimeout(5000);
+
+  await gotoTab(page, 'Reviewed');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  const rowComp = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowComp, 'Complete');
+  await screenShot(page, senarioName, 'Observing - Complete 상태 변경 확인');
+  await gotoTab(page, 'Screened');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  console.log('✅ 대시보드 환자 Observing -> Complete 상태 변경 확인');
+
+
+
+  // 4) Observing -> Error : Reviewed 이동
+  await ensureObservingOnScreened(page, patientId);
+  const rowForErr = await findRowByPatientId(page, patientId);
+  await openStatusDropdown(rowForErr);
+  await selectStatus(page, 'Error');
+  console.log('✅ 대시보드 환자 Observing -> Error 선택');
+  await page.waitForTimeout(5000);
+
+  await gotoTab(page, 'Reviewed');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  const rowErr = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowErr, 'Error');
+  await screenShot(page, senarioName, 'Observing - Error 상태 변경 확인');
+  await gotoTab(page, 'Screened');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  console.log('✅ 대시보드 환자 Observing -> Error 상태 변경 확인');
+
+
+
+  // 5) Observing -> Dismissed : Dismissed 이동
+  await ensureObservingOnScreened(page, patientId);
+  const rowForDis = await findRowByPatientId(page, patientId);
+  await openStatusDropdown(rowForDis);
+  await selectStatus(page, 'Dismissed');
+  console.log('✅ 대시보드 환자 Observing -> Dismissed 선택');
+  await page.waitForTimeout(5000);
+
+  await gotoTab(page, 'Dismissed');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  const rowDis = await findRowByPatientId(page, patientId);
+  await expectRowStatus(page, rowDis, 'Dismissed');
+  await screenShot(page, senarioName, 'Observing - Dismissed 상태 변경 확인');
+  await gotoTab(page, 'Screened');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  console.log('✅ 대시보드 환자 Observing -> Dismissed 상태 변경 확인');
 });
 
 
@@ -477,6 +596,7 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
         console.log(`🔍 [${expectedTab}] 탭에서 상태 텍스트='${text}'`);
         expect(text).toBe(targetStatus);
       }
+      await screenShot(page,senarioName,`체크박스 상태 변경:  ${currentStatus} - ${targetStatus} 상태 변경 확인`);
 
       if (!currentPatientId) {
         console.log(`❌ 상태 '${targetStatus}' 로 변경 후 환자(${currentPatientId})를 ${expectedTab} 탭에서 찾을 수 없습니다.`);
@@ -592,6 +712,7 @@ test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }
         const text2 = (await combo2.textContent())?.trim();
         expect(text2).toBe(targetStatus);
       }
+      await screenShot(page,senarioName,`체크박스 다중 상태 변경: ${status1},${status2} - ${targetStatus}`);
 
       await page.getByRole('tab', { name: tab }).click();
       await waitTableReady(page);

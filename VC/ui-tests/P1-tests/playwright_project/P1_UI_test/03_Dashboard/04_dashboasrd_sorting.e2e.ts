@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import { login } from '../../playwright/fixture/login.js';
 import globalSetup from '../../playwright/playwright.globalSetup.js';
 import axios from 'axios';
+test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
 dotenv.config();
 
