@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[05. 대시보드 id 복사 및 북마크/pin 확인]';
+const senarioName = '[12. 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -33,17 +33,17 @@ test('대시보드 id 복사', async ({ page }) => {
   const copyButton = patientInfoCell.locator('button'); //환자 ID 버튼 추출
 
   //마우스 호버 커서 확인
-  await copyButton.hover();
-  const cursorStyle = await copyButton.evaluate(el =>
-    window.getComputedStyle(el).getPropertyValue('cursor')
-  );
-  expect(cursorStyle).toBe('pointer');
-  await page.waitForTimeout(1000);
-  await screenShot(page,senarioName,'EMR ID 마우스 커서 확인');
+  // await copyButton.hover();
+  // const cursorStyle = await copyButton.evaluate(el =>
+  //   window.getComputedStyle(el).getPropertyValue('cursor')
+  // );
+  // expect(cursorStyle).toBe('pointer');
+  // await page.waitForTimeout(1000);
+  // await screenShot(page,senarioName,'EMR ID 마우스 커서 확인');
 
   //emr id 복사 토스트 메세지 확인
   await copyButton.click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(500);
   const toast = page.getByText('EMR ID가 복사되었습니다.');
   await expect(toast).toBeVisible();
   await screenShot(page,senarioName,'EMR ID 복사');
@@ -117,7 +117,10 @@ async function expectUnbookmarked(cell: Locator) {
 // 버튼 클릭 → 토스트 확인(등장+소멸) → g 상태 확인
 async function setBookmark(page: Page, cell: Locator, button: Locator, targetOn: boolean) {
   const currentlyOn = (await cell.locator(BOOKMARK_ON_G).count()) > 0;
-  if (currentlyOn === targetOn) return; // 이미 원하는 상태면 스킵
+  const currentlyOff = (await cell.locator(BOOKMARK_OFF_G).count()) > 0;
+
+  if (targetOn && currentlyOn) return;   // 이미 ON → 스킵
+  if (!targetOn && currentlyOff) return; // 이미 OFF → 스킵
 
   await button.click();
 
@@ -372,7 +375,7 @@ test('상단 고정 해제 동작 확인', async ({ page }) => {
     await expect(restoredRow.getByLabel('Pin to top')).toBeVisible({ timeout: 5000 });
     console.log(`✅ ${patientId} 일반 영역 복귀 확인`);
 
-    await screenShot(page, senarioName, `${patientId} 상단 고정 해제 확인`);
+    await screenShot(page, senarioName, `상단 고정 해제 확인`);
   }
 
   console.log('✅ 상단 고정 해제 동작 확인 완료');

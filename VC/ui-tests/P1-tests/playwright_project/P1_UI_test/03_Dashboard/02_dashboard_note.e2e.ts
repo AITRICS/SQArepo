@@ -114,14 +114,14 @@ test('대시보드 노트 저장 버튼 확인', async({ page }) => {
   await textbox.fill('노트 저장 테스트');
   await expect(saveButton).toBeEnabled();
   await page.waitForTimeout(1000);
-  await screenShot(page,senarioName,'저장 버튼 활성화');
+  await screenShot(page,senarioName,'노트 입력 후 저장 버튼 활성화');
   console.log(`✅ 노트 저장 버튼 활성화`);
 
   //노트 저장 버튼 비활성화
   await textbox.fill('');
   await expect(saveButton).toBeDisabled();
   await page.waitForTimeout(1000);
-  await screenShot(page,senarioName,'저장 버튼 비활성화');
+  await screenShot(page,senarioName,'노트 입력 삭제 후 저장 버튼 비활성화');
   console.log(`✅ 노트 저장 버튼 비활성화`);
 
   //노트 저장 후 최상단 확인

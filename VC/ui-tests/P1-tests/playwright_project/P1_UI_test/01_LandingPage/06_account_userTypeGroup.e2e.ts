@@ -71,7 +71,7 @@ test('사용자 유형/소속 미선택 계정 확인', async ({ page }) => {
     'AITRICS-VitalCare 서비스 내 사용중이신 계정의 추가 정보 설정을 위하여 사용자 유형 및 소속을 선택해주세요.'
   );
 
-  await screenShot(page, senarioName, '사용자 유형,소속 선택 모달 오픈');
+  await screenShot(page, senarioName, '사용자 유형,소속 선택 안내 모달 오픈');
   console.log('✅ 사용자 유형/소속 선택 모달 오픈 및 안내 문구 일치');
 
   
@@ -140,7 +140,7 @@ test('사용자 유형/소속 선택 확인', async ({ page }) => {
     await expect(loadingLocator).not.toBeVisible({timeout: 10000});
     modalClosed = await isModalClosed(page); //모달 미노출 확인
     expect(modalClosed).toBe(true);
-    await screenShot(page,senarioName,'사용자 유형,소속 설정 후 로그인 확인');
+    await screenShot(page,senarioName,'사용자 유형,소속 설정 후 재로그인 확인');
     console.log(`✅ 사용자 소속 설정 후 로그인 확인`);
 
 });

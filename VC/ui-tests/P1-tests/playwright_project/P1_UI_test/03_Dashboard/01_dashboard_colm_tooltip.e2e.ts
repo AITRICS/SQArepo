@@ -13,8 +13,8 @@ const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
 const tooltipTemplates = {
-  CAPS: (val: number) => `24시간 이내에 일반병동에서의 심정지 발생 위험도 예측 스코어 (CAPS ≥ ${val})`,
-  MAES: (val: number) => `6시간 이내에 일반병동에서의 급성 중증이벤트(심정지, 예기치않은 ICU Transfer, 사망)발생 위험도 예측 스코어 (MAES ≥ ${val})`,
+  CARED: (val: number) => `24시간 이내에 일반병동에서의 심정지 발생 위험도 예측 스코어 (CARED ≥ ${val})`,
+  MAES: (val: number) => `6시간 이내에 일반병동에서의 급성 중증이벤트(심정지, 예기치않은 ICU Transfer, 사망) 발생 위험도 예측 스코어 (MAES ≥ ${val})`,
   SEPS: (val: number) => `4시간 이내에 일반병동에서의 패혈증 발생 위험도 예측 스코어 (SEPS ≥ ${val})`,
   MORS: (val: number) => `6시간 이내에 중환자실에서의 급성 상태악화(사망) 위험도 예측 스코어 (MORS ≥ ${val})`,
 };
@@ -33,8 +33,8 @@ test.beforeEach(async ({page}) => {
 /** 
  * VC 홈 메뉴 확인
  */
-test('VC 홈 메뉴 확인', async({ page }) => {
-  await getText(page,'CAPS');
+test('대시보드 컬럼 툴팁 확인', async({ page }) => {
+  await getText(page,'CARED');
   await getText(page,'MAES');
   await getText(page,'SEPS');
   await getText(page,'MORS');

@@ -1,10 +1,9 @@
-import { test, expect,Page,Locator } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login} from '../../playwright/fixture/login.js';
 import { logout } from '../../playwright/fixture/logout.js';
-import { deleteUser } from '../../playwright/fixture/apiHelper.js';
-import { createUser} from '../../playwright/fixture/apiHelper.js';
+import { deleteUser, createUser, resetDashboardSetting } from '../../playwright/fixture/apiHelper.js';
 import { executeQuery, closeConnection } from '../../playwright/fixture/setDatabase.js';
 test.describe.configure({ mode: 'serial' }); // 테스트를 순차적으로 실행하도록 설정
 
@@ -19,7 +18,7 @@ const managerPW = process.env.MANAGERPW || 'defaultManager!'
 const memberID = process.env.MEMBERID || 'defaultUser'
 const memberPW = process.env.MEMBERPW || 'defaultUser!'
 
-const senarioName = '[08. 계정별 대시보드 설정 확인]';
+const senarioName = '[15. 계정별 대시보드 설정 확인]';
 
 // ========== 상수 ==========
 
@@ -42,6 +41,7 @@ async function loginAndWaitDashboard(page: Page, id: string, pw: string) {
 
 async function goToSettingSection(page: Page, id: string) {
   await page.getByRole('button', { name: `${id} dropdown-arrow` }).click();
+  await page.waitForTimeout(1000);
   await page.getByText('설정', { exact: true }).click();
   await page.waitForTimeout(2000);
   const section = page.getByText('대시보드 순서/표시 설정');
@@ -124,13 +124,20 @@ async function configureAndVerify(
   await expectItemsVisible(page, thead, ALWAYS_VISIBLE_ITEMS);
   await expectItemsHidden(page, thead, hiddenItems);
 
-  await logout(page, id);
+  // await logout(page, id);
 }
+
+test.beforeAll(async () => {
+  await resetDashboardSetting(adminID, adminPW);
+  await resetDashboardSetting(managerID, managerPW);
+  await resetDashboardSetting(memberID, memberPW);
+  console.log('✅ admin / manager / member 대시보드 설정 초기화 완료');
+});
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
   await page.goto('/ko/login')
-  
+
 });
 
 /**
@@ -171,6 +178,8 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     ['SEPS sort', 'MORS sort', 'CARED sort', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort']
   );
   await screenShot(page,senarioName, '[manager] 대시보드 컬럼 표시 설정 확인');
+  
+  await logout(page, managerID);
    // 3차: 신규 계정 기본 대시보드 설정 확인
   const newUserID = `test_user_${Date.now()}`;
   const newUserPW = 'Test1234!';
@@ -436,5 +445,9 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
 });
 
 test.afterAll(async () => {
+  await resetDashboardSetting(adminID, adminPW);
+  await resetDashboardSetting(managerID, managerPW);
+  await resetDashboardSetting(memberID, memberPW);
+  console.log('✅ admin / manager / member 대시보드 설정 초기화 완료');
   await closeConnection();
 });

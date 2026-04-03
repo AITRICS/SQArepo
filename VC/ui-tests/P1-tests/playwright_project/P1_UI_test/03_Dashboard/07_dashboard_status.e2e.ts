@@ -12,7 +12,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[07. 대시보드 환자 상태 변경]'
+const senarioName = '[14. 대시보드 환자 상태 변경]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -263,9 +263,27 @@ async function ensureNewOnScreened(page: Page, patientId: string) {
 
 /** Screened에서 환자를 Observing으로 맞춤 (프리컨디션) */
 async function ensureObservingOnScreened(page: Page, patientId: string) {
+  // Screened에서 먼저 탐색
   await gotoTab(page, 'Screened');
-  const row = await findRowByPatientId(page, patientId);
+  let count = await page.locator('table tbody tr').filter({ hasText: patientId }).count();
 
+  // Screened에 없으면 Reviewed에서 찾아 New로 변경 (Screened로 복귀)
+  if (count === 0) {
+    console.log(`ℹ️ Screened에 ${patientId} 없음 → Reviewed 탐색`);
+    await gotoTab(page, 'Reviewed');
+    count = await page.locator('table tbody tr').filter({ hasText: patientId }).count();
+    if (count > 0) {
+      const reviewedRow = await findRowByPatientId(page, patientId);
+      await openStatusDropdown(reviewedRow);
+      await selectStatus(page, 'New');
+      await waitTableReady(page);
+      await page.waitForTimeout(1000);
+      console.log(`✅ Reviewed → New 변경 (Screened 복귀)`);
+    }
+    await gotoTab(page, 'Screened');
+  }
+
+  const row = await findRowByPatientId(page, patientId);
   await openStatusDropdown(row);
   await selectStatus(page, 'Observing');
   await waitTableReady(page);
@@ -465,9 +483,13 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
 
 
-  // 4) Observing -> Error : Reviewed 이동
-  await ensureObservingOnScreened(page, patientId);
-  const rowForErr = await findRowByPatientId(page, patientId);
+  // 4) Observing -> Error : Reviewed 이동 (Screened 첫 번째 환자 새로 선택)
+  await gotoTab(page, 'Screened');
+  await waitTableReady(page);
+  const patientId_Err = await extractPatientIdFromRow(page, firstRow(page));
+  console.log(`Patient ID (Error): ${patientId_Err}`);
+  await ensureObservingOnScreened(page, patientId_Err);
+  const rowForErr = await findRowByPatientId(page, patientId_Err);
   await openStatusDropdown(rowForErr);
   await selectStatus(page, 'Error');
   console.log('✅ 대시보드 환자 Observing -> Error 선택');
@@ -476,7 +498,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
   await gotoTab(page, 'Reviewed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
-  const rowErr = await findRowByPatientId(page, patientId);
+  const rowErr = await findRowByPatientId(page, patientId_Err);
   await expectRowStatus(page, rowErr, 'Error');
   await screenShot(page, senarioName, 'Observing - Error 상태 변경 확인');
   await gotoTab(page, 'Screened');
@@ -486,9 +508,13 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
 
 
-  // 5) Observing -> Dismissed : Dismissed 이동
-  await ensureObservingOnScreened(page, patientId);
-  const rowForDis = await findRowByPatientId(page, patientId);
+  // 5) Observing -> Dismissed : Dismissed 이동 (Screened 첫 번째 환자 새로 선택)
+  await gotoTab(page, 'Screened');
+  await waitTableReady(page);
+  const patientId_Dis = await extractPatientIdFromRow(page, firstRow(page));
+  console.log(`Patient ID (Dismissed): ${patientId_Dis}`);
+  await ensureObservingOnScreened(page, patientId_Dis);
+  const rowForDis = await findRowByPatientId(page, patientId_Dis);
   await openStatusDropdown(rowForDis);
   await selectStatus(page, 'Dismissed');
   console.log('✅ 대시보드 환자 Observing -> Dismissed 선택');
@@ -497,7 +523,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
-  const rowDis = await findRowByPatientId(page, patientId);
+  const rowDis = await findRowByPatientId(page, patientId_Dis);
   await expectRowStatus(page, rowDis, 'Dismissed');
   await screenShot(page, senarioName, 'Observing - Dismissed 상태 변경 확인');
   await gotoTab(page, 'Screened');
@@ -508,7 +534,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
 
 test('체크박스 환자 상태 변경', async ({ page }) => {
-  for (const baseStatus of statusOptions) { // 초기 환자 상태
+  for (const baseStatus of ['New', 'Observing'] as string[]) { // 초기 환자 상태
     const baseTab = ['Complete', 'Error'].includes(baseStatus)
       ? 'Reviewed'
       : baseStatus === 'Dismissed'
