@@ -13,7 +13,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="JDBC_URL_EMR" elementType="Argument">
             <stringProp name="Argument.name">JDBC_URL_EMR</stringProp>
-            <stringProp name="Argument.value">jdbc:oracle:thin:@sqa1-private-oracle.cxnrxthhp0uq.ap-northeast-2.rds.amazonaws.com:1521:DATABASE</stringProp>
+            <stringProp name="Argument.value">jdbc:oracle:thin:@sqa2-private-oracle.cxnrxthhp0uq.ap-northeast-2.rds.amazonaws.com:1521:DATABASE</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc"></stringProp>
           </elementProp>
@@ -57,7 +57,7 @@
           </elementProp>
           <elementProp name="JDBC_URL_VC" elementType="Argument">
             <stringProp name="Argument.name">JDBC_URL_VC</stringProp>
-            <stringProp name="Argument.value">jdbc:mysql://192.168.1.212:3306/vitalcare</stringProp>
+            <stringProp name="Argument.value">jdbc:mysql://192.168.1.211:3306/vitalcare</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="JDBC_USER_VC" elementType="Argument">
@@ -77,7 +77,7 @@
           </elementProp>
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">192.168.1.212</stringProp>
+            <stringProp name="Argument.value">192.168.1.211</stringProp>
             <stringProp name="Argument.desc">AITRICS-VC 서버 주소</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -179,7 +179,7 @@
           </elementProp>
           <elementProp name="duration" elementType="Argument">
             <stringProp name="Argument.name">duration</stringProp>
-            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.value">500</stringProp>
             <stringProp name="Argument.desc">10 * 60 * 1000 = 600000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -195,7 +195,7 @@
           </elementProp>
           <elementProp name="manualDir" elementType="Argument">
             <stringProp name="Argument.name">manualDir</stringProp>
-            <stringProp name="Argument.value">/Users/amelia//Users/amelia/github/SQArepo/VC/smoketest/VC_TestFile/smoketest2/AITRICS-VC_manual_sqatest.pdf</stringProp>
+            <stringProp name="Argument.value">/Users/amelia/github/SQArepo/VC/smoketest/VC_TestFile/smoketest2/AITRICS-VC_manual_sqatest.pdf</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -212,7 +212,7 @@
         <stringProp name="HTTPSampler.implementation"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Thread_Parameters" enabled="true">
+      <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Thread_Parameters">
         <collectionProp name="UserParameters.names">
           <stringProp name="619243774">User_Thread</stringProp>
         </collectionProp>
@@ -304,7 +304,7 @@
         <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxDBRawBackendListenerClient</stringProp>
       </BackendListener>
       <hashTree/>
-      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener">
         <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments">
           <collectionProp name="Arguments.arguments">
             <elementProp name="influxdbMetricsSender" elementType="Argument">
@@ -332,7 +332,7 @@
         <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxDBRawBackendListenerClient</stringProp>
       </BackendListener>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -418,7 +418,7 @@ def deleteFilesInDirectory(directoryPath, version) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="01.auth" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="01.auth" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -1928,7 +1928,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="02.user" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="02.user" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -4212,7 +4212,7 @@ if (memberUsers.size() &gt; 0) {
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="user_member" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="user_member"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_User_Login_Member" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -5781,7 +5781,7 @@ log.info(&quot;notiid: ${notiid}&quot;)
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_invalid_datatype" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_invalid_datatype">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/notifications/read</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -5803,7 +5803,7 @@ log.info(&quot;notiid: ${notiid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/notifications/read</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -5825,7 +5825,7 @@ log.info(&quot;notiid: ${notiid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_Invalid_id" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404042] POST_User_Settings_notification_read_Invalid_id">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/notifications/read</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -9501,7 +9501,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="03.emr" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="03.emr" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -10598,7 +10598,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -10853,7 +10853,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_Favorite_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_Favorite_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened?limit=30&amp;status_list=SCREENED&amp;status_list=OBSERVING&amp;favorite=false00&amp;start_dt=${startdt}&amp;end_dt=${enddt}&amp;last_screened_dt=${enddt}&amp;is_new_patient=true&amp;offset=0</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11222,7 +11222,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/count?limit=30&amp;status_list=SCREENED&amp;status_list=OBSERVING&amp;favorite=false&amp;start_dt=${startdt}&amp;end_dt=${enddt}&amp;is_new_patient=true&amp;offset=0</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11234,7 +11234,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/count?limit=30&amp;status_list=SCREENED&amp;status_list=OBSERVING&amp;favorite=false&amp;start_dt=${startdt}&amp;end_dt=${enddt}&amp;last_screened_dt=&amp;is_new_patient=true&amp;offset=0</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11246,7 +11246,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/count?limit=30&amp;status_list=SCREENED&amp;status_list=OBSERVING&amp;favorite=false&amp;start_dt=${startdt}&amp;end_dt=${enddt}&amp;last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true&amp;offset=0</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11282,7 +11282,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_Screened_List_count_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/count?limit=30&amp;status_list=SCREENED&amp;status_list=OBSERVING&amp;favorite=false&amp;start_dt=${startdt}&amp;end_dt=${enddt}&amp;last_screened_dt=${enddt}&amp;is_new_patient=true00&amp;offset=0</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11906,7 +11906,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screeningtype_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screeningtype_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/test/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11918,7 +11918,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11930,7 +11930,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_screened_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_screened_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11942,7 +11942,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11954,7 +11954,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11966,7 +11966,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11978,7 +11978,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_screened_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_screened_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -11990,7 +11990,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12002,7 +12002,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_screened_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12014,7 +12014,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_screened">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_screened" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12026,7 +12026,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12038,7 +12038,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_reviewed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_reviewed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12050,7 +12050,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12062,7 +12062,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12074,7 +12074,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12086,7 +12086,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_reviewed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_reviewed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12098,7 +12098,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12110,7 +12110,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_reviewed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12122,7 +12122,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_reviewed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_reviewed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12134,7 +12134,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12146,7 +12146,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_dismissed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400015] GET_Screening_List_pin_dismissed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=OBSERVING&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12158,7 +12158,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12170,7 +12170,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12182,7 +12182,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12194,7 +12194,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_dismissed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_dismissed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12206,7 +12206,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12218,7 +12218,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] GET_Screening_List_pin_dismissed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12230,7 +12230,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_dismissed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Screening_List_pin_dismissed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -12242,7 +12242,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Graph_EncounterID_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Graph_EncounterID_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/encounters/graph</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -13040,7 +13040,7 @@ log.info(&quot;actionid: ${actionid}&quot;)
           <stringProp name="ConstantTimer.delay">${duration}</stringProp>
         </ConstantTimer>
         <hashTree/>
-        <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
+        <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -13249,7 +13249,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="05.patient" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="05.patient" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -14280,9 +14280,9 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400034] POST_Patient_DNR_PatientID_Discharged" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400034] POST_Patient_DNR_PatientID_Discharged">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/patients/02510250130020/dnr</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/patients/02602101500020/dnr</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -14292,7 +14292,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;encounterId&quot;: &quot;0202510250130020|02510250130020&quot;,&#xd;
+  &quot;encounterId&quot;: &quot;0202602101500020|02602101500020&quot;,&#xd;
   &quot;dnr&quot;: true,&#xd;
   &quot;reason&quot;: &quot;dnr_true&quot;&#xd;
 }</stringProp>
@@ -14714,7 +14714,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="06.report" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -16053,7 +16053,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;&quot;,&#xd;
   &quot;endDt&quot;: &quot;2024-12-31T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16074,7 +16075,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2024-01-01&quot;,&#xd;
   &quot;endDt&quot;: &quot;2024-12-31T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16095,7 +16097,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2024-01-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16116,7 +16119,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2024-01-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2024-12-31&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16137,7 +16141,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2024-01-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2024-12-31T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;&quot;&#xd;
+  &quot;timezone&quot;: &quot;&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16158,7 +16163,73 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2025-01-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2025-01-31T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;_Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;_Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_Language_Null">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;startDt&quot;: &quot;2026-03-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2026-03-02T00:00:00&quot;,&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Language_Empty" enabled="true">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;startDt&quot;: &quot;2025-01-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2025-01-31T00:00:00&quot;,&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Language_Invalid" enabled="true">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;startDt&quot;: &quot;2025-01-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2025-01-31T00:00:00&quot;,&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;_en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16179,7 +16250,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2025-04-02T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16200,7 +16272,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2025-03-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16221,7 +16294,8 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
                   <stringProp name="Argument.value">{&#xd;
   &quot;startDt&quot;: &quot;2025-01-01T00:00:00&quot;,&#xd;
   &quot;endDt&quot;: &quot;2025-03-31T00:00:00&quot;,&#xd;
-  &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
+  &quot;timezone&quot;: &quot;Asia/Seoul&quot;,&#xd;
+  &quot;language&quot;: &quot;en&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -16840,7 +16914,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18594,7 +18668,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Dismissed_isoption_false_LengthLong_Includeoption_true_Download" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Dismissed_isoption_false_LengthLong_Includeoption_true_Download">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -18855,7 +18929,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="07.settings" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -19050,7 +19124,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -19110,7 +19184,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Name_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Settings_Hospital_Update_Name_LengthExceeded">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19679,7 +19753,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_1(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_1(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19727,7 +19801,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_1(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_Settings_Hospital_systemMessage_1(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -19739,7 +19813,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_2(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_2(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19799,7 +19873,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_3(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_3(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -19859,7 +19933,7 @@ log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_4(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Settings_Hospital_Update_systemMessage_4(NEW)">
             <stringProp name="HTTPSampler.path">/api/v1/settings/hospital</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -21121,7 +21195,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="08.root" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="08.root" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -21514,7 +21588,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="09.vc-admin" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="09.vc-admin" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -22584,7 +22658,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[201] POST_VC-Admin_Manual_Upload(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[201] POST_VC-Admin_Manual_Upload(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22606,7 +22680,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -22617,13 +22691,13 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
 	log.error(&quot;Failed to parse JSON response: ${e.message}&quot;)
 }
 
-def reportid = jsonResponse.data.id.toString()
-vars.put(&quot;manualid&quot;, manualid) 
-log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
+def manualId = jsonResponse.data.id.toString()
+vars.put(&quot;manualId&quot;, manualId) 
+log.info(&quot;manualId: ${manualId}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Manual(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Manual(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22635,7 +22709,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Manual_display(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Manual_display(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/display-settings</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22647,9 +22721,9 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_activate_invalid_id(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_activate_invalid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}00/activate</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}2/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -22669,29 +22743,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Manual_activate_valid_id(NEW)" enabled="true">
-            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
-            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
-              <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="${manualDir}" elementType="HTTPFileArg">
-                  <stringProp name="File.mimetype">application/pdf</stringProp>
-                  <stringProp name="File.path">${manualDir}</stringProp>
-                  <stringProp name="File.paramname">file</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400053] POST_VC-Admin_Manual_activate_valid_id_onmore(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Manual_activate_valid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22713,7 +22765,29 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400056] POST_VC-Admin_Manual_deprecate_active_id(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400053] POST_VC-Admin_Manual_activate_valid_id_onmore(NEW)">
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+              <collectionProp name="HTTPFileArgs.files">
+                <elementProp name="${manualDir}" elementType="HTTPFileArg">
+                  <stringProp name="File.mimetype">application/pdf</stringProp>
+                  <stringProp name="File.path">${manualDir}</stringProp>
+                  <stringProp name="File.paramname">file</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400056] POST_VC-Admin_Manual_deprecate_active_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/deprecate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22735,9 +22809,9 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_deprecate_invalid_id(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404051] POST_VC-Admin_Manual_deprecate_invalid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}00/deprecate</stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}11/deprecate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -22757,7 +22831,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Manual_deprecate_valid_id(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Manual_deprecate_valid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/deprecate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22779,7 +22853,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400052] POST_VC-Admin_Manual_deprecate_active_valid_id(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400052] POST_VC-Admin_Manual_deprecate_active_valid_id(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/${manualId}/activate</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22801,7 +22875,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_VC-Admin_Settings_product-purpose_invalid(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22814,7 +22888,6 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -22822,7 +22895,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid1(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22835,7 +22908,6 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -22843,7 +22915,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid2(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -22856,7 +22928,6 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -22864,7 +22935,7 @@ log.info(&quot;manualid: ${manualid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Settings_product-purpose(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] GET_VC-Admin_Settings_product-purpose(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -23110,7 +23181,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10.logs" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10.logs" enabled="false">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -23835,7 +23906,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="02.user-expiredtoken">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="02.user-expiredtoken" enabled="true">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -24992,7 +25063,7 @@ vars.put(&quot;Alert_KEYS&quot;, AlertfilterKeys.join(&quot;,&quot;));
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="user(expiredaccessToken)_member"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="user(expiredaccessToken)_member" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_User_Login_Member" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -26737,7 +26808,7 @@ vars.put(&quot;Alert_KEYS&quot;, AlertfilterKeys.join(&quot;,&quot;));
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_User_Pin_Set_true_EncounterID_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_User_Pin_Set_true_EncounterID_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/encounters/${real_encounter_id}00/pin</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -30167,7 +30238,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening-expiredtoken">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening-expiredtoken" enabled="true">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -30687,7 +30758,7 @@ try {
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="screening(expiredaccessToken)"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="screening(expiredaccessToken)" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Screening_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -32009,7 +32080,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screeningtype_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screeningtype_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/test/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32021,7 +32092,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32033,7 +32104,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32045,7 +32116,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32057,7 +32128,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32069,7 +32140,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32081,7 +32152,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32093,7 +32164,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32105,7 +32176,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32117,7 +32188,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_screened" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32129,7 +32200,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32141,7 +32212,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32153,7 +32224,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32165,7 +32236,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32177,7 +32248,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32189,7 +32260,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32201,7 +32272,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32213,7 +32284,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32225,7 +32296,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_reviewed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32237,7 +32308,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32249,7 +32320,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=OBSERVING&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32261,7 +32332,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32273,7 +32344,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32285,7 +32356,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32297,7 +32368,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32309,7 +32380,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32321,7 +32392,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -32333,7 +32404,7 @@ try {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Screening_List_pin_dismissed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -33861,7 +33932,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="patient(expiredaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="patient(expiredaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Patient_Login_Member" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -34661,7 +34732,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Patient_DNR_PatientID_Discharged" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Patient_DNR_PatientID_Discharged">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/patients/02510250130020/dnr</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -34673,7 +34744,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;encounterId&quot;: &quot;0202510250130020|02510250130020&quot;,&#xd;
+  &quot;encounterId&quot;: &quot;0202602101500020|02602101500020&quot;,&#xd;
   &quot;dnr&quot;: true,&#xd;
   &quot;reason&quot;: &quot;dnr_true&quot;&#xd;
 }</stringProp>
@@ -35260,7 +35331,7 @@ log.info(&quot;Start Date: ${startdt}&quot;)
 log.info(&quot;End Date: ${enddt}&quot;)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="SETTING"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_DefaultSet_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -35465,7 +35536,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1d" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1d">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -35476,8 +35547,8 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;startDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
-  &quot;endDt&quot;: &quot;2025-04-02T00:00:00&quot;,&#xd;
+  &quot;startDt&quot;: &quot;2026-04-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2026-04-02T00:00:00&quot;,&#xd;
   &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -35486,7 +35557,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1m" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1m">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -35497,8 +35568,8 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;startDt&quot;: &quot;2025-03-01T00:00:00&quot;,&#xd;
-  &quot;endDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
+  &quot;startDt&quot;: &quot;2026-03-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2026-04-01T00:00:00&quot;,&#xd;
   &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -35646,7 +35717,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="report(expiredaccessToken)" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="report(expiredaccessToken)"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -35948,7 +36019,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[405] GET_Report_AdmissionListSearch_Admission_PatientID_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[405] GET_Report_AdmissionListSearch_Admission_PatientID_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/search/admission?startDt=${startdt}&amp;endDt=${enddt}&amp;offset=0&amp;limit=100&amp;timezone=Asia/Seoul</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -36430,7 +36501,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Patients_Admission_PatientID_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Patients_Admission_PatientID_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/patients/${real_patient_id}/admission</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -36662,7 +36733,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_Startdt_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_Startdt_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -36788,7 +36859,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_1d" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_1d">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -36809,7 +36880,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_1m" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_History_Created_1m">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37169,7 +37240,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_History_DeleteID_Detail_HistoryID_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_Report_History_DeleteID_Detail_HistoryID_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history/</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -37337,7 +37408,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37432,7 +37503,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_includeoption_true" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Screened_includeoption_true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37456,7 +37527,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Screened_includeoption_true_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Screened_includeoption_true_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37470,7 +37541,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
     &quot;historyId&quot;: &quot;${reportid}&quot;,&#xd;
     &quot;reason&quot;: &quot;월 1회 정기점검&quot;,&#xd;
     &quot;isOption&quot;: true,&#xd;
-    &quot;screeningType&quot;: &quot;&quot;,&#xd;
+    &quot;screeningType&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -37590,7 +37661,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Screened_includeoption_false_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Screened_includeoption_false_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37796,7 +37867,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Reviewed_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Reviewed_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37915,7 +37986,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Reviewed_includeoption_true_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Reviewed_includeoption_true_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -37929,7 +38000,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
     &quot;historyId&quot;: &quot;${reportid}&quot;,&#xd;
     &quot;reason&quot;: &quot;월 1회 정기점검&quot;,&#xd;
     &quot;isOption&quot;: true,&#xd;
-    &quot;screeningType&quot;: &quot;&quot;,&#xd;
+    &quot;screeningType&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -38049,7 +38120,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Reviewed_includeoption_false_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Reviewed_includeoption_false_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -38255,7 +38326,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Dismissed_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Dismissed_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -38374,7 +38445,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Dismissed_includeoption_true_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_Report_Dashboard_Download_Dismissed_includeoption_true_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -41858,7 +41929,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Manual_Upload(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Manual_Upload(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41880,7 +41951,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41892,7 +41963,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual_display(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Manual_display(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/display-settings</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41904,7 +41975,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_invalid(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41917,7 +41988,6 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -41925,7 +41995,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid1(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41938,7 +42008,6 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -41946,7 +42015,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid2(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41958,8 +42027,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
+	&quot;productPurpose&quot;: &quot;none&quot;	&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -41967,7 +42035,7 @@ log.info(&quot;unit_type: ${unit_type}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Settings_product-purpose(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[401] GET_VC-Admin_Settings_product-purpose(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -49588,7 +49656,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening-missingtoken">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="04.screening-missingtoken" enabled="true">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -50147,7 +50215,7 @@ try {
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="screening(missingaccessToken)"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="screening(missingaccessToken)" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_User_Login_Admin" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -51228,7 +51296,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screeningtype_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screeningtype_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/test/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51240,7 +51308,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51252,7 +51320,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51264,7 +51332,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51276,7 +51344,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51288,7 +51356,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?status_list=DISCHARGED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51300,7 +51368,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51312,7 +51380,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51324,7 +51392,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51336,7 +51404,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51348,7 +51416,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51360,7 +51428,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51372,7 +51440,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_reviewed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/reviewed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51384,7 +51452,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_status_unknown">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_status_unknown" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=TEST&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51396,7 +51464,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_status_invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_status_invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?status_list=OBSERVING&amp;last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51408,7 +51476,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51420,7 +51488,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51432,7 +51500,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51444,7 +51512,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51456,7 +51524,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51468,7 +51536,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51480,7 +51548,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_dismissed" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/dismissed/pin?last_screened_dt=${enddt}&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51492,7 +51560,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51504,7 +51572,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51516,7 +51584,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Lastscreeneddt_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=&apos;20240101&apos;&amp;is_new_patient=true</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51528,7 +51596,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51540,7 +51608,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51552,7 +51620,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Invalid">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_Screening_List_pin_screened_Isnew_Invalid" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/screenings/screened/pin?status_list=SCREENED&amp;last_screened_dt=${enddt}&amp;is_new_patient=true00</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51564,7 +51632,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Graph_EncounterID_Empty">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Graph_EncounterID_Empty" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/encounters/graph/</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -51696,7 +51764,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Trigger_EncounterID_Null">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[404] GET_Screening_Patient_Trigger_EncounterID_Null" enabled="true">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/encounters/observations/trigger?date=${selectedXEncoded}&amp;score=${selectedXSourceKey}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -54014,7 +54082,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Patient_DNR_PatientID_Discharged" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Patient_DNR_PatientID_Discharged">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/patients/02510250130020/dnr</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -54026,7 +54094,7 @@ if (headerManager != null) {
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;encounterId&quot;: &quot;0202510250130020|02510250130020&quot;,&#xd;
+  &quot;encounterId&quot;: &quot;0202602101500020|02602101500020&quot;,&#xd;
   &quot;dnr&quot;: true,&#xd;
   &quot;reason&quot;: &quot;dnr_true&quot;&#xd;
 }</stringProp>
@@ -54036,7 +54104,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Patient_DNR_Reason_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Patient_DNR_Reason_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/patients/${nodnrfirstEmrId}/dnr</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -54878,7 +54946,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1d" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1d">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -54889,8 +54957,8 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;startDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
-  &quot;endDt&quot;: &quot;2025-04-02T00:00:00&quot;,&#xd;
+  &quot;startDt&quot;: &quot;2026-04-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2026-04-02T00:00:00&quot;,&#xd;
   &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -54899,7 +54967,7 @@ log.info(&quot;noteid: ${noteid}&quot;)
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1m" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_History_Created_1m">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -54910,8 +54978,8 @@ log.info(&quot;noteid: ${noteid}&quot;)
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;startDt&quot;: &quot;2025-03-01T00:00:00&quot;,&#xd;
-  &quot;endDt&quot;: &quot;2025-04-01T00:00:00&quot;,&#xd;
+  &quot;startDt&quot;: &quot;2026-03-01T00:00:00&quot;,&#xd;
+  &quot;endDt&quot;: &quot;2026-04-01T00:00:00&quot;,&#xd;
   &quot;timezone&quot;: &quot;Asia/Seoul&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -56761,7 +56829,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -56784,7 +56852,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Empty(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Empty(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -56808,7 +56876,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Invalid(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Screened_Language_Invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -56880,7 +56948,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Screened_includeoption_true_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Screened_includeoption_true_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -56894,7 +56962,7 @@ if (headerManager != null) {
     &quot;historyId&quot;: &quot;${reportid}&quot;,&#xd;
     &quot;reason&quot;: &quot;월 1회 정기점검&quot;,&#xd;
     &quot;isOption&quot;: true,&#xd;
-    &quot;screeningType&quot;: &quot;&quot;,&#xd;
+    &quot;screeningType&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -57014,7 +57082,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Screened_includeoption_false_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Screened_includeoption_false_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -57220,7 +57288,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Reviewed_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Reviewed_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -57339,7 +57407,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Reviewed_includeoption_true_Type_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Download_Reviewed_includeoption_true_Type_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -57353,7 +57421,7 @@ if (headerManager != null) {
     &quot;historyId&quot;: &quot;${reportid}&quot;,&#xd;
     &quot;reason&quot;: &quot;월 1회 정기점검&quot;,&#xd;
     &quot;isOption&quot;: true,&#xd;
-    &quot;screeningType&quot;: &quot;&quot;,&#xd;
+    &quot;screeningType&quot;: &quot;&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -57679,7 +57747,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_Report_Dashboard_Dismissed_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -61435,7 +61503,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Manual_display(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Manual_display(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/user-manuals/display-settings</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -61447,7 +61515,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_invalid(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -61460,7 +61528,6 @@ if (headerManager != null) {
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial00&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -61468,7 +61535,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid1(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid1(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -61481,7 +61548,6 @@ if (headerManager != null) {
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;clinical_trial&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -61489,7 +61555,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid2(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] POST_VC-Admin_Settings_product-purpose_valid2(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -61502,7 +61568,6 @@ if (headerManager != null) {
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
 	&quot;productPurpose&quot;: &quot;none&quot;&#xd;
-	// &quot;default&quot; | &quot;clinical_trial&quot; | &quot;none&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -61510,7 +61575,7 @@ if (headerManager != null) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Settings_product-purpose(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[403] GET_VC-Admin_Settings_product-purpose(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/admin/product-purpose</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -61777,7 +61842,7 @@ if (logResults != null) {
         </JSR223PostProcessor>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10.logs-missingtoken" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10.logs-missingtoken">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>

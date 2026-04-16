@@ -15824,7 +15824,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Startdt_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Startdt_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15845,7 +15845,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Startdt_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Startdt_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15866,7 +15866,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Enddt_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Enddt_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15887,7 +15887,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Enddt_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[422] POST_Report_History_Created_Enddt_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15908,7 +15908,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Timezone_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Timezone_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -15929,7 +15929,7 @@ if (nodnrPatients &amp;&amp; nodnrPatients.size() &gt; 0) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Timezone_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Created_Timezone_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16182,7 +16182,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[405] POST_Report_History_Download_HistoryID_Path_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[405] POST_Report_History_Download_HistoryID_Path_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history//download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16201,7 +16201,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_HistoryID_Invalid" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_HistoryID_Invalid">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history/${completed_report_history_id}00/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16220,7 +16220,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_Empty" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_Empty">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history/${completed_report_history_id}/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16239,7 +16239,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_LengthExceeded" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_LengthExceeded">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history/${completed_report_history_id}/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16258,7 +16258,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_Shortfail" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_History_Download_Reason_Shortfail">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/history/${completed_report_history_id}/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16584,7 +16584,7 @@ if (jsonResponse.data.reportHistories &amp;&amp; jsonResponse.data.reportHistori
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Screened_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16624,7 +16624,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_Language_Null(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[200] POST_Report_Dashboard_Download_Screened_Language_Null(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard/download</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -16675,7 +16675,7 @@ log.info(&quot;reportid: ${reportid}&quot;)</stringProp>
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Dashboard_Screened_Language_Invalid(NEW)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="[400013] POST_Report_Dashboard_Screened_Language_Invalid(NEW)">
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
             <stringProp name="HTTPSampler.path">/api/v1/reports/dashboard</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
