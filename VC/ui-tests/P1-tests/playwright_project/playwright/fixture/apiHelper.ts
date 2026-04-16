@@ -68,6 +68,15 @@ export async function useTokenApi(url: string,data:any){
   await postRequest(url, data, token);
 }
 
+export async function resetDashboardSetting(username: string, password: string) { // 계정별 대시보드 설정 초기화
+  const loginUrl = `${process.env.API_BASE}${process.env.LOGIN_API}`;
+  const res = await postRequest(loginUrl, { username, password });
+  const token = res.data.accessToken;
+
+  const resetUrl = `${process.env.API_BASE}${process.env.DASHBOARD_RESET}`;
+  return await postRequest(resetUrl, {}, token);
+}
+
 export async function getAdminToken() { // admin 토근 발급
   const loginUrl = `${process.env.API_BASE}${process.env.LOGIN_API}`;
   const loginBody = {

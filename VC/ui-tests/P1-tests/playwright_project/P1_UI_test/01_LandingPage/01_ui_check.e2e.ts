@@ -42,4 +42,8 @@ test('UI 확인', async({ page }) => {
   await screenShot(page,senarioName,'계정 생성 버튼');
   console.log(`✅ 계정 생성 버튼`);
 
+  await expect(page.getByText('모든 계정은 관리자의 승인 후 로그인이 가능합니다')).toBeVisible();
+  await screenShot(page,senarioName,'시스템 사용 알림 메시지');
+  console.log(`✅ 시스템 사용 알림 메시지`);
+
 });

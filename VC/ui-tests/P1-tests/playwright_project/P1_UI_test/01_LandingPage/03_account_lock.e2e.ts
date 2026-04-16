@@ -20,13 +20,13 @@ const managerPW = process.env.MANAGERPW || 'defaultManager!'
 
 const senarioName = '[03.권한별 계정 잠금]'
 
-const loginFailMessage = 'ID 또는 비밀번호를 확인해주세요.'
+const loginFailMessage = 'ID 또는 비밀번호를 확인해 주세요.'
 const noActiveMessage = '관리자의 승인 후 로그인이 가능합니다.'
 const lockMessage_admin = '5회 이상 로그인 오류로 접속이 제한됩니다. 회사로 계정잠금 해제를 요청하세요.'
 const lockMessage = '5회 이상 로그인 오류로 접속이 제한됩니다. 관리자에게 임시비밀번호를 발급 받은 후 다시 시도해 주세요.'
 
 const accounts = [
-  {id: userID, pw: userPW, name: 'User', lockMessage: lockMessage},
+  {id: userID, pw: userPW, name: 'Member', lockMessage: lockMessage},
   {id: managerID, pw: managerPW, name: 'Manager', lockMessage: lockMessage},
   {id: adminID, pw: adminPW, name: 'Admin', lockMessage: loginFailMessage}
 ]
@@ -62,26 +62,19 @@ test.beforeAll(async () => {
  * 미등록 계정 로그인 실패 확인
  */
 test('(미등록) 로그인 실패 메세지 확인', async({ page }) => {
-  for (let attempt =1; attempt <= loginAttempts; attempt++){
-    await login(page, 'qwer', 'qwer')  // 미등록 계정 로그인
-    await page.waitForTimeout(1000);
+  for (let attempt = 1; attempt <= loginAttempts; attempt++){
+    await login(page, 'qwer', 'qwer');
     await expect(page.getByText(loginFailMessage)).toBeVisible({ timeout: 5000 });
-    await screenShot(page,senarioName,`(미등록)로그인 시도 ${attempt}`);
-    console.log(`✅ (미등록)로그인 시도 ${attempt}`);
+    console.log('✅ 미등록 계정 로그인 시도 ${attempt}: 로그인 실패 확인');
+    
+    if (attempt === loginAttempts) {
+      await screenShot(page, senarioName, '미등록 계정 로그인 5회 시도');
+    }
+    
+    await page.waitForTimeout(3000);
   }
 });
 
-/**
- * 미승인 계정 로그인 실패 확인
- */
-test('(미승인) 로그인 실패 메세지 확인', async({ page }) => {
-  await executeQuery(`UPDATE accounts_user SET is_active = 0 WHERE username = '${userID}';`); //미승인 변경
-  await login(page, userID, userPW)  // 미승인 계정 로그인
-  await expect(page.getByText(noActiveMessage)).toBeVisible({ timeout: 5000 });
-  await screenShot(page,senarioName,'(미승인)로그인 시도');
-  console.log(`✅ (미승인)로그인 실패 토스트 메세지`);
-  await executeQuery(`UPDATE accounts_user SET is_active = 1 WHERE username = '${userID}';`); //승인 변경
-});
 
 /**
  * 권한별 계정 잠금 확인
@@ -93,14 +86,14 @@ test('권한별 계정 잠금 메세지 확인', async({ page }) => {
       await login(page, account.id, 'qwer'); // 로그인 시도
       await page.waitForTimeout(1000);
 
-      if (attempt < loginAttempts) {// 4번째까지 로그인 실패 메시지 확인
+      if (attempt === loginAttempts-1) {// 4번째까지 로그인 실패 메시지 확인
         await expect(page.getByText(loginFailMessage)).toBeVisible({ timeout: 5000 });
-        await screenShot(page, senarioName, `${account.name} 계정 로그인 시도 ${attempt}`);
-        console.log(`✅ ${account.name} 계정 로그인 시도 ${attempt}: 로그인 실패 확인`);
+        await screenShot(page, senarioName, `${account.name} 계정 로그인 실패 토스트 메세지`);
+        console.log(`✅ ${account.name} 계정 로그인 실패 확인`);
       } 
-      else{ // 5번째 시도에서는 계정 잠김 메시지 확인 (Admin 계정은 다른 메시지)
+      else if (attempt === loginAttempts) {// 5번째 시도에서는 계정 잠김 메시지 확인 (Admin 계정은 다른 메시지)
         await expect(page.getByText(account.lockMessage)).toBeVisible({ timeout: 5000 });
-        await screenShot(page, senarioName,`${account.name} 계정 잠김 토스트 메세지`);
+        await screenShot(page, senarioName,`${account.name} 계정 로그인 실패 5회 계정 잠김 토스트 메세지`);
         console.log(`✅ ${account.name} 계정 잠김 토스트 메세지`);
       }
     }

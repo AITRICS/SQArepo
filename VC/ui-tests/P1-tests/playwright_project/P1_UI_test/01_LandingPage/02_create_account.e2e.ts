@@ -87,8 +87,8 @@ test('계정 생성 진행', async ({ page }) => {
   // await page.waitForTimeout(500);
   const modalClosed = await isModalClosed(page);
   expect(modalClosed).toBe(true); // 모달 닫힘 확인
-  await screenShot(page,senarioName,'계정 생성 완료 모달 닫힘');
-  console.log(`✅ 계정 생성 완료 모달 닫힘`);
+  await screenShot(page,senarioName,'계정 생성 후 로그인 페이지 이동');
+  console.log(`✅ 계정 생성 후 로그인 페이지 이동`);
 
   await expect(page.getByText('계정 생성 완료! 관리자의 승인 후 로그인이 가능합니다.')).toBeVisible({ timeout: 5000 });
   await screenShot(page,senarioName,'계정 생성 완료 토스트 메세지');
@@ -103,10 +103,10 @@ test('생성 계정 로그인', async({ page}) => {
   await approval(page,env.ADMIN.ID,env.USER.ID); // 계정 승인
   await logout(page,env.ADMIN.ID); // admin 로그아웃
   await login(page, env.USER.ID, env.USER.PW) //user 로그인
-  await screenShot(page,senarioName,'생성 계정 로그인');
+  await screenShot(page,senarioName,'생성된 계정 로그인');
   await page.waitForURL((url) => url.pathname.includes('/screening/screened'));
   await expect(page).toHaveURL(/\/screening\/screened/);
-  console.log(`✅ 생성 계정 로그인`);
+  console.log(`✅ 생성된 계정 로그인`);
 });
 
 
