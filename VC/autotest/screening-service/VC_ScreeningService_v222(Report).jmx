@@ -106,7 +106,7 @@
           </elementProp>
           <elementProp name="version" elementType="Argument">
             <stringProp name="Argument.name">version</stringProp>
-            <stringProp name="Argument.value">VC-v2.2.2-alpha1</stringProp>
+            <stringProp name="Argument.value">VC-v2.2.2-rc2</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration1" elementType="Argument">
@@ -117,7 +117,7 @@
           </elementProp>
           <elementProp name="duration2" elementType="Argument">
             <stringProp name="Argument.name">duration2</stringProp>
-            <stringProp name="Argument.value">600000</stringProp>
+            <stringProp name="Argument.value">1200000</stringProp>
             <stringProp name="Argument.desc">30 * 60 * 1000 = 1800000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -146,7 +146,7 @@
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
         <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
         <stringProp name="HTTPSampler.port">${PORT}</stringProp>
         <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -233,7 +233,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -286,7 +286,7 @@ def deleteFilesInDirectory(directoryPath, version) {
 }
 
 // outputDir 내 ${version}이 포함된 파일만 삭제
-//deleteFilesInDirectory(outputDir, outputVersion)</stringProp>
+deleteFilesInDirectory(outputDir, outputVersion)</stringProp>
         </JSR223Sampler>
         <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
@@ -391,7 +391,7 @@ props.put(&quot;apiResponse&quot;, apiResponse)
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 1" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 1" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -1654,7 +1654,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 2" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 2" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -2917,7 +2917,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 3" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 3" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -4180,7 +4180,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 4" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 4" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -5443,7 +5443,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 5" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 5" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -6706,7 +6706,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 6" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 6" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -7969,7 +7969,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 7" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 7" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -9232,7 +9232,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 8" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 8" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -10495,7 +10495,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 9" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 9" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -11735,7 +11735,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 10" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 10" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -12975,7 +12975,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 11" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 11" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -14215,7 +14215,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 12" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 12" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -15455,7 +15455,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 13" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 13" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -16695,7 +16695,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 14" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 14" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -17935,7 +17935,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 15" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 15" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -19175,7 +19175,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 16" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 16" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -20415,7 +20415,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 17" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 17" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -21655,7 +21655,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 18" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 18" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -22895,7 +22895,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 19" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 19" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -24135,7 +24135,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 20" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 20" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -25375,7 +25375,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 21" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 21" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -26615,7 +26615,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 22" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 22" enabled="true">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -27855,7 +27855,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group">
+      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="true">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -27866,7 +27866,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </elementProp>
       </PostThreadGroup>
       <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(result)_JSR223 Sampler">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(result)_JSR223 Sampler" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -28237,7 +28237,7 @@ try {
 }</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="mmakeHtml(Result_Detail_Log)_JSR223 Sampler">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="mmakeHtml(Result_Detail_Log)_JSR223 Sampler" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -28687,7 +28687,7 @@ def formatJson(String jsonString) {
 </stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(Intergration)_JSR223 Sampler">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(Intergration)_JSR223 Sampler" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
