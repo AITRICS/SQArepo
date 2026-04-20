@@ -65,7 +65,7 @@ test('(미등록) 로그인 실패 메세지 확인', async({ page }) => {
   for (let attempt = 1; attempt <= loginAttempts; attempt++){
     await login(page, 'qwer', 'qwer');
     await expect(page.getByText(loginFailMessage)).toBeVisible({ timeout: 5000 });
-    console.log('✅ 미등록 계정 로그인 시도 ${attempt}: 로그인 실패 확인');
+    console.log(`✅ 미등록 계정 로그인 시도 ${attempt}: 로그인 실패 확인`);
     
     if (attempt === loginAttempts) {
       await screenShot(page, senarioName, '미등록 계정 로그인 5회 시도');

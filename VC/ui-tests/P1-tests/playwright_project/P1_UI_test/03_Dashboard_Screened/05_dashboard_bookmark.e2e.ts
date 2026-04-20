@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[12. 대시보드 id 복사 및 북마크]';
+const senarioName = '[05. Screened - 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -46,7 +46,7 @@ test('대시보드 id 복사', async ({ page }) => {
   await page.waitForTimeout(500);
   const toast = page.getByText('EMR ID가 복사되었습니다.');
   await expect(toast).toBeVisible();
-  await screenShot(page,senarioName,'EMR ID 복사');
+  await screenShot(page,senarioName,'4. EMR ID 복사');
   console.log('✅ EMR ID 복사 확인');
 });
 
@@ -75,12 +75,12 @@ test('대시보드 북마크 on/off 확인', async ({ page }) => {
 
   // --- 등록(ON) ---
   await setBookmark(page, bookmarkCell, bookmarkButton, true);
-  await screenShot(page,senarioName,'북마크 on 확인');
+  await screenShot(page,senarioName,'5. 북마크 on 확인');
   console.log('✅ 북마크 on 확인');
 
   // --- 해제(OFF) ---
   await setBookmark(page, bookmarkCell, bookmarkButton, false);
-  await screenShot(page,senarioName,'북마크 off 확인');
+  await screenShot(page,senarioName,'6. 북마크 off 확인');
   console.log('✅ 북마크 off 확인');
 });
 
@@ -280,7 +280,7 @@ test('상단 고정 설정 동작 확인', async ({ page}) => {
   await expectRowStatus(page, pinnedNewRow, 'New');
   console.log('✅ New 환자 상태 유지 확인');
 
-  await screenShot(page, senarioName, 'New 환자 상단 고정 확인');
+  await screenShot(page, senarioName, '1. New 환자 상단 고정 확인');
 
   // ── Observing 환자 PIN 설정 ────────────────────────────────────
 
@@ -315,7 +315,7 @@ test('상단 고정 설정 동작 확인', async ({ page}) => {
   await expectRowStatus(page, pinnedObsRow, 'Observing');
   console.log('✅ Observing 환자 상태 유지 확인');
 
-  await screenShot(page, senarioName, 'Observing 환자 상단 고정 확인');
+  await screenShot(page, senarioName, '2. Observing 환자 상단 고정 확인');
 });
 
 test('상단 고정 해제 동작 확인', async ({ page }) => {

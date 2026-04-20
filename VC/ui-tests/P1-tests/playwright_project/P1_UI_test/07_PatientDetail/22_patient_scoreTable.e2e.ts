@@ -22,7 +22,7 @@ test.beforeEach(async ({page}) => {
   await expect(loadingLocator).not.toBeVisible({timeout: 10000}); //대시보드 노출 대기
 });
 
-async function extractUiScoreTable(page): Promise<Record<string, string[]>> {
+async function extractUiScoreTable(page: Page): Promise<Record<string, string[]>> {
   const table = page.locator('section').nth(2);
   const rows = table.locator('tbody tr');
 

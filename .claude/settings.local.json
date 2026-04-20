@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Nora/**)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); acc=d.get\\('oauthAccount'\\); print\\(acc.get\\('emailAddress'\\) if acc else '로그아웃 상태'\\)\")",
+      "Read(//tmp/**)",
+      "Bash(node -e ':*)",
+      "Bash(node)"
+    ]
+  }
+}

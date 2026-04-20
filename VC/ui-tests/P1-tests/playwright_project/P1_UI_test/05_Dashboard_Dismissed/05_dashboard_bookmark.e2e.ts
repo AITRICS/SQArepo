@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[Dismissed - 대시보드 id 복사 및 북마크]';
+const senarioName = '[05. Dismissed - 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -37,7 +37,7 @@ test('대시보드 id 복사', async ({ page }) => {
   await page.waitForTimeout(1000);
   const toast = page.getByText('EMR ID가 복사되었습니다.');
   await expect(toast).toBeVisible();
-  await screenShot(page, senarioName, 'EMR ID 복사');
+  await screenShot(page, senarioName, '4. EMR ID 복사');
   console.log('✅ EMR ID 복사 확인');
 });
 
@@ -60,11 +60,11 @@ test('대시보드 북마크 on/off 확인', async ({ page }) => {
   await expect(bookmarkButton).toBeVisible({ timeout: 10000 });
 
   await setBookmark(page, bookmarkCell, bookmarkButton, true);
-  await screenShot(page, senarioName, '북마크 on 확인');
+  await screenShot(page, senarioName, '5. 북마크 on 확인');
   console.log('✅ 북마크 on 확인');
 
   await setBookmark(page, bookmarkCell, bookmarkButton, false);
-  await screenShot(page, senarioName, '북마크 off 확인');
+  await screenShot(page, senarioName, '6. 북마크 off 확인');
   console.log('✅ 북마크 off 확인');
 });
 
@@ -162,7 +162,7 @@ test('상단 고정 설정 동작 확인', async ({ page }) => {
   await expect(normalFirstRow).toHaveCount(0);
   console.log('✅ 첫 번째 환자 Pin 영역 노출 확인');
 
-  await screenShot(page, senarioName, '첫 번째 환자 상단 고정 확인');
+  await screenShot(page, senarioName, '1. 첫 번째 환자 상단 고정 확인');
 
   // 두 번째 환자 Pin
   const secondRow = await findRowByPatientId(page, secondPatientId);
@@ -178,7 +178,7 @@ test('상단 고정 설정 동작 확인', async ({ page }) => {
   await expect(pinnedSecondRow.getByLabel('Unpin from top')).toBeVisible();
   console.log('✅ 두 번째 환자 Pin 영역 노출 확인');
 
-  await screenShot(page, senarioName, '두 번째 환자 상단 고정 확인');
+  await screenShot(page, senarioName, '2. 두 번째 환자 상단 고정 확인');
 });
 
 test('상단 고정 해제 동작 확인', async ({ page }) => {
@@ -223,7 +223,7 @@ test('상단 고정 해제 동작 확인', async ({ page }) => {
     await expect(restoredRow.getByLabel('Pin to top')).toBeVisible({ timeout: 5000 });
     console.log(`✅ ${patientId} 일반 영역 복귀 확인`);
 
-    await screenShot(page, senarioName, '상단 고정 해제 확인');
+    await screenShot(page, senarioName, '3. 상단 고정 해제 확인');
   }
 
   console.log('✅ 상단 고정 해제 동작 확인 완료');

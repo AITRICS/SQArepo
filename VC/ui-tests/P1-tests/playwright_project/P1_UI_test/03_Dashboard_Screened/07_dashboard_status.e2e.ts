@@ -12,7 +12,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[14. 대시보드 환자 상태 변경]'
+const senarioName = '[07. Screened - 대시보드 환자 상태 변경]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -341,7 +341,7 @@ test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ pa
   await selectStatus(page, 'New'); // New 선택
   await page.waitForTimeout(1000);
   await expectRowStatus(page,await findRowByPatientId(page, patientId), 'New'); // 상태 New 확인
-  await screenShot(page,senarioName,'New - New 상태 변경 확인');
+  await screenShot(page,senarioName,'1. New - New 상태 변경 확인');
   console.log('✅ 대시보드 환자 New -> New 상태 변경 확인');
 
 
@@ -355,7 +355,7 @@ test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ pa
   
   const rowObs = await findRowByPatientId(page, patientId); // patientId로 다시 행 찾기
   await expectRowStatus(page,rowObs, 'Observing'); // 상태 Observing 확인
-  await screenShot(page,senarioName,'New - Observing 상태 변경 확인');
+  await screenShot(page,senarioName,'2. New - Observing 상태 변경 확인');
   console.log('✅ 대시보드 환자 New -> Observing 상태 변경 확인');
 
 
@@ -374,7 +374,7 @@ test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ pa
    await page.waitForTimeout(5000);
   const rowComp = await findRowByPatientId(page, patientId_Comp); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowComp, 'Complete'); // 상태 Complete 확인
-  await screenShot(page,senarioName,'New - Complete 상태 변경 확인');
+  await screenShot(page,senarioName,'4. New - Complete 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
@@ -397,7 +397,7 @@ test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ pa
   await page.waitForTimeout(5000);
   const rowErr = await findRowByPatientId(page, patientId_Err); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowErr, 'Error'); // 상태 Error 확인
-  await screenShot(page,senarioName,'New - Error 상태 변경 확인');
+  await screenShot(page,senarioName,'3. New - Error 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
@@ -419,7 +419,7 @@ test('대시보드 환자 상태 변경 확인 - New 에서 변경', async ({ pa
   await page.waitForTimeout(5000);
   const rowDis = await findRowByPatientId(page, patientId_Dis); // patientId로 다시 행 찾기
   await expectRowStatus(page, rowDis, 'Dismissed'); // 상태 Dismissed 확인
-  await screenShot(page,senarioName,'New - Dismissed 상태 변경 확인');
+  await screenShot(page,senarioName,'5. New - Dismissed 상태 변경 확인');
   await gotoTab(page, 'Screened'); // Screened 탭 이동
   await waitTableReady(page); // 테이블 로딩 대기
   await page.waitForTimeout(5000);
@@ -443,7 +443,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
   const rowNew = await findRowByPatientId(page, patientId);
   await expectRowStatus(page, rowNew, 'New');
-  await screenShot(page, senarioName, 'Observing - New 상태 변경 확인');
+  await screenShot(page, senarioName, '6. Observing - New 상태 변경 확인');
   console.log('✅ 대시보드 환자 Observing -> New 상태 변경 확인');
 
 
@@ -457,7 +457,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
   const rowObs = await findRowByPatientId(page, patientId);
   await expectRowStatus(page, rowObs, 'Observing');
-  await screenShot(page, senarioName, 'Observing - Observing 상태 변경 확인');
+  await screenShot(page, senarioName, '7. Observing - Observing 상태 변경 확인');
   console.log('✅ 대시보드 환자 Observing -> Observing 상태 변경 확인');
 
 
@@ -475,7 +475,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
   await page.waitForTimeout(5000);
   const rowComp = await findRowByPatientId(page, patientId);
   await expectRowStatus(page, rowComp, 'Complete');
-  await screenShot(page, senarioName, 'Observing - Complete 상태 변경 확인');
+  await screenShot(page, senarioName, '9. Observing - Complete 상태 변경 확인');
   await gotoTab(page, 'Screened');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -500,7 +500,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
   await page.waitForTimeout(5000);
   const rowErr = await findRowByPatientId(page, patientId_Err);
   await expectRowStatus(page, rowErr, 'Error');
-  await screenShot(page, senarioName, 'Observing - Error 상태 변경 확인');
+  await screenShot(page, senarioName, '8. Observing - Error 상태 변경 확인');
   await gotoTab(page, 'Screened');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -525,7 +525,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
   await page.waitForTimeout(5000);
   const rowDis = await findRowByPatientId(page, patientId_Dis);
   await expectRowStatus(page, rowDis, 'Dismissed');
-  await screenShot(page, senarioName, 'Observing - Dismissed 상태 변경 확인');
+  await screenShot(page, senarioName, '10. Observing - Dismissed 상태 변경 확인');
   await gotoTab(page, 'Screened');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -534,6 +534,7 @@ test('대시보드 환자 상태 변경 확인 - Observing에서 변경', async 
 
 
 test('체크박스 환자 상태 변경', async ({ page }) => {
+  let checkboxScreenshotCount = 10;
   for (const baseStatus of ['New', 'Observing'] as string[]) { // 초기 환자 상태
     const baseTab = ['Complete', 'Error'].includes(baseStatus)
       ? 'Reviewed'
@@ -622,7 +623,7 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
         console.log(`🔍 [${expectedTab}] 탭에서 상태 텍스트='${text}'`);
         expect(text).toBe(targetStatus);
       }
-      await screenShot(page,senarioName,`체크박스 상태 변경:  ${currentStatus} - ${targetStatus} 상태 변경 확인`);
+      await screenShot(page,senarioName,`${++checkboxScreenshotCount}. 체크박스 상태 변경:  ${currentStatus} - ${targetStatus} 상태 변경 확인`);
 
       if (!currentPatientId) {
         console.log(`❌ 상태 '${targetStatus}' 로 변경 후 환자(${currentPatientId})를 ${expectedTab} 탭에서 찾을 수 없습니다.`);
@@ -642,7 +643,8 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
 
 
 test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }) => {
-  for (const tab of ['Screened', 'Reviewed', 'Dismissed']) {
+  let multiScreenshotCount = 20;
+  for (const tab of ['Screened']) {
     await page.getByRole('tab', { name: tab }).click();
     await waitTableReady(page);
     await page.waitForTimeout(5000);
@@ -738,7 +740,7 @@ test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }
         const text2 = (await combo2.textContent())?.trim();
         expect(text2).toBe(targetStatus);
       }
-      await screenShot(page,senarioName,`체크박스 다중 상태 변경: ${status1},${status2} - ${targetStatus}`);
+      await screenShot(page,senarioName,`${++multiScreenshotCount}. 체크박스 다중 상태 변경: ${status1},${status2} - ${targetStatus}`);
 
       await page.getByRole('tab', { name: tab }).click();
       await waitTableReady(page);

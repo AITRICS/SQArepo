@@ -33,7 +33,7 @@ const accounts = [
 const newPW = 'aitrics1!!'; 
 
 // 유틸: 비밀번호 변경 함수
-async function changePassword(page, oldPW, newPW) {
+async function changePassword(page: Page, oldPW: string, newPW: string) {
     await page.getByText('설정').click();
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: '비밀번호 변경' }).click();

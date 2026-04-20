@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[Dismissed - 대시보드 노트]'
+const senarioName = '[02. Dismissed - 대시보드 노트]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -35,7 +35,7 @@ test('대시보드 노트 없는 경우 아이콘 확인', async ({ page }) => {
 
   if (btnText.trim() === '') {
     await expect(noteButton).toBeVisible();
-    await screenShot(page, senarioName, '저장된 노트 없는 경우');
+    await screenShot(page, senarioName, '2. 저장된 노트 없는 경우');
     console.log(`✅ 노트 없는 경우 아이콘 확인`);
 
     await noteButton.click();
@@ -48,11 +48,11 @@ test('대시보드 노트 없는 경우 아이콘 확인', async ({ page }) => {
     noteButton = noteCell.locator('button');
     btnText = await noteButton.innerText();
     await expect(btnText).toContain('노트 테스트1');
-    await screenShot(page, senarioName, '저장된 노트 있는 경우');
+    await screenShot(page, senarioName, '1. 저장된 노트 있는 경우');
     console.log(`✅ 노트 있는 경우 아이콘 확인`);
   } else {
     await expect(noteButton).toContainText(/.+/);
-    await screenShot(page, senarioName, '저장된 노트 있는 경우');
+    await screenShot(page, senarioName, '1. 저장된 노트 있는 경우');
     console.log(`✅ 노트 있는 경우 아이콘 확인`);
 
     await noteButton.click();
@@ -64,7 +64,7 @@ test('대시보드 노트 없는 경우 아이콘 확인', async ({ page }) => {
     noteButton = noteCell.locator('button');
     btnText = await noteButton.innerText();
     await expect(btnText.trim()).toBe('');
-    await screenShot(page, senarioName, '저장된 노트 없는 경우');
+    await screenShot(page, senarioName, '2. 저장된 노트 없는 경우');
     console.log(`✅ 노트 없는 경우 아이콘 확인`);
   }
 });
@@ -86,13 +86,13 @@ test('대시보드 노트 저장 버튼 확인', async ({ page }) => {
   await textbox.fill('노트 저장 테스트');
   await expect(saveButton).toBeEnabled();
   await page.waitForTimeout(1000);
-  await screenShot(page, senarioName, '노트 입력 후 저장 버튼 활성화');
+  await screenShot(page, senarioName, '3. 노트 입력 후 저장 버튼 활성화');
   console.log(`✅ 노트 저장 버튼 활성화`);
 
   await textbox.fill('');
   await expect(saveButton).toBeDisabled();
   await page.waitForTimeout(1000);
-  await screenShot(page, senarioName, '노트 입력 삭제 후 저장 버튼 비활성화');
+  await screenShot(page, senarioName, '4. 노트 입력 삭제 후 저장 버튼 비활성화');
   console.log(`✅ 노트 저장 버튼 비활성화`);
 
   const rand = Math.floor(100 + Math.random() * 900);
@@ -104,7 +104,7 @@ test('대시보드 노트 저장 버튼 확인', async ({ page }) => {
   const latestNote = page.getByRole('listitem').first();
   await expect(latestNote).toContainText(noteText);
   await page.waitForTimeout(1000);
-  await screenShot(page, senarioName, '저장 노트 최상단 위치');
+  await screenShot(page, senarioName, '5. 저장 노트 최상단 위치');
   console.log(`✅ 노트 저장 후 최상단 위치 확인`);
 });
 
@@ -123,7 +123,7 @@ test('대시보드 노트 삭제 확인', async ({ page }) => {
   await page.getByTestId('note-creation-submit-button').click();
   await page.waitForTimeout(2000);
 
-  let noteCount = await page.getByText(/노트 \d+/).textContent();
+  let noteCount = await page.getByText(/노트 \d+/).textContent() ?? '';
   let currentCount = parseInt(noteCount.replace(/\D/g, ''), 10);
 
   const deleteButton = page.getByTestId('button-delete').first();
@@ -131,19 +131,19 @@ test('대시보드 노트 삭제 확인', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: '아니오' }).click();
   await page.waitForTimeout(1000);
-  noteCount = await page.getByText(/노트 \d+/).textContent();
+  noteCount = await page.getByText(/노트 \d+/).textContent() ?? '';
   let nowCount = parseInt(noteCount.replace(/\D/g, ''), 10);
   expect(currentCount).toBe(nowCount);
-  await screenShot(page, senarioName, '노트 삭제 취소');
+  await screenShot(page, senarioName, '6. 노트 삭제 취소');
   console.log(`✅ 노트 삭제 취소`);
 
   await deleteButton.click();
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: '예' }).click();
   await page.waitForTimeout(1000);
-  noteCount = await page.getByText(/노트 \d+/).textContent();
+  noteCount = await page.getByText(/노트 \d+/).textContent() ?? '';
   nowCount = parseInt(noteCount.replace(/\D/g, ''), 10);
   expect(nowCount).toBe(currentCount - 1);
-  await screenShot(page, senarioName, '노트 삭제 확인');
+  await screenShot(page, senarioName, '7. 노트 삭제 확인');
   console.log(`✅ 노트 삭제 확인`);
 });

@@ -13,7 +13,7 @@ test.describe.configure({ mode: 'serial' });
 
 const userID = process.env.USERID || 'defaultUser';
 // const userPW = process.env.USERPW || 'defaultPass!';
-// const userName = process.env.USERNAME || 'defaultName';
+const userName = process.env.MEMBERNAME || 'defaultName';
 
 // const adminID = process.env.ADMINID || 'defaultAdmin'
 // const adminPW = process.env.ADMINPW || 'defaultAdmin!'
@@ -68,7 +68,7 @@ test('계정 생성 진행', async ({ page }) => {
   await page.getByRole('textbox', { name: '자 이내, 영문, 숫자, @,-,_,. 사용 가능' }).fill(env.USER.ID); 
   await page.getByRole('textbox', { name: '8~25자 이내, 영문, 숫자, 특수문자 사용 가능' }).fill(env.USER.PW); 
   await page.getByTestId('confirm-password-element').locator('input').fill(env.USER.PW);
-  await page.locator('input[name="name"]').fill(env.USER.NAME);
+  await page.locator('input[name="name"]').fill(userName);
   await page.locator('div').filter({ hasText: /^사용자 유형선택의사간호사비의료진$/ }).getByRole('combobox').click();
   await page.getByRole('option', { name: '의사' }).click(); 
   await page.getByRole('combobox').filter({ hasText: '선택' }).click();

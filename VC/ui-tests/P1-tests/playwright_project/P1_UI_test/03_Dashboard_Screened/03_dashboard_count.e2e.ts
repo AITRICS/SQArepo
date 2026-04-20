@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../../playwright/fixture/login.js';
@@ -11,7 +11,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[10. 대시보드 환자 카운트]'
+const senarioName = '[03. Screened - 대시보드 환자 카운트]'
 
 
 
@@ -36,7 +36,7 @@ test('Screened 환자 카운트 확인', async({ page }) => {
     let loadingLocator = page.locator('.absolute').first();
     await expect(loadingLocator).not.toBeVisible({timeout: 10000}); //대시보드 노출 대기
     const uiScreenedCounts = await checkScreenedCounts(page);
-    await screenShot(page,senarioName,'Screened 환자 카운트 확인');
+    await screenShot(page,senarioName,'1. Screened 환자 카운트 확인');
 
 
 
@@ -66,7 +66,7 @@ test('Screened 환자 상태 필터 확인', async({ page }) => {
 
     // 1) NEW OFF, OBSERVING ON -> "New" 항목이 없어야 함
     await expectNoStatusValue(page, 'New');
-    await screenShot(page,senarioName,'Observing On 확인');
+    await screenShot(page,senarioName,'3. Observing On 확인');
     console.log('✅ Observing 상태 필터 확인');
 
     // -------------------------
@@ -78,7 +78,7 @@ test('Screened 환자 상태 필터 확인', async({ page }) => {
 
     // "Observing" 항목이 없어야 함
     await expectNoStatusValue(page, 'Observing');
-    await screenShot(page,senarioName,'New On 확인');
+    await screenShot(page,senarioName,'2. New On 확인');
     console.log('✅ New 상태 필터 확인');
 
     // -------------------------
@@ -89,13 +89,13 @@ test('Screened 환자 상태 필터 확인', async({ page }) => {
     await waitTableReady(page);
 
     await expect(page.getByText('환자 목록이 없습니다')).toBeVisible({ timeout: 5000 });
-    await screenShot(page,senarioName,'New Off, Observing Off 확인');
+    await screenShot(page,senarioName,'4. New Off, Observing Off 확인');
     console.log('✅ 환자 목록이 없습니다 노출 확인');
 });
 
 // Screened 탭 카운트 확인 함수
-async function checkScreenedCounts(page): Promise<{ all: number, new: number, observing: number }> {
-    const textContent = await page.getByText(/전체\d*New\d*Observing\d*/).textContent();
+async function checkScreenedCounts(page: Page): Promise<{ all: number, new: number, observing: number }> {
+    const textContent = (await page.getByText(/전체\d*New\d*Observing\d*/).textContent()) ?? '';
     const match = textContent.match(/전체(\d*)?New(\d*)?Observing(\d*)?/);
 
     return {
@@ -105,7 +105,7 @@ async function checkScreenedCounts(page): Promise<{ all: number, new: number, ob
     };
 }
 
-async function setCheckbox(page, testId: string, checked: boolean) {
+async function setCheckbox(page: Page, testId: string, checked: boolean) {
   const cb = page.getByTestId(testId);
   if (checked) {
     await cb.check();
@@ -114,12 +114,12 @@ async function setCheckbox(page, testId: string, checked: boolean) {
   }
 }
 
-async function waitTableReady(page) {
+async function waitTableReady(page: Page) {
   const loading = page.locator('.absolute').first();
   await expect(loading).not.toBeVisible({ timeout: 10000 });
 }
 
-async function expectNoStatusValue(page, forbiddenStatus: 'New' | 'Observing') {
+async function expectNoStatusValue(page: Page, forbiddenStatus: 'New' | 'Observing') {
   // "Status" 헤더 위치(인덱스) 구하기
   const headers = page.locator('table thead th');
   const headerCount = await headers.count();

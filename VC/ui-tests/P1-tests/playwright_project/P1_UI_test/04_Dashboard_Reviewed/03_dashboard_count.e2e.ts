@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../../playwright/fixture/login.js';
@@ -11,7 +11,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[Reviewed - 대시보드 환자 카운트]'
+const senarioName = '[03. Reviewed - 대시보드 환자 카운트]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -26,7 +26,7 @@ test.beforeEach(async ({page}) => {
 
 test('Reviewed 환자 카운트 확인', async ({ page }) => {
   const uiCounts = await checkReviewedCounts(page);
-  await screenShot(page, senarioName, 'Reviewed 환자 카운트 확인');
+  await screenShot(page, senarioName, '1. Reviewed 환자 카운트 확인');
 
   const dbData = await getReviewedCount();
   const dbCounts = dbData.length > 0 ? dbData[0] : { all_count: 0, done_count: 0, error_count: 0 };
@@ -44,7 +44,7 @@ test('Reviewed 환자 상태 필터 확인', async ({ page }) => {
   await waitTableReady(page);
 
   await expectNoStatusValue(page, 'Complete');
-  await screenShot(page, senarioName, 'Error On 확인');
+  await screenShot(page, senarioName, '3. Error On 확인');
   console.log('✅ Error 상태 필터 확인');
 
   // 2) COMPLETE ON, ERROR OFF → Error 없어야 함
@@ -53,7 +53,7 @@ test('Reviewed 환자 상태 필터 확인', async ({ page }) => {
   await waitTableReady(page);
 
   await expectNoStatusValue(page, 'Error');
-  await screenShot(page, senarioName, 'Complete On 확인');
+  await screenShot(page, senarioName, '2. Complete On 확인');
   console.log('✅ Complete 상태 필터 확인');
 
   // 3) COMPLETE OFF, ERROR OFF → 환자 목록이 없습니다
@@ -62,12 +62,12 @@ test('Reviewed 환자 상태 필터 확인', async ({ page }) => {
   await waitTableReady(page);
 
   await expect(page.getByText('환자 목록이 없습니다')).toBeVisible({ timeout: 5000 });
-  await screenShot(page, senarioName, 'Complete Off, Error Off 확인');
+  await screenShot(page, senarioName, '4. Complete Off, Error Off 확인');
   console.log('✅ 환자 목록이 없습니다 노출 확인');
 });
 
-async function checkReviewedCounts(page): Promise<{ all: number, complete: number, error: number }> {
-  const textContent = await page.getByText(/전체\d*Complete\d*Error\d*/).textContent();
+async function checkReviewedCounts(page: Page): Promise<{ all: number, complete: number, error: number }> {
+  const textContent = (await page.getByText(/전체\d*Complete\d*Error\d*/).textContent()) ?? '';
   const match = textContent.match(/전체(\d*)?Complete(\d*)?Error(\d*)?/);
 
   return {
@@ -77,7 +77,7 @@ async function checkReviewedCounts(page): Promise<{ all: number, complete: numbe
   };
 }
 
-async function setCheckbox(page, testId: string, checked: boolean) {
+async function setCheckbox(page: Page, testId: string, checked: boolean) {
   const cb = page.getByTestId(testId);
   if (checked) {
     await cb.check();
@@ -86,11 +86,11 @@ async function setCheckbox(page, testId: string, checked: boolean) {
   }
 }
 
-async function waitTableReady(page) {
+async function waitTableReady(page: Page) {
   await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
 }
 
-async function expectNoStatusValue(page, forbiddenStatus: 'Complete' | 'Error') {
+async function expectNoStatusValue(page: Page, forbiddenStatus: 'Complete' | 'Error') {
   const headers = page.locator('table thead th');
   const headerCount = await headers.count();
 

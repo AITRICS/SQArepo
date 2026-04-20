@@ -22,7 +22,7 @@ test.beforeEach(async ({page}) => {
 });
 
 
-async function getColumnIndex(page, headerName: string): Promise<number> {
+async function getColumnIndex(page: Page, headerName: string): Promise<number> {
     const headers = await page.locator('table thead tr th').allTextContents();
     const index = headers.findIndex(h => h.trim().includes(headerName));
     return index >= 0 ? index + 1 : -1; // nth-child는 1-based
@@ -225,7 +225,7 @@ test.describe('병동 정보 누락 시 UI 표시 확인', () => {
 });
 
 
-async function extractUiPatientInfo(page): Promise<{
+async function extractUiPatientInfo(page: Page): Promise<{
     name: string;
     gender: string;
     age: string;

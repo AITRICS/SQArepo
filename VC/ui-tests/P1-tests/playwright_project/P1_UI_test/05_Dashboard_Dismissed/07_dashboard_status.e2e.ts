@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[Dismissed - 대시보드 환자 상태 변경]';
+const senarioName = '[07. Dismissed - 대시보드 환자 상태 변경]';
 
 const statusOptions = ['New', 'Observing', 'Complete', 'Error', 'Dismissed'];
 
@@ -83,15 +83,10 @@ async function expectRowStatus(page: Page, row: Locator, status: string) {
 
   const combo = cell.getByRole('combobox').first();
   if (await combo.isVisible().catch(() => false)) {
-    const valueText =
-      (await combo.getAttribute('aria-valuetext')) ||
-      (await combo.getAttribute('aria-label')) ||
-      (await combo.textContent()) || '';
-    expect(valueText).toContain(status);
+    await expect(combo).toContainText(status, { timeout: 7000 });
     return;
   }
-  const cellText = (await cell.innerText()).replace(/\s+/g, ' ').trim();
-  expect(cellText).toContain(status);
+  await expect(cell).toContainText(status, { timeout: 7000 });
 }
 
 async function getStatusColumnIndex(page: Page): Promise<number> {
@@ -158,7 +153,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowNew = await findRowByPatientId(page, patientId);
   await expectRowStatus(page, rowNew, 'New');
-  await screenShot(page, senarioName, 'Dismissed - New 상태 변경 확인');
+  await screenShot(page, senarioName, '4. Dismissed - New 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -179,7 +174,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowObs = await findRowByPatientId(page, patientId_Obs);
   await expectRowStatus(page, rowObs, 'Observing');
-  await screenShot(page, senarioName, 'Dismissed - Observing 상태 변경 확인');
+  await screenShot(page, senarioName, '5. Dismissed - Observing 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -200,7 +195,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowComp = await findRowByPatientId(page, patientId_Comp);
   await expectRowStatus(page, rowComp, 'Complete');
-  await screenShot(page, senarioName, 'Dismissed - Complete 상태 변경 확인');
+  await screenShot(page, senarioName, '1. Dismissed - Complete 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -221,7 +216,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowErr = await findRowByPatientId(page, patientId_Err);
   await expectRowStatus(page, rowErr, 'Error');
-  await screenShot(page, senarioName, 'Dismissed - Error 상태 변경 확인');
+  await screenShot(page, senarioName, '3. Dismissed - Error 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -235,14 +230,16 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   const rowForDis = await findRowByPatientId(page, patientId_Dis);
   await openStatusDropdown(rowForDis);
   await selectStatus(page, 'Dismissed');
+  await waitTableReady(page);
   await page.waitForTimeout(1000);
   const rowDis = await findRowByPatientId(page, patientId_Dis);
   await expectRowStatus(page, rowDis, 'Dismissed');
-  await screenShot(page, senarioName, 'Dismissed - Dismissed 상태 변경 확인');
+  await screenShot(page, senarioName, '2. Dismissed - Dismissed 상태 변경 확인');
   console.log('✅ 대시보드 환자 Dismissed -> Dismissed 상태 변경 확인');
 });
 
 test('체크박스 환자 상태 변경', async ({ page }) => {
+  const cbNums: Record<string, number> = { New: 7, Observing: 9, Complete: 6, Error: 8, Dismissed: 10 };
   const baseTab = 'Dismissed';
   console.log(`========= baseStatus: Dismissed ==========`);
   await page.getByRole('tab', { name: baseTab }).click();
@@ -309,7 +306,7 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
       expect(text).toBe(targetStatus);
     }
 
-    await screenShot(page, senarioName, `체크박스 상태 변경_Dismissed - ${targetStatus} 상태 변경 확인`);
+    await screenShot(page, senarioName, `${cbNums[targetStatus]}. 체크박스 상태 변경_Dismissed - ${targetStatus} 상태 변경 확인`);
     console.log(`✅ 상태 '${targetStatus}'로 정확히 변경됨`);
 
     await page.getByRole('tab', { name: baseTab }).click();
@@ -318,6 +315,77 @@ test('체크박스 환자 상태 변경', async ({ page }) => {
   }
 
   console.log('\n✅ 체크박스 상태 변경 흐름 완료');
+});
+
+test('대시보드 체크박스 다중 상태 변경 테스트', async ({ page }) => {
+  let multiCount = 10;
+  const colIndex = await getStatusColumnIndex(page);
+  console.log('[Dismissed] 체크박스 다중 상태 변경 테스트 시작');
+
+  for (const targetStatus of statusOptions) {
+    await gotoTab(page, 'Dismissed');
+    await page.waitForTimeout(5000);
+
+    const rows = page.locator('tbody tr');
+    const row1 = rows.nth(0);
+    const row2 = rows.nth(1);
+
+    const id1 = await extractPatientIdFromRow(page, row1);
+    const id2 = await extractPatientIdFromRow(page, row2);
+
+    const status1 = (await row1.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+    const status2 = (await row2.locator('td').nth(colIndex).getByRole('combobox').textContent())?.trim();
+
+    // Dismissed 탭은 모두 Dismissed 상태이므로 pre-equalization 불필요
+    await row1.getByRole('checkbox').click();
+    await row2.getByRole('checkbox').click();
+    await page.waitForTimeout(500);
+
+    const toolbar = page.getByRole('form', { name: 'toolbar-status' });
+    await expect(toolbar).toBeVisible();
+
+    console.log(`🔄 두 환자(${status1}, ${status2}) 상태를 '${targetStatus}'로 변경 시도`);
+
+    await toolbar.getByRole('button', { name: targetStatus }).click();
+    await waitTableReady(page);
+    await page.waitForTimeout(5000);
+
+    const expectedTab = ['New', 'Observing'].includes(targetStatus)
+      ? 'Screened'
+      : ['Complete', 'Error'].includes(targetStatus)
+      ? 'Reviewed'
+      : 'Dismissed';
+
+    await page.getByRole('tab', { name: expectedTab }).click();
+    await waitTableReady(page);
+    await page.waitForTimeout(5000);
+
+    const verifiedRow1 = page.locator(`tr:has(p:has-text("${id1}"))`);
+    const verifiedRow2 = page.locator(`tr:has(p:has-text("${id2}"))`);
+
+    if (await verifiedRow1.count() === 0) {
+      console.log(`❌ 환자 ${id1} 를 ${expectedTab} 탭에서 찾지 못했습니다.`);
+    } else {
+      const combo1 = verifiedRow1.locator('td').nth(colIndex).getByRole('combobox');
+      expect((await combo1.textContent())?.trim()).toBe(targetStatus);
+    }
+
+    if (await verifiedRow2.count() === 0) {
+      console.log(`❌ 환자 ${id2} 를 ${expectedTab} 탭에서 찾지 못했습니다.`);
+    } else {
+      const combo2 = verifiedRow2.locator('td').nth(colIndex).getByRole('combobox');
+      expect((await combo2.textContent())?.trim()).toBe(targetStatus);
+    }
+
+    await screenShot(page, senarioName, `${++multiCount}. 체크박스 다중 상태 변경: ${status1},${status2} - ${targetStatus}`);
+    console.log(`✅ '${targetStatus}'로 다중 변경 확인`);
+
+    await page.getByRole('tab', { name: 'Dismissed' }).click();
+    await waitTableReady(page);
+    await page.waitForTimeout(1000);
+  }
+
+  console.log('\n✅ 체크박스 다중 상태 변경 흐름 완료');
 });
 
 test.afterAll(async () => {

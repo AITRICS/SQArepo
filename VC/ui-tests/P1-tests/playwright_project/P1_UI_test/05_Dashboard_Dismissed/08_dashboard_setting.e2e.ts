@@ -16,7 +16,7 @@ const managerPW = process.env.MANAGERPW || 'defaultManager!'
 const memberID = process.env.MEMBERID || 'defaultUser'
 const memberPW = process.env.MEMBERPW || 'defaultUser!'
 
-const senarioName = '[Dismissed - 계정별 대시보드 설정 확인]';
+const senarioName = '[08. Dismissed - 계정별 대시보드 설정 확인]';
 
 const TOGGLE_ITEMS = [
   'MAES', 'SEPS', 'MORS', 'CARED',
@@ -154,7 +154,7 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort',
     'PR sort', 'RR sort', 'BT sort', 'SpO2 sort'
   ]);
-  await screenShot(page, senarioName, '[admin] 대시보드 컬럼 표시 설정 확인');
+  await screenShot(page, senarioName, '1. [admin] 대시보드 컬럼 표시 설정 확인');
   await logout(page, adminID);
 
   // manager
@@ -164,7 +164,7 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
     ['MAES sort', 'Location sort', 'Dept sort', 'Physician sort', 'Note'],
     ['SEPS sort', 'MORS sort', 'CARED sort', 'NEWS sort', 'MEWS sort', 'SBP sort', 'DBP sort', 'PR sort', 'RR sort', 'BT sort', 'SpO2 sort']
   );
-  await screenShot(page, senarioName, '[manager] 대시보드 컬럼 표시 설정 확인');
+  await screenShot(page, senarioName, '2. [manager] 대시보드 컬럼 표시 설정 확인');
   await logout(page, managerID);
 
   // 신규 계정 기본 대시보드 설정 확인
@@ -199,7 +199,7 @@ test('계정별 대시보드 컬럼 표시 설정 확인', async ({ page }) => {
   for (const item of itemsWithoutSort) {
     await expect(newUserThead.getByRole('cell', { name: item })).toBeVisible();
   }
-  await screenShot(page, senarioName, '[member] 신규 계정 대시보드 기본 컬럼 표시 확인');
+  await screenShot(page, senarioName, '3. [member] 신규 계정 대시보드 기본 컬럼 표시 확인');
 
   await logout(page, newUserID);
   await deleteUser(newUserID);
@@ -269,14 +269,14 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await saveSettings(page);
   await goToDashboard(page);
   await verifyColumnOrder(['Location', 'Dept', 'Physician', 'Status', 'Patient info']);
-  await screenShot(page, senarioName, '[admin] 대시보드 컬럼 순서 변경 확인');
+  await screenShot(page, senarioName, '4. [admin] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, adminID);
   await page.locator('#Location-switch').click();
   await saveSettings(page);
   await goToDashboard(page);
   await expect(getTableHeader(page).getByRole('cell', { name: 'Location sort' })).not.toBeVisible();
-  await screenShot(page, senarioName, '[admin] 대시보드 컬럼 비활성화 확인');
+  await screenShot(page, senarioName, '7. [admin] 대시보드 컬럼 비활성화 확인');
   await logout(page, adminID);
 
   // manager
@@ -288,14 +288,14 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await saveSettings(page);
   await goToDashboard(page);
   await verifyColumnOrder(['Location', 'Dept', 'Physician', 'Status', 'Patient info']);
-  await screenShot(page, senarioName, '[manager] 대시보드 컬럼 순서 변경 확인');
+  await screenShot(page, senarioName, '5. [manager] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, managerID);
   await page.locator('#Physician-switch').click();
   await saveSettings(page);
   await goToDashboard(page);
   await expect(getTableHeader(page).locator('th').nth(5)).not.toContainText('Physician');
-  await screenShot(page, senarioName, '[manager] 대시보드 컬럼 비활성화 확인');
+  await screenShot(page, senarioName, '8. [manager] 대시보드 컬럼 비활성화 확인');
   await logout(page, managerID);
 
   // member
@@ -307,14 +307,14 @@ test('대시보드 컬럼 순서 변경 기능 확인', async ({ page }) => {
   await saveSettings(page);
   await goToDashboard(page);
   await verifyColumnOrder(['Location', 'Dept', 'Physician', 'Status', 'Patient info']);
-  await screenShot(page, senarioName, '[member] 대시보드 컬럼 순서 변경 확인');
+  await screenShot(page, senarioName, '6. [member] 대시보드 컬럼 순서 변경 확인');
 
   await goToSettingSection(page, memberID);
   await page.locator('#Dept-switch').click();
   await saveSettings(page);
   await goToDashboard(page);
   await expect(getTableHeader(page).locator('th').nth(3)).not.toContainText('Dept');
-  await screenShot(page, senarioName, '[member] 대시보드 컬럼 비활성화 확인');
+  await screenShot(page, senarioName, '9. [member] 대시보드 컬럼 비활성화 확인');
   await logout(page, memberID);
 });
 

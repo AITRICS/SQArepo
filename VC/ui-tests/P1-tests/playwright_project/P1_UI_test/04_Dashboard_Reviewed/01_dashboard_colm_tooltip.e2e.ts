@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { screenShot } from '../../playwright/fixture/screenshot.js';
 import * as dotenv from 'dotenv';
 import { login } from '../../playwright/fixture/login.js';
@@ -17,7 +17,7 @@ const tooltipTemplates = {
   MORS: (val: number) => `6시간 이내에 중환자실에서의 급성 상태악화(사망) 위험도 예측 스코어 (MORS ≥ ${val})`,
 };
 
-const senarioName = '[Reviewed - 대시보드 툴팁 확인]'
+const senarioName = '[01. Reviewed - 대시보드 툴팁 확인]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -37,7 +37,7 @@ test('대시보드 컬럼 툴팁 확인', async ({ page }) => {
   await getText(page, 'MORS');
 });
 
-async function getText(page, scoreName: string): Promise<void> {
+async function getText(page: Page, scoreName: keyof typeof tooltipTemplates): Promise<void> {
   await page.mouse.click(0, 0);
   await page.waitForTimeout(1000);
 
@@ -52,7 +52,8 @@ async function getText(page, scoreName: string): Promise<void> {
   const actualText = (await tooltip.textContent())?.replace(/\n/g, '').trim() ?? '';
   expect(actualText).toBe(expectedText);
 
-  await screenShot(page, senarioName, `${scoreName} 툴팁 확인`);
+  const tooltipNum: Record<string, number> = { CARED: 1, MAES: 2, SEPS: 3, MORS: 4 };
+  await screenShot(page, senarioName, `${tooltipNum[scoreName]}. ${scoreName} 툴팁 확인`);
   console.log(`✅ ${scoreName} 툴팁 확인`);
 }
 
