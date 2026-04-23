@@ -28,7 +28,7 @@ const senarioName = '[05. 이용약관, 개인정보 동의서 확인]'
 const loginFailMessage = 'ID 또는 비밀번호를 확인해주세요.'
 
 const accounts = [
-  {id: userID, pw: userPW, name: 'User'},
+  {id: userID, pw: userPW, name: 'Member'},
   {id: managerID, pw: managerPW, name: 'Manager', },
   {id: adminID, pw: adminPW, name: 'Admin'}
 ]
@@ -70,7 +70,7 @@ test('미동의 계정 모달 확인', async({ page }) => {
         await expect(page).toHaveURL(/\/screening\/screened/);
         const modalOpened = await isModalOpen(page); //모달 오픈 확인
         expect(modalOpened).toBe(true);
-        await screenShot(page,senarioName,`${account.name} 약관 동의서 모달 오픈`);
+        await screenShot(page,senarioName,`${account.name} 미동의 계정 동의서 모달 노출`);
         console.log(`✅ ${account.name} 약관 동의서 모달 오픈`);
 
         await page.getByText('확인', { exact: true }).evaluate(element => {
@@ -78,29 +78,29 @@ test('미동의 계정 모달 확인', async({ page }) => {
         });
         const agree_button = page.getByRole('button',{name:'확인'}); 
         await expect(agree_button).toBeDisabled(); // 확인 버튼 비활성화 확인
-        await screenShot(page,senarioName,`'${account.name}' 확인 버튼 비활성화`);
+        await screenShot(page,senarioName,`'${account.name}' 동의서 미체크 상태 확인 버튼 비활성화`);
         console.log(`✅ ${account.name} 확인 버튼 비활성화`);
         
         await page.getByRole('checkbox', { name: '[필수] 서비스 이용약관에 동의합니다' }).click(); //서비스 이용약관 선택
         await expect(agree_button).toBeDisabled();
-        await screenShot(page,senarioName,`'${account.name}' 확인 버튼 비활성화_이용약관 선택`);
+        await screenShot(page,senarioName,`${account.name} 확인 버튼 비활성화_서비스 이용약관 선택`);
         console.log(`✅ ${account.name} 확인 버튼 비활성화_이용약관 선택`);
 
         await page.getByRole('checkbox', { name: '[필수] 서비스 이용약관에 동의합니다' }).click(); //서비스 이용약관 해제
         await page.getByRole('checkbox', { name: '[필수] 개인정보 수집 및 이용에 동의합니다' }).click(); //개인정보 선택
         await expect(agree_button).toBeDisabled();
-        await screenShot(page,senarioName,`'${account.name}' 확인 버튼 비활성화_개인정보 선택`);
+        await screenShot(page,senarioName,`${account.name} 확인 버튼 비활성화_개인정보 선택`);
         console.log(`✅ ${account.name} 확인 버튼 비활성화_개인정보 선택`);
 
         await page.getByRole('checkbox', { name: '[필수] 개인정보 수집 및 이용에 동의합니다' }).click(); //개인정보 해제
         await expect(agree_button).toBeDisabled();
-        await screenShot(page,senarioName,`'${account.name}' 확인 버튼 비활성화_모두 해제`);
+        await screenShot(page,senarioName,`${account.name} 확인 버튼 비활성화_모두 해제`);
         console.log(`✅ ${account.name} 확인 버튼 비활성화_모두 해제`);
 
         await page.getByRole('checkbox', { name: '[필수] 개인정보 수집 및 이용에 동의합니다' }).click(); //개인정보 선택
         await page.getByRole('checkbox', { name: '[필수] 서비스 이용약관에 동의합니다.' }).click(); //서비스 이용약관 선택
         await expect(agree_button).toBeEnabled(); //확인 버튼 활성화 확인
-        await screenShot(page,senarioName,`'${account.name}' 확인 버튼 활성화_약관 모두 선택`);
+        await screenShot(page,senarioName,`${account.name} 확인 버튼 활성화_모두 선택`);
         console.log(`✅ ${account.name} 확인 버튼 활성화_약관 모두 선택`);
 
         await agree_button.click(); //약관 동의 클릭
@@ -108,12 +108,12 @@ test('미동의 계정 모달 확인', async({ page }) => {
         await page.waitForTimeout(500);
         const modalClosed = await isModalClosed(page); //모달 미노출 확인
         expect(modalClosed).toBe(true);
-        await screenShot(page,senarioName,`${account.name} 약관 동의서 모달 닫힘`);
+        await screenShot(page,senarioName,`${account.name} 동의서 모두 체크 후 확인 버튼 클릭`);
         console.log(`✅ ${account.name} 약관 동의서 모달 닫힘`);
 
         await page.getByRole('tab', { name: 'Reviewed' }).click(); //Reviewed 탭 이동
         await page.getByRole('tab', { name: 'Dismissed' }).click(); //Dismissed 탭 이동
-        await screenShot(page,senarioName,`${account.name} 대시보드 동작 가능`);
+        await screenShot(page,senarioName,`${account.name} 동의서 모두 동의 후 대시보드 동작 가능`);
         console.log(`✅ ${account.name} 대시보드 동작 가능`);
 
         await logout(page,account.id);
@@ -129,7 +129,7 @@ test('동의 계정 모달 확인', async({ page }) => {
         await expect(page).toHaveURL(/\/screening\/screened/);
         const modalClosed = page.getByRole('dialog',{name:'서비스 이용약관 및 개인정보 수집 및 이용 동의 안내'}); //모달 미노출 확인
         await expect(modalClosed).not.toBeVisible({timeout: 500});
-        await screenShot(page,senarioName,`${account.name} 약관 동의서 모달 미노출`);
+        await screenShot(page,senarioName,`${account.name} 동의 계정 동의서 모달 미노출`);
         console.log(`✅ ${account.name} 약관 동의서 모달 미노출`);
 
         await logout(page,account.id);
