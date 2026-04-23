@@ -106,7 +106,7 @@
           </elementProp>
           <elementProp name="version" elementType="Argument">
             <stringProp name="Argument.name">version</stringProp>
-            <stringProp name="Argument.value">VC-v2.2.2-rc2</stringProp>
+            <stringProp name="Argument.value">VC-v2.2.2-rc4</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration1" elementType="Argument">
@@ -140,13 +140,13 @@
           </elementProp>
           <elementProp name="DelayTimer" elementType="Argument">
             <stringProp name="Argument.name">DelayTimer</stringProp>
-            <stringProp name="Argument.value">100000</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
         <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
         <stringProp name="HTTPSampler.port">${PORT}</stringProp>
         <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -196,7 +196,7 @@
         <boolProp name="UserParameters.per_iteration">false</boolProp>
       </UserParameters>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -233,7 +233,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -244,7 +244,7 @@
         </elementProp>
       </SetupThreadGroup>
       <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -289,7 +289,7 @@ def deleteFilesInDirectory(directoryPath, version) {
 deleteFilesInDirectory(outputDir, outputVersion)</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
@@ -1034,7 +1034,7 @@ for (int i = 0; i &lt; repeatCount; i++) {
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Vital_Data_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Vital_Data_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -1226,7 +1226,7 @@ for (int i = 0; i &lt; repeatCount; i++) {
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Vital_Data_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Vital_Data_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -1317,11 +1317,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -1566,18 +1582,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -1599,7 +1621,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -1628,7 +1653,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -2580,11 +2620,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -2829,18 +2885,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -2862,7 +2924,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -2891,7 +2956,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -3843,11 +3923,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -4092,18 +4188,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -4125,7 +4227,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -4154,7 +4259,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -5106,11 +5226,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -5355,18 +5491,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -5388,7 +5530,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -5417,7 +5562,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -6369,11 +6529,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -6618,18 +6794,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -6651,7 +6833,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -6680,7 +6865,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -6706,7 +6906,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 6" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 6">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -7632,11 +7832,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -7881,18 +8097,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -7914,7 +8136,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -7943,7 +8168,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -8895,11 +9135,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -9144,18 +9400,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -9177,7 +9439,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -9206,7 +9471,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -10158,11 +10438,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertObservation = { PreparedStatement stmt, String pId, String eId, String dt, String code, String val -&gt;
@@ -10407,18 +10703,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -10440,7 +10742,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -10469,7 +10774,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+			
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -11421,11 +11741,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -11647,18 +11983,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -11680,7 +12022,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -11709,7 +12054,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -12661,11 +13021,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -12887,18 +13263,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -12920,7 +13302,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -12949,7 +13334,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -13901,11 +14301,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -14127,18 +14543,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -14160,7 +14582,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -14189,7 +14614,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -15141,11 +15581,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -15367,18 +15823,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -15400,7 +15862,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -15429,7 +15894,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -16290,7 +16770,7 @@ for (int i = 0; i &lt; repeatCount; i++) {
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="LABORATORY_Data_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="LABORATORY_Data_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -16381,11 +16861,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -16607,18 +17103,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -16640,7 +17142,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -16669,7 +17174,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -17621,11 +18141,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -17847,18 +18383,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -17880,7 +18422,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -17909,7 +18454,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -18861,11 +19421,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -19087,18 +19663,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -19120,7 +19702,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -19149,7 +19734,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -20101,11 +20701,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -20327,18 +20943,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -20360,7 +20982,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -20389,7 +21014,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -21341,11 +21981,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -21567,18 +22223,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -21600,7 +22262,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -21629,7 +22294,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -22581,11 +23261,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -22807,18 +23503,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -22840,7 +23542,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -22869,7 +23574,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -23821,11 +24541,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -24047,18 +24783,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -24080,7 +24822,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -24109,7 +24854,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -25061,11 +25821,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -25287,18 +26063,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -25320,7 +26102,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -25349,7 +26134,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -26301,11 +27101,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -26527,18 +27343,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -26560,7 +27382,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -26589,7 +27414,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -26615,7 +27455,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 22" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Scenario 22">
         <intProp name="ThreadGroup.num_threads">6</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -27541,11 +28381,27 @@ switch(testCase) {
         expectResult = &quot;ALARM&quot;
         break
     default:
-        float min = (lowThreshold ?: 70.0f) + 0.1f
-        float max = (highThreshold ?: 110.0f) - 0.1f
+        float min, max
+        if (lowThreshold != null &amp;&amp; highThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = highThreshold - 0.1f
+        } else if (highThreshold != null) {
+            min = Math.max(1.0f, highThreshold - 10.0f)
+            max = highThreshold - 0.1f
+        } else if (lowThreshold != null) {
+            min = lowThreshold + 0.1f
+            max = lowThreshold + 10.0f
+        } else {
+            min = 70.0f
+            max = 110.0f
+        }
         testValue = String.format(fmt, min + random.nextFloat() * (max - min))
         expectResult = &quot;NORMAL&quot;
 }
+
+vars.put(&quot;expectResult_${subCategory}&quot;, expectResult)
+vars.put(&quot;testCase_${subCategory}&quot;, testCase)
+vars.put(&quot;testValue_${subCategory}&quot;, testValue)
 
 // --- [STEP 3] EMR DB INSERT ---
 def insertLabResult = { PreparedStatement stmt, String pId, String eId, String dDt, String oDt, String rDt, String code, String val -&gt;
@@ -27767,18 +28623,24 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String baseDtStr = sdf.format(parsedDate)
 
             // 1. vc_event 조회 (기존 로직 유지)
-            String vcQuery = &quot;SELECT subcategory, observed_dt, value FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
+            String vcQuery = &quot;SELECT subcategory, observed_dt, value, deleted FROM vitalcare.vc_event WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND observed_dt = ? AND subcategory = ?&quot;
             List vcEvents = []
             try (PreparedStatement ps = conn.prepareStatement(vcQuery)) {
                 ps.setString(1, patientID); ps.setString(2, encounterID); ps.setString(3, baseDtStr); ps.setString(4, subCategory)
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3)])
+                    while (rs.next()) vcEvents.add([subcategory: rs.getString(1), observed_dt: rs.getString(2), value: rs.getString(3), deleted: rs.getInt(4)])
                 }
             }
 
             // --- [STEP C 판정 로직 핵심] BigDecimal 정밀 비교 반영 ---
+            String currentTestValue = vars.get(&quot;testValue_${subCategory}&quot;)
+            boolean isToggleMode = (currentTestValue != null &amp;&amp; !currentTestValue.isEmpty())
+            
             List matchedPolicies = []
             vcEvents.each { e -&gt;
+                if (e.deleted == 1) return // 삭제된 이벤트 스킵
+                if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) != 0) return  // toggle: 최신 값만
+
                 BigDecimal val = new BigDecimal(e.value)
                 boolean isBelow = false
                 boolean isAbove = false
@@ -27800,7 +28662,10 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // 3. api_screeningrecord 조회 및 결과 판정 (기존 로직 유지)
             String scQuery = &quot;SELECT screened_dt, type, value, policy_desc FROM vitalcare.api_screeningrecord WHERE CAST(AES_DECRYPT(FROM_BASE64(encrypted_patient_id),@secretkey,@iv) AS CHAR) = ? AND CAST(AES_DECRYPT(FROM_BASE64(encrypted_encounter_id),@secretkey,@iv) AS CHAR) = ? AND deleted = 0 AND screened_dt = ? AND type = ?&quot;
             List scRecords = []
-            boolean expectAlarm = matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
+
+            boolean expectAlarm = isToggleMode
+            	? (vars.get(&quot;expectResult_${subCategory}&quot;) == &quot;ALARM&quot;)
+	            : matchedPolicies.any { it.contains(&quot;POLICY&quot;) }
             
             // ... (Retry 로직 및 결과 판정 로직 동일) ...
             int retry = 0
@@ -27829,7 +28694,22 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
             }
 
             // 5. CSV 기록 (가독성 처리 포함)
-            String displayVCEvent = vcEvents.collect { &quot;[${it.observed_dt}|${it.subcategory}|${it.value}]&quot; }.join(&quot;|&quot;)
+		  String displayVCEvent = vcEvents
+		  	.findAll { e -&gt;
+		  		if (!isToggleMode) return true  // INSERT: 전체 표시
+		  		// TOGGLE: (deleted)이거나 현재값인 것만 표시
+		  		return e.deleted == 1 || new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0
+	  		}
+	  		.collect { e -&gt;
+	  			String mark = &quot;&quot;
+	  			if (e.deleted == 1) {
+  					mark = &quot;(deleted)&quot;
+  				} else if (isToggleMode &amp;&amp; new BigDecimal(e.value).compareTo(new BigDecimal(currentTestValue)) == 0) {
+  					mark = &quot;(current)&quot;
+				}
+				&quot;[${e.observed_dt}|${e.subcategory}|${e.value}${mark}]&quot;
+			}.join(&quot;|&quot;)
+    
             String displayPolicy = matchedPolicies.join(&quot;|&quot;)
             String displayScreening = scRecords.collect { &quot;[${it.dt}|${it.type}|${it.val}|${it.desc}]&quot; }.join(&quot;|&quot;)
 
@@ -27855,7 +28735,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="true">
+      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group">
         <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -27866,7 +28746,7 @@ try (Connection conn = DriverManager.getConnection(url, user, password)) {
         </elementProp>
       </PostThreadGroup>
       <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(result)_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(result)_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -28237,7 +29117,7 @@ try {
 }</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="mmakeHtml(Result_Detail_Log)_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="mmakeHtml(Result_Detail_Log)_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -28342,10 +29222,11 @@ if (detailLogFiles.isEmpty()) {
 						return s1 &lt;=&gt; s2
 					}
 
-					def p1 = c1[5]?.trim()
-					def p2 = c2[5]?.trim()
+					def case1 = c1[3]?.trim()?.isInteger() ? c1[3].trim().toInteger() : 0
+					def case2 = c2[3]?.trim()?.isInteger() ? c2[3].trim().toInteger() : 0
 
-					return p1 &lt;=&gt; p2
+					return case1 &lt;=&gt; case2
+
 				} catch (Exception ex) {
         				log.error(&quot;정렬 중 예외 발생 ▶ a=${a} / b=${b}&quot;, ex)
         				return 0   // 반드시 숫자 리턴
@@ -28462,232 +29343,7 @@ def formatJson(String jsonString) {
 </stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="mmakeHtml(Result_Detail_Log)_JSR223 Sampler" enabled="false">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import java.nio.file.*
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import java.nio.charset.StandardCharsets
-import org.apache.commons.lang3.StringEscapeUtils
-
-// 경로 설정
-def userHome = props.get(&quot;userHome&quot;)
-def date = props.get(&quot;date&quot;)
-def outputDir = props.get(&quot;outputDir&quot;)
-
-// 디렉토리 내 .csv 파일 처리 및 정렬
-def detailLogFiles = Files.list(Paths.get(outputDir))
-    .filter { it.toString().endsWith(&quot;.csv&quot;) } // .csv 파일만 필터링
-    .sorted { a, b -&gt; a.getFileName().toString() &lt;=&gt; b.getFileName().toString() } // 파일 이름으로 정렬
-    .collect()
-
-if (detailLogFiles.isEmpty()) {
-    log.info(&quot;CSV files found count = ${detailLogFiles.size()}&quot;)
-} else {
-    detailLogFiles.eachWithIndex { logFile, idx -&gt;
-        def logFileName = logFile.getFileName().toString().replace(&quot;.csv&quot;, &quot;&quot;)        
-        def htmlContent = &quot;&quot;&quot;
-        &lt;html&gt;
-        &lt;head&gt;
-            &lt;title&gt;${logFileName} - CSV to HTML Report&lt;/title&gt;
-            &lt;meta charset=&quot;UTF-8&quot;&gt;
-            &lt;style&gt;
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    font-size: 12px;          /* 전체 테이블 폰트 크기 조정 */
-                    font-family: Arial, sans-serif;
-                }
-                th, td {
-                    padding: 6px;             /* padding 약간 줄임 */
-                    border: 1px solid #ddd;
-                    font-size: 12px;          /* 개별 셀 폰트 크기 조정 */
-                }
-                .log-cell {
-                    font-family: monospace;
-                    font-size: 11px;          /* 로그용 monospace 글자 작게 */
-                    line-height: 1.4;
-                }
-                .status-badge {
-                    display: inline-block;
-                    min-width: 30px;
-                    padding: 1px 6px;
-                    text-align: center;
-                    border-radius: 999px;
-                    font-weight: bold;
-                    font-size: 10px;          /* PASS/FAIL 배지 폰트 축소 */
-                }
-                .input-label, .delete-label, .db-label, .threshold-label {
-                    display: inline-block;
-                    padding: 1px 4px;
-                    font-size: 10px;          /* 라벨 폰트 축소 */
-                    font-weight: bold;
-                    border-radius: 4px;
-                    margin-right: 4px;
-                }
-                /* 배경색/스타일 그대로 유지 */
-                .status-pass { color: #4A90E2; border:1px solid #4A90E2; background-color:#F0F6FF; }
-                .status-fail { color: #D0021B; border:1px solid #D0021B; background-color:#FFF1F1; }
-                .input-label { background-color:#EEF2F7; color:#3A4A5B; }
-                .delete-label { background-color:#F6F2EC; color:#6B4F2A; }
-                .db-label { background-color:#E8F4FF; color:#1F5A8A; }
-                .threshold-label { background-color:#F1F8E9; color:#4E7D2B; }
-            &lt;/style&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-        &lt;table&gt;
-        &quot;&quot;&quot;
-
-        try {
-            def lines = Files.readAllLines(logFile, StandardCharsets.UTF_8)
-            if (lines.size() &gt; 1) {
-                // 첫 번째 줄을 헤더로 사용
-                def headers = lines[0].split(&quot;,&quot;)
-                
-                def removeColumns = [&quot;Group&quot;, &quot;StartTime&quot;, &quot;EndTime&quot;] as Set
-                def visibleHeaders = headers
-                	.findAll { !(it in removeColumns) }
-
-//                def visibleHeaders = headers.drop(1)
-                htmlContent += &quot;&lt;tr&gt;&quot; + visibleHeaders.collect { &quot;&lt;th&gt;${escapeHtml(it)}&lt;/th&gt;&quot; }.join(&apos;&apos;) + &quot;&lt;/tr&gt;&quot;
-
-                // 나머지 줄을 데이터로 사용 (두 번째 컬럼을 기준으로 정렬)
-			def sortedLines = lines.drop(1).sort { a, b -&gt;
-				try {
-					def c1 = a.split(&quot;,&quot;)
-					def c2 = b.split(&quot;,&quot;)
-
-					def s1 = (c1[1] =~ /Scenario (\d+)/)[0][1].toInteger()
-					def s2 = (c2[1] =~ /Scenario (\d+)/)[0][1].toInteger()
-
-					if (s1 != s2) {
-						return s1 &lt;=&gt; s2
-					}
-
-					def p1 = c1[5]?.trim()
-					def p2 = c2[5]?.trim()
-
-					return p1 &lt;=&gt; p2
-				} catch (Exception ex) {
-        				log.error(&quot;정렬 중 예외 발생 ▶ a=${a} / b=${b}&quot;, ex)
-        				return 0   // 반드시 숫자 리턴
-    				}
-			}
-                
-			sortedLines.each { line -&gt;
-				try {
-
-				    def columns = line.split(&quot;,&quot;, -1)  // 마지막 빈 컬럼까지 배열에 포함
-
-				    def visibleColumns = []
-				    headers.eachWithIndex { h, i -&gt;
-				    		if (!(h in removeColumns)) {
-				    			visibleColumns &lt;&lt; columns[i]
-				    		}
-				    }
-	                	   
-//	                   def visibleColumns = columns.drop(1)
-				    htmlContent += &quot;&lt;tr&gt;&quot; +
-				        visibleColumns.collect { col -&gt;
-				            def raw = col?.trim()              // 비교용 (원본)
-						  def safe = escapeHtml(raw)         // 출력용
-						  safe = safe.replace(&quot;||&quot;, &quot;&lt;br/&gt;&quot;)
-						  safe = safe.replace(&quot;;&quot;, &quot; : &quot;)
-	
-						  if (raw.contains(&quot;INPUT:&quot;)) {
-							  safe = safe.replaceAll(
-								  &quot;INPUT:&quot;,
-								  &quot;&lt;span class=&apos;input-label&apos;&gt;INPUT&lt;/span&gt;&lt;br/&gt;&quot;
-							  )
-						  }
-
-						  if (raw.contains(&quot;DELETE:&quot;)) {
-							  safe = safe.replaceAll(
-								  &quot;DELETE:&quot;,
-								  &quot;&lt;span class=&apos;delete-label&apos;&gt;DELETE&lt;/span&gt;&lt;br/&gt;&quot;
-							  )
-						  }
-						  if (raw.contains(&quot;DB:&quot;)) {
-							  safe = safe.replaceAll(
-								  &quot;DB:&quot;,
-								  &quot;&lt;span class=&apos;db-label&apos;&gt;DB&lt;/span&gt;&lt;br/&gt;&quot;
-							  )
-						  }
-						  if (raw.contains(&quot;THRESHOLD:&quot;)) {
-						      safe = safe.replaceAll(
-						          &quot;THRESHOLD:&quot;,
-						          &quot;&lt;span class=&apos;threshold-label&apos;&gt;THRESHOLD&lt;/span&gt;&lt;br/&gt;&quot;
-						      )
-						  }
-						  
-						  if (raw.equalsIgnoreCase(&quot;PASS&quot;)) {
-							  return &quot;&lt;td&gt;&lt;span class=&apos;status-badge status-pass&apos;&gt;PASS&lt;/span&gt;&lt;/td&gt;&quot;
-						  } else if (raw.equalsIgnoreCase(&quot;FAIL&quot;)) {
-							  return &quot;&lt;td&gt;&lt;span class=&apos;status-badge status-fail&apos;&gt;FAIL&lt;/span&gt;&lt;/td&gt;&quot;
-						  } else {
-							  return &quot;&lt;td class=&apos;log-cell&apos;&gt;${safe}&lt;/td&gt;&quot;
-						  }
-				        }.join(&apos;&apos;) +
-				        &quot;&lt;/tr&gt;&quot;
-				} catch (Exception ex) {
-					log.error(&quot;Row 처리 중 예외 발생 ▶ line=${line}&quot;, ex)
-				}
-			}
-
-            }
-        } catch (Exception e) {
-            println &quot;Failed to read log file: ${logFile}, error: ${e.message}&quot;
-        }
-
-        htmlContent += &quot;&quot;&quot;
-        &lt;/table&gt;
-        &lt;/body&gt;
-        &lt;/html&gt;
-        &quot;&quot;&quot;
-
-        // 각 CSV 파일에 대해 개별 HTML 파일 저장
-        def outputHtmlPath = outputDir + &quot;${logFileName}.html&quot;
-        try {
-            Files.write(Paths.get(outputHtmlPath), htmlContent.getBytes(StandardCharsets.UTF_8))
-            println &quot;HTML report generated for ${logFileName}: ${outputHtmlPath}&quot;
-        } catch (Exception e) {
-            println &quot;Failed to write HTML file: ${outputHtmlPath}, error: ${e.message}&quot;
-        }
-    }
-}
-
-// 특수 문자 HTML-Escape 함수 (JSON 데이터 보호 포함)
-def escapeHtml(String input) {
-    if (input == null) {
-        return &quot;&quot;
-    }
-    return input.replaceAll(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)
-                .replaceAll(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
-                .replaceAll(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
-                .replaceAll(&quot;\&quot;&quot;, &quot;&amp;quot;&quot;)
-                .replaceAll(&quot;&apos;&quot;, &quot;&amp;#39;&quot;)
-}
-
-// 유니코드 이스케이프 문자열을 한글로 변환
-def decodeUnicode(String input) {
-    return StringEscapeUtils.unescapeJava(input)
-}
-
-def formatJson(String jsonString) {
-    try {
-        def jsonObj = new JsonSlurper().parseText(jsonString)
-        return decodeUnicode(JsonOutput.prettyPrint(JsonOutput.toJson(jsonObj))) 
-    } catch (Exception e) {
-        return decodeUnicode(jsonString) 
-    }
-}
-</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(Intergration)_JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="makeHtml(Intergration)_JSR223 Sampler">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
