@@ -12,7 +12,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[07. VC 홈 메뉴 확인]'
+const senarioName = 'TC_002_002 Home/[01. VC 홈 메뉴 확인]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -29,35 +29,35 @@ test.beforeEach(async ({page}) => {
 test('VC 홈 메뉴 확인', async({ page }) => {
   await expect(page.getByText(new RegExp(`ScreeningReport한국어${adminID}`))).toBeVisible();
   await expect(page.getByText('ScreenedReviewedDismissed')).toBeVisible();
-  await screenShot(page,senarioName,'Home 화면 및 상단 GNB 구성 확인')
+  await screenShot(page,senarioName,'1. Home 화면 및 상단 GNB 구성 확인')
 
   await page.getByRole('link', { name: 'Report' }).click(); //Report 클릭
   await page.waitForTimeout(3000);
   await expect(page).toHaveURL(/\/ko\/report\/history$/);
-  await screenShot(page,senarioName,'Report 탭 이동 확인')
+  await screenShot(page,senarioName,'2. Report 탭 이동 확인')
   
   await page.getByRole('button', { name: `${adminID} dropdown-arrow` }).click();
   await page.getByText('설정').click(); //설정 클릭
   await page.waitForTimeout(3000);
   await expect(page).toHaveURL(/\/ko\/settings\/account$/);
-  await screenShot(page,senarioName,'설정 이동 확인')
+  await screenShot(page,senarioName,'3. 설정 이동 확인')
 
   await page.getByRole('link', { name: 'Screening' }).click(); //Screening 클릭
   await page.waitForTimeout(3000);
   await expect(page).toHaveURL(/\/ko\/screening\/screened$/);
-  await screenShot(page,senarioName,'Screening 이동 확인')
+  await screenShot(page,senarioName,'4. Screening 이동 확인')
 
   await page.getByRole('button', { name: 'LanguageIcon 한국어 dropdown-' }).click();
   await page.getByText('English').click();
   await page.waitForTimeout(3000);
   await expect(page).toHaveURL(/\/en\//);
-  await screenShot(page,senarioName,'영문 변경 확인')
+  await screenShot(page,senarioName,'5. 영문 변경 확인')
 
   await page.getByRole('button', { name: 'LanguageIcon English dropdown-' }).click();
   await page.getByText('한국어').click();
   await page.waitForTimeout(3000);
   await expect(page).toHaveURL(/\/ko\//);
-  await screenShot(page,senarioName,'한국어 변경 확인')
+  await screenShot(page,senarioName,'6. 한국어 변경 확인')
 
 });
 
@@ -121,7 +121,7 @@ test('알림 모달 확인', async({ page }) => {
     await page.getByRole('navigation').getByRole('button').filter({ hasText: /^$/ }).click();
     const modalOpened = await isModalOpen(page);
     expect(modalOpened).toBe(true);
-    await screenShot(page,senarioName,'알림 모달 오픈');
+    await screenShot(page,senarioName,'7. 알림 모달 오픈');
     console.log(`✅ 알림 모달 오픈`);
     
 });

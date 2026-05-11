@@ -10,13 +10,43 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[07. Dismissed - 대시보드 환자 상태 변경]';
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[07. Dismissed - 대시보드 환자 상태 변경]';
 
-const statusOptions = ['New', 'Observing', 'Complete', 'Error', 'Dismissed'];
+const statusOptions = ['New', 'Observing', 'Error', 'Complete', 'Dismissed'];
 
 function firstRow(page: Page) {
   return page.locator('table tbody tr').first();
 }
+
+test.beforeAll(async ({ browser }) => {
+  const context = await browser.newContext({ baseURL: process.env.BASE_URL });
+  const page = await context.newPage();
+
+  await page.goto('/ko/login');
+  await login(page, adminID, adminPW);
+  await page.waitForTimeout(2000);
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
+
+  await page.getByRole('tab', { name: 'Screened' }).click();
+  await page.waitForTimeout(2000);
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
+
+  const rows = page.locator('tbody tr');
+  const selectCount = Math.min(await rows.count(), 15);
+  for (let i = 0; i < selectCount; i++) {
+    await rows.nth(i).getByRole('checkbox').click();
+    await page.waitForTimeout(300);
+  }
+
+  const toolbar = page.getByRole('form', { name: 'toolbar-status' });
+  await expect(toolbar).toBeVisible({ timeout: 5000 });
+  await toolbar.getByRole('button', { name: 'Dismissed' }).click();
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 15000 });
+  await page.waitForTimeout(3000);
+
+  console.log('✅ 사전작업: Screened 환자 최대 15명 → Dismissed 이동 완료');
+  await context.close();
+});
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -153,7 +183,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowNew = await findRowByPatientId(page, patientId);
   await expectRowStatus(page, rowNew, 'New');
-  await screenShot(page, senarioName, '4. Dismissed - New 상태 변경 확인');
+  await screenShot(page, senarioName, '1. Dismissed - New 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
@@ -174,34 +204,13 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   const rowObs = await findRowByPatientId(page, patientId_Obs);
   await expectRowStatus(page, rowObs, 'Observing');
-  await screenShot(page, senarioName, '5. Dismissed - Observing 상태 변경 확인');
+  await screenShot(page, senarioName, '2. Dismissed - Observing 상태 변경 확인');
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 Dismissed -> Observing 상태 변경 확인');
 
-  // 3) Dismissed -> Complete : Reviewed 이동
-  await gotoTab(page, 'Dismissed');
-  await waitTableReady(page);
-  const patientId_Comp = await extractPatientIdFromRow(page, firstRow(page));
-  await ensureDismissedOnDismissed(page, patientId_Comp);
-  const rowForComp = await findRowByPatientId(page, patientId_Comp);
-  await openStatusDropdown(rowForComp);
-  await selectStatus(page, 'Complete');
-  await page.waitForTimeout(5000);
-
-  await gotoTab(page, 'Reviewed');
-  await waitTableReady(page);
-  await page.waitForTimeout(5000);
-  const rowComp = await findRowByPatientId(page, patientId_Comp);
-  await expectRowStatus(page, rowComp, 'Complete');
-  await screenShot(page, senarioName, '1. Dismissed - Complete 상태 변경 확인');
-  await gotoTab(page, 'Dismissed');
-  await waitTableReady(page);
-  await page.waitForTimeout(5000);
-  console.log('✅ 대시보드 환자 Dismissed -> Complete 상태 변경 확인');
-
-  // 4) Dismissed -> Error : Reviewed 이동
+  // 3) Dismissed -> Error : Reviewed 이동
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
   const patientId_Err = await extractPatientIdFromRow(page, firstRow(page));
@@ -222,6 +231,27 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(5000);
   console.log('✅ 대시보드 환자 Dismissed -> Error 상태 변경 확인');
 
+  // 4) Dismissed -> Complete : Reviewed 이동
+  await gotoTab(page, 'Dismissed');
+  await waitTableReady(page);
+  const patientId_Comp = await extractPatientIdFromRow(page, firstRow(page));
+  await ensureDismissedOnDismissed(page, patientId_Comp);
+  const rowForComp = await findRowByPatientId(page, patientId_Comp);
+  await openStatusDropdown(rowForComp);
+  await selectStatus(page, 'Complete');
+  await page.waitForTimeout(5000);
+
+  await gotoTab(page, 'Reviewed');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  const rowComp = await findRowByPatientId(page, patientId_Comp);
+  await expectRowStatus(page, rowComp, 'Complete');
+  await screenShot(page, senarioName, '4. Dismissed - Complete 상태 변경 확인');
+  await gotoTab(page, 'Dismissed');
+  await waitTableReady(page);
+  await page.waitForTimeout(5000);
+  console.log('✅ 대시보드 환자 Dismissed -> Complete 상태 변경 확인');
+
   // 5) Dismissed -> Dismissed : Dismissed 유지
   await gotoTab(page, 'Dismissed');
   await waitTableReady(page);
@@ -234,7 +264,7 @@ test('대시보드 환자 상태 변경 확인 - Dismissed에서 변경', async 
   await page.waitForTimeout(1000);
   const rowDis = await findRowByPatientId(page, patientId_Dis);
   await expectRowStatus(page, rowDis, 'Dismissed');
-  await screenShot(page, senarioName, '2. Dismissed - Dismissed 상태 변경 확인');
+  await screenShot(page, senarioName, '5. Dismissed - Dismissed 상태 변경 확인');
   console.log('✅ 대시보드 환자 Dismissed -> Dismissed 상태 변경 확인');
 });
 

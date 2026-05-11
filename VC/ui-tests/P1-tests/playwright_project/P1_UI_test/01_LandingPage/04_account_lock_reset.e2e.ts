@@ -20,7 +20,7 @@ const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 const managerID = process.env.MANAGERID || 'defaultManager'
 const managerPW = process.env.MANAGERPW || 'defaultManager!'
 
-const senarioName = '[04. 권한별 계정 오류 횟수 초기화]'
+const senarioName = 'TC_002_001 Landing Page/[04. 권한별 계정 오류 횟수 초기화]'
 
 const loginFailMessage = 'ID 또는 비밀번호를 확인해 주세요.'
 
@@ -60,21 +60,24 @@ test.beforeAll(async () => {
  * 권한별 계정 오류 횟수 초기화
  */
 test('권한별 계정 오류 횟수 초기화', async({ page }) => {
+  let i = 1;
   for (const account of accounts){ 
     for (let attempt = 1; attempt <= loginAttempts; attempt++) {
       await login(page, account.id, 'qwer'); // 로그인 오류 횟수 4회
       await page.waitForTimeout(1000);
       await expect(page.getByText(loginFailMessage)).toBeVisible({ timeout: 5000 });
     }
+    
     await login(page, account.id, account.pw); // 정상 로그인 (오류 횟수 초기화)
     await page.waitForTimeout(2000);
     await logout(page,account.id); // 로그아웃
     await login(page,account.id, 'qwer'); //로그인 시도
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1000);
 
     await expect(page.getByText(loginFailMessage)).toBeVisible({ timeout: 5000 });
-    await screenShot(page, senarioName,`${account.name} 로그인 성공 시 오류 횟수 초기화 확인`);
+    await screenShot(page, senarioName,`${i}. ${account.name} 로그인 성공 시 오류 횟수 초기화 확인`);
     console.log(`✅ ${account.name} 계정 로그인 오류 횟수 초기화 확인`);
+    i++;
   }
 });
 

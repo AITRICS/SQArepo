@@ -11,7 +11,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[03. Dismissed - 대시보드 환자 카운트]'
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[03. Dismissed - 대시보드 환자 카운트]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

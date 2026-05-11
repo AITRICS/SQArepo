@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[05. Screened - 대시보드 id 복사 및 북마크]';
+const senarioName = 'TC_002_003 Dashboard - Screened/[05. Screened - 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -375,7 +375,7 @@ test('상단 고정 해제 동작 확인', async ({ page }) => {
     await expect(restoredRow.getByLabel('Pin to top')).toBeVisible({ timeout: 5000 });
     console.log(`✅ ${patientId} 일반 영역 복귀 확인`);
 
-    await screenShot(page, senarioName, `상단 고정 해제 확인`);
+    await screenShot(page, senarioName, `3. 상단 고정 해제 확인`);
   }
 
   console.log('✅ 상단 고정 해제 동작 확인 완료');

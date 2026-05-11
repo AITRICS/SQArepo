@@ -7,8 +7,8 @@ test.describe.configure({ mode: 'serial' });
 
 dotenv.config();
 
-const adminID = process.env.ADMINID || 'defaultAdmin'
-const adminPW = process.env.ADMINPW || 'defaultAdmin!'
+const adminID = process.env.ADMINID || 'defaultAdmin';
+const adminPW = process.env.ADMINPW || 'defaultAdmin!';
 
 const tooltipTemplates = {
   CARED: (val: number) => `24시간 이내에 일반병동에서의 심정지 발생 위험도 예측 스코어 (CARED ≥ ${val})`,
@@ -17,15 +17,16 @@ const tooltipTemplates = {
   MORS: (val: number) => `6시간 이내에 중환자실에서의 급성 상태악화(사망) 위험도 예측 스코어 (MORS ≥ ${val})`,
 };
 
-const senarioName = 'TC_002_005 Dashboard - Dismissed/[01. Dismissed - 대시보드 툴팁 확인]'
+const senarioName = 'TC_002_006 Dashboard - All Patients/[01. All Patients - 대시보드 툴팁 확인]';
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({ page }) => {
   test.setTimeout(0);
-  await page.goto('/ko/login')
+  await page.goto('/ko/login');
   await login(page, adminID, adminPW);
   await page.waitForTimeout(2000);
   await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
-  await page.getByRole('tab', { name: 'Dismissed' }).click();
+  // TODO: 실제 UI의 All Patients 탭 이름으로 수정 필요
+  await page.getByRole('tab', { name: 'All Patients' }).click();
   await page.waitForTimeout(2000);
   await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
 });

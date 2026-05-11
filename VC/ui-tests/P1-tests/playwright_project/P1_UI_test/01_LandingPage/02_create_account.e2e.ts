@@ -18,7 +18,7 @@ const userName = process.env.MEMBERNAME || 'defaultName';
 // const adminID = process.env.ADMINID || 'defaultAdmin'
 // const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[02.계정 생성]'
+const senarioName = 'TC_002_001 Landing Page/[02.계정 생성]'
 
 test.beforeEach(async ({page}) => {
   await page.goto('/ko/login')
@@ -48,15 +48,16 @@ test('계정 생성 모달', async({ page }) => {
   await page.getByRole('button', { name: '계정 생성' }).click(); //계정 생성 모달 오픈
   const modalOpened = await isModalOpen(page);
   expect(modalOpened).toBe(true);
-  await screenShot(page,senarioName,'계정 생성 모달 오픈');
+  await screenShot(page,senarioName,'1. 계정 생성 모달 오픈');
   console.log(`✅ 계정 생성 모달 오픈`);
 
-  await page.getByText('계정이 있으신가요? 로그인', { exact: true }).evaluate(element => {
+  await page.getByLabel('계정 생성').getByText('로그인').evaluate(element => {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
-  const create_button = page.getByRole('button',{name:'계정 생성'}); 
+  await page.waitForTimeout(800);
+  const create_button = page.getByRole('button',{name:'계정 생성'});
   await expect(create_button).toBeDisabled(); // 계정 생성 모달 비활성화 확인
-  await screenShot(page,senarioName,'계정 생성 버튼 비활성화');
+  await screenShot(page,senarioName,'2. 계정 생성 버튼 비활성화');
   console.log(`✅ 계정 생성 버튼 비활성화`);
 });
 
@@ -80,18 +81,18 @@ test('계정 생성 진행', async ({ page }) => {
   });
   const create_button = page.getByRole('button',{name:'계정 생성'}); 
   await expect(create_button).toBeEnabled(); // 계정 생성 버튼 활성화 확인
-  await screenShot(page,senarioName,'계정 생성 버튼 활성화');
+  await screenShot(page,senarioName,'3. 계정 생성 버튼 활성화');
   console.log(`✅ 계정 생성 버튼 활성화`);
 
   await create_button.click(); // 계정 생성 버튼 클릭
   // await page.waitForTimeout(500);
   const modalClosed = await isModalClosed(page);
   expect(modalClosed).toBe(true); // 모달 닫힘 확인
-  await screenShot(page,senarioName,'계정 생성 후 로그인 페이지 이동');
+  await screenShot(page,senarioName,'5. 계정 생성 후 로그인 페이지 이동');
   console.log(`✅ 계정 생성 후 로그인 페이지 이동`);
 
   await expect(page.getByText('계정 생성 완료! 관리자의 승인 후 로그인이 가능합니다.')).toBeVisible({ timeout: 5000 });
-  await screenShot(page,senarioName,'계정 생성 완료 토스트 메세지');
+  await screenShot(page,senarioName,'4. 계정 생성 완료 토스트 메세지');
   console.log(`✅ 계정 생성 완료 토스트 메세지`);
 });
 
@@ -103,7 +104,7 @@ test('생성 계정 로그인', async({ page}) => {
   await approval(page,env.ADMIN.ID,env.USER.ID); // 계정 승인
   await logout(page,env.ADMIN.ID); // admin 로그아웃
   await login(page, env.USER.ID, env.USER.PW) //user 로그인
-  await screenShot(page,senarioName,'생성된 계정 로그인');
+  await screenShot(page,senarioName,'6. 생성된 계정 로그인');
   await page.waitForURL((url) => url.pathname.includes('/screening/screened'));
   await expect(page).toHaveURL(/\/screening\/screened/);
   console.log(`✅ 생성된 계정 로그인`);

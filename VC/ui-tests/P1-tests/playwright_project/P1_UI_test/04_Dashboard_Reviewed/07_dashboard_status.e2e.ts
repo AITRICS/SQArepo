@@ -10,10 +10,40 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[07. Reviewed - 대시보드 환자 상태 변경]';
+const senarioName = 'TC_002_004 Dashboard - Reviewed/[07. Reviewed - 대시보드 환자 상태 변경]';
 
 const statusOptions = ['New', 'Observing', 'Complete', 'Error', 'Dismissed'] as const;
 type Status = typeof statusOptions[number];
+
+test.beforeAll(async ({ browser }) => {
+  const context = await browser.newContext({ baseURL: process.env.BASE_URL });
+  const page = await context.newPage();
+
+  await page.goto('/ko/login');
+  await login(page, adminID, adminPW);
+  await page.waitForTimeout(2000);
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
+
+  await page.getByRole('tab', { name: 'Screened' }).click();
+  await page.waitForTimeout(2000);
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
+
+  const rows = page.locator('tbody tr');
+  const selectCount = Math.min(await rows.count(), 15);
+  for (let i = 0; i < selectCount; i++) {
+    await rows.nth(i).getByRole('checkbox').click();
+    await page.waitForTimeout(300);
+  }
+
+  const toolbar = page.getByRole('form', { name: 'toolbar-status' });
+  await expect(toolbar).toBeVisible({ timeout: 5000 });
+  await toolbar.getByRole('button', { name: 'Complete' }).click();
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 15000 });
+  await page.waitForTimeout(3000);
+
+  console.log('✅ 사전작업: Screened 환자 최대 15명 → Complete(Reviewed) 이동 완료');
+  await context.close();
+});
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -124,7 +154,7 @@ function expectedTabForStatus(status: string): 'Screened' | 'Reviewed' | 'Dismis
 
 test('대시보드 환자 상태 변경 확인 - Complete에서 변경', async ({ page }) => {
   let completeCount = 0;
-  const completeNums: Record<string, number> = { New: 4, Observing: 5, Complete: 1, Error: 3, Dismissed: 2 };
+  const completeNums: Record<string, number> = { New: 1, Observing: 2, Complete: 3, Error: 4, Dismissed: 5 };
   for (const toStatus of statusOptions) {
     await gotoTab(page, 'Reviewed');
     const { row, patientId } = await findRowWithStatus(page, 'Complete');

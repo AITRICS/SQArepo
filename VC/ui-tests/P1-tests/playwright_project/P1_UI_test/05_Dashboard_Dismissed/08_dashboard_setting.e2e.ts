@@ -16,7 +16,7 @@ const managerPW = process.env.MANAGERPW || 'defaultManager!'
 const memberID = process.env.MEMBERID || 'defaultUser'
 const memberPW = process.env.MEMBERPW || 'defaultUser!'
 
-const senarioName = '[08. Dismissed - 계정별 대시보드 설정 확인]';
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[08. Dismissed - 계정별 대시보드 설정 확인]';
 
 const TOGGLE_ITEMS = [
   'MAES', 'SEPS', 'MORS', 'CARED',

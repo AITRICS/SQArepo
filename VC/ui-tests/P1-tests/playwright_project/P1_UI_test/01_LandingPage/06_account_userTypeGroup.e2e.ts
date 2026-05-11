@@ -20,7 +20,7 @@ const userPW = process.env.USERPW || 'defaultPass!';
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[06.사용자 유형, 소속 선택]'
+const senarioName = 'TC_002_001 Landing Page/[06.사용자 유형, 소속 선택]'
 
 test.beforeEach(async ({page}) => {
   await page.goto('/ko/login')
@@ -71,7 +71,7 @@ test('사용자 유형/소속 미선택 계정 확인', async ({ page }) => {
     'AITRICS-VitalCare 서비스 내 사용중이신 계정의 추가 정보 설정을 위하여 사용자 유형 및 소속을 선택해주세요.'
   );
 
-  await screenShot(page, senarioName, '사용자 유형,소속 선택 안내 모달 오픈');
+  await screenShot(page, senarioName, '1. 사용자 유형,소속 선택 안내 모달 오픈');
   console.log('✅ 사용자 유형/소속 선택 모달 오픈 및 안내 문구 일치');
 
   
@@ -97,27 +97,33 @@ test('사용자 유형/소속 선택 확인', async ({ page }) => {
 
     await page.locator('div').filter({ hasText: /^사용자 유형선택의사간호사비의료진$/ }).getByRole('combobox').click();
     const listbox_type = page.getByRole('listbox');
-    await expect(listbox_type.getByRole('option', { name: '의사' })).toBeVisible();
+    await listbox_type.getByRole('option', { name: '의사' }).waitFor({ state: 'visible' });
     await expect(listbox_type.getByRole('option', { name: '간호사' })).toBeVisible();
     await expect(listbox_type.getByRole('option', { name: '비의료진' })).toBeVisible();
+    await page.waitForTimeout(300);
 
-    await screenShot(page,senarioName,'사용자 유형 드롭다운 리스트 확인');
+    await screenShot(page,senarioName,'2. 사용자 유형 드롭다운 리스트 확인');
     console.log(`✅ 사용자 유형 리스트 확인`);
+    await page.keyboard.press('Escape'); // 드롭다운 닫기
+    await listbox_type.waitFor({ state: 'hidden' });
 
     await page.locator('div').filter({ hasText: /^사용자 소속선택일반병동중환자실RRT기타$/ }).getByRole('combobox').click();
     const listbox_group = page.getByRole('listbox');
-    await expect(listbox_group.getByRole('option', { name: '일반병동' })).toBeVisible();
+    await listbox_group.getByRole('option', { name: '일반병동' }).waitFor({ state: 'visible' });
     await expect(listbox_group.getByRole('option', { name: '중환자실' })).toBeVisible();
     await expect(listbox_group.getByRole('option', { name: 'RRT' })).toBeVisible();
     await expect(listbox_group.getByRole('option', { name: '기타' })).toBeVisible();
-    await screenShot(page,senarioName,'사용자 소속 드롭다운 리스트 확인');
+    await page.waitForTimeout(300);
+    await screenShot(page,senarioName,'3. 사용자 소속 드롭다운 리스트 확인');
     console.log(`✅ 사용자 소속 리스트 확인`);
+    await page.keyboard.press('Escape'); // 드롭다운 닫기
+    await listbox_group.waitFor({ state: 'hidden' });
 
     await page.locator('div').filter({ hasText: /^사용자 유형선택의사간호사비의료진$/ }).getByRole('combobox').click();
     await page.getByRole('option', { name: '의사' }).click(); 
     await page.getByRole('combobox').filter({ hasText: '선택' }).click();
     await page.getByRole('option', { name: '일반병동' }).click(); 
-    await screenShot(page,senarioName,'사용자 유형,소속 선택 확인');
+    await screenShot(page,senarioName,'4. 사용자 유형,소속 선택 확인');
     console.log(`✅ 사용자 소속 선택 확인`);
 
     await page.getByRole('button', { name: '확인' }).click();
@@ -129,7 +135,7 @@ test('사용자 유형/소속 선택 확인', async ({ page }) => {
     await page.waitForTimeout(2000);
     await expect(page.getByText('사용자 유형의사')).toBeVisible();
     await expect(page.getByText('사용자 소속일반병동')).toBeVisible();
-    await screenShot(page,senarioName,'사용자 유형,소속 설정 확인');
+    await screenShot(page,senarioName,'5. 사용자 유형,소속 설정 확인');
     console.log(`✅ 사용자 소속 설정 확인`);
 
     await logout(page,userID);
@@ -140,7 +146,7 @@ test('사용자 유형/소속 선택 확인', async ({ page }) => {
     await expect(loadingLocator).not.toBeVisible({timeout: 10000});
     modalClosed = await isModalClosed(page); //모달 미노출 확인
     expect(modalClosed).toBe(true);
-    await screenShot(page,senarioName,'사용자 유형,소속 설정 후 재로그인 확인');
+    await screenShot(page,senarioName,'6. 사용자 유형,소속 설정 후 재로그인 확인');
     console.log(`✅ 사용자 소속 설정 후 로그인 확인`);
 
 });
@@ -219,7 +225,7 @@ test('관리자 사용자 유형/소속 선택 후 로그인 확인', async ({ p
   const modalClosed = await isModalClosed(page);
   expect(modalClosed).toBe(true);
 
-  await screenShot(page, senarioName, '관리자 사용자 유형,소속 설정 후 로그인 확인');
+  await screenShot(page, senarioName, '7. 관리자 사용자 유형,소속 설정 후 로그인 확인');
   console.log('✅ 관리자 사용자 소속 설정 후 로그인 확인');
   
   

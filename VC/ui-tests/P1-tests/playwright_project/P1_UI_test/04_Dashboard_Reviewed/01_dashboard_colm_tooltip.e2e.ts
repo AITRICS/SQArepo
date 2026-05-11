@@ -17,7 +17,7 @@ const tooltipTemplates = {
   MORS: (val: number) => `6시간 이내에 중환자실에서의 급성 상태악화(사망) 위험도 예측 스코어 (MORS ≥ ${val})`,
 };
 
-const senarioName = '[01. Reviewed - 대시보드 툴팁 확인]'
+const senarioName = 'TC_002_004 Dashboard - Reviewed/[01. Reviewed - 대시보드 툴팁 확인]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

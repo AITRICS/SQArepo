@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[04. Screened - 대시보드 컬럼 정렬]'
+const senarioName = 'TC_002_003 Dashboard - Screened/[04. Screened - 대시보드 컬럼 정렬]'
 
 test.beforeAll(async () => {
   await resetDashboardSetting(adminID, adminPW);
@@ -68,11 +68,11 @@ test('대시보드 info 컬럼 정렬', async({ page }) => {
 
     await page.getByRole('cell', { name: 'Date/Time sort' }).getByRole('img').click();
     await waitforloading(page);
-    await screenShot(page,senarioName,'9. DateTime 오름차순 정렬')
+    await screenShot(page,senarioName,'9. DateTime 내림차순 정렬')
     console.log('✅ DateTime 내림차순 정렬 확인');
     await page.getByRole('cell', { name: 'Date/Time sort' }).getByRole('img').click();
     await waitforloading(page);
-    await screenShot(page,senarioName,'10. DateTime 내림차순 정렬')
+    await screenShot(page,senarioName,'10. DateTime 오름차순 정렬')
     console.log('✅ DateTime 오름차순 정렬 확인');
 });
 

@@ -7,28 +7,29 @@ test.describe.configure({ mode: 'serial' });
 
 dotenv.config();
 
-const adminID = process.env.ADMINID || 'defaultAdmin'
-const adminPW = process.env.ADMINPW || 'defaultAdmin!'
+const adminID = process.env.ADMINID || 'defaultAdmin';
+const adminPW = process.env.ADMINPW || 'defaultAdmin!';
 
-const senarioName = 'TC_002_004 Dashboard - Reviewed/[04. Reviewed - 대시보드 컬럼 정렬]'
+const senarioName = 'TC_002_006 Dashboard - All Patients/[03. All Patients - 대시보드 컬럼 정렬]';
 
 test.beforeAll(async () => {
   await resetDashboardSetting(adminID, adminPW);
   console.log('✅ admin 대시보드 설정 초기화 완료');
 });
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({ page }) => {
   test.setTimeout(0);
-  await page.goto('/ko/login')
+  await page.goto('/ko/login');
   await login(page, adminID, adminPW);
   await page.waitForTimeout(2000);
   await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
-  await page.getByRole('tab', { name: 'Reviewed' }).click();
+  // TODO: 실제 UI의 All Patients 탭 이름으로 수정 필요
+  await page.getByRole('tab', { name: 'All Patients' }).click();
   await page.waitForTimeout(2000);
   await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
 });
 
-test('대시보드 info 컬럼 정렬', async ({ page }) => {
+test('대시보드 컬럼 정렬', async ({ page }) => {
   await page.getByRole('cell', { name: 'Patient info sort' }).getByRole('img').click();
   await waitforloading(page);
   await screenShot(page, senarioName, '1. Patient info 오름차순 정렬');
@@ -65,14 +66,23 @@ test('대시보드 info 컬럼 정렬', async ({ page }) => {
   await screenShot(page, senarioName, '8. Physician 내림차순 정렬');
   console.log('✅ Physician 내림차순 정렬 확인');
 
-  await page.getByRole('cell', { name: 'Date/Time sort' }).getByRole('img').click();
+  await page.getByRole('cell', { name: 'Admission date sort' }).getByRole('img').click();
   await waitforloading(page);
-  await screenShot(page, senarioName, '9. DateTime 내림차순 정렬');
-  console.log('✅ DateTime 내림차순 정렬 확인');
-  await page.getByRole('cell', { name: 'Date/Time sort' }).getByRole('img').click();
+  await screenShot(page, senarioName, '9. Admission date 내림차순 정렬');
+  console.log('✅ Admission date 내림차순 정렬 확인');
+  await page.getByRole('cell', { name: 'Admission date sort' }).getByRole('img').click();
   await waitforloading(page);
-  await screenShot(page, senarioName, '10. DateTime 오름차순 정렬');
-  console.log('✅ DateTime 오름차순 정렬 확인');
+  await screenShot(page, senarioName, '10. Admission date 오름차순 정렬');
+  console.log('✅ Admission date 오름차순 정렬 확인');
+
+  await page.getByRole('cell', { name: 'Last Calculated sort' }).getByRole('img').click();
+  await waitforloading(page);
+  await screenShot(page, senarioName, '11. Last Calculated 내림차순 정렬');
+  console.log('✅ Last Calculated 내림차순 정렬 확인');
+  await page.getByRole('cell', { name: 'Last Calculated sort' }).getByRole('img').click();
+  await waitforloading(page);
+  await screenShot(page, senarioName, '12. Last Calculated 오름차순 정렬');
+  console.log('✅ Last Calculated 오름차순 정렬 확인');
 });
 
 test.afterAll(async () => {

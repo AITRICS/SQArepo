@@ -40,7 +40,7 @@ export function getTestSetup(filePath: string): { savePath: string; pyfileName: 
 }
 
 function sanitizeFileName(name: string): string {
-  return name.replace(/[:\\/*?"<>|]/g, '_');
+  return name.split('/').map(part => part.replace(/[:\\*?"<>|]/g, '_')).join('/');
 }
 
 export async function screenShot(
@@ -52,10 +52,5 @@ export async function screenShot(
   ensureDirectoryExists(scenarioPath); // 시나리오 별 폴더 생성
 
   const screenshotPath = path.join(scenarioPath, `${sanitizeFileName(testName)}.png`);
-  const body = await page.$('body');
-  if (body) {
-    await body.screenshot({ path: screenshotPath });
-  } else {
-    throw new Error('❌ Unable to locate the body element for screenshot.');
-  }
+  await page.screenshot({ path: screenshotPath, fullPage: true });
 }

@@ -11,7 +11,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[03. Screened - 대시보드 환자 카운트]'
+const senarioName = 'TC_002_003 Dashboard - Screened/[03. Screened - 대시보드 환자 카운트]'
 
 
 
@@ -60,30 +60,32 @@ test('Screened 환자 카운트 확인', async({ page }) => {
 });
 
 test('Screened 환자 상태 필터 확인', async({ page }) => {
+    const dbData = await getScreenedCount();
+    const dbCounts = dbData.length > 0 ? dbData[0] : { all_count: 0, screened_count: 0, observing_count: 0 };
+
+    // 1) NEW OFF, OBSERVING ON -> "New" 항목이 없어야 함
     await setCheckbox(page, 'checkbox-SCREENED', false);
     await setCheckbox(page, 'checkbox-OBSERVING', true);
     await waitTableReady(page);
 
-    // 1) NEW OFF, OBSERVING ON -> "New" 항목이 없어야 함
     await expectNoStatusValue(page, 'New');
+    const uiCounts1 = await checkScreenedCounts(page);
+    expect(uiCounts1.observing).toBe(dbCounts.observing_count);
     await screenShot(page,senarioName,'3. Observing On 확인');
     console.log('✅ Observing 상태 필터 확인');
 
-    // -------------------------
     // 2) NEW ON, OBSERVING OFF -> Observing 없어야 함
-    // -------------------------
     await setCheckbox(page, 'checkbox-SCREENED', true);
     await setCheckbox(page, 'checkbox-OBSERVING', false);
     await waitTableReady(page);
 
-    // "Observing" 항목이 없어야 함
     await expectNoStatusValue(page, 'Observing');
+    const uiCounts2 = await checkScreenedCounts(page);
+    expect(uiCounts2.new).toBe(dbCounts.screened_count);
     await screenShot(page,senarioName,'2. New On 확인');
     console.log('✅ New 상태 필터 확인');
 
-    // -------------------------
     // 3) NEW OFF, OBSERVING OFF -> 환자 목록이 없습니다 노출
-    // -------------------------
     await setCheckbox(page, 'checkbox-SCREENED', false);
     await setCheckbox(page, 'checkbox-OBSERVING', false);
     await waitTableReady(page);

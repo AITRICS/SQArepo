@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[04. Dismissed - 대시보드 컬럼 정렬]'
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[04. Dismissed - 대시보드 컬럼 정렬]'
 
 test.beforeAll(async () => {
   await resetDashboardSetting(adminID, adminPW);

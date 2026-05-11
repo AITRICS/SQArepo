@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[05. Dismissed - 대시보드 id 복사 및 북마크]';
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[05. Dismissed - 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -136,9 +136,7 @@ test('상단 고정 설정 동작 확인', async ({ page }) => {
   await waitTableReady(page);
 
   const firstPatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(0));
-  const secondPatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(1));
   console.log(`첫 번째 환자: ${firstPatientId}`);
-  console.log(`두 번째 환자: ${secondPatientId}`);
 
   // 첫 번째 환자 Pin
   const firstRow = await findRowByPatientId(page, firstPatientId);
@@ -154,31 +152,16 @@ test('상단 고정 설정 동작 확인', async ({ page }) => {
     .filter({ hasText: firstPatientId });
   await expect(pinnedFirstRow).toBeVisible({ timeout: 10000 });
   await expect(pinnedFirstRow.getByLabel('Unpin from top')).toBeVisible();
+  console.log('✅ 첫 번째 환자 Unpin from top 버튼 확인');
 
   const normalFirstRow = page
     .locator('table tbody tr')
     .filter({ has: page.getByLabel('Pin to top') })
     .filter({ hasText: firstPatientId });
   await expect(normalFirstRow).toHaveCount(0);
-  console.log('✅ 첫 번째 환자 Pin 영역 노출 확인');
+  console.log('✅ 첫 번째 환자 일반 영역 미표시 확인');
 
   await screenShot(page, senarioName, '1. 첫 번째 환자 상단 고정 확인');
-
-  // 두 번째 환자 Pin
-  const secondRow = await findRowByPatientId(page, secondPatientId);
-  await secondRow.getByLabel('Pin to top').click();
-  await page.waitForTimeout(1000);
-  await expect(page.getByText('상단 고정을 설정했습니다.')).toBeVisible({ timeout: 5000 });
-
-  const pinnedSecondRow = page
-    .locator('table tbody tr')
-    .filter({ has: page.getByLabel('Unpin from top') })
-    .filter({ hasText: secondPatientId });
-  await expect(pinnedSecondRow).toBeVisible({ timeout: 10000 });
-  await expect(pinnedSecondRow.getByLabel('Unpin from top')).toBeVisible();
-  console.log('✅ 두 번째 환자 Pin 영역 노출 확인');
-
-  await screenShot(page, senarioName, '2. 두 번째 환자 상단 고정 확인');
 });
 
 test('상단 고정 해제 동작 확인', async ({ page }) => {

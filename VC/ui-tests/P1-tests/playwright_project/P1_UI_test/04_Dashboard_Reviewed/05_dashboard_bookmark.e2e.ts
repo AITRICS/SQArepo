@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[05. Reviewed - 대시보드 id 복사 및 북마크]';
+const senarioName = 'TC_002_004 Dashboard - Reviewed/[05. Reviewed - 대시보드 id 복사 및 북마크]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -132,55 +132,143 @@ async function findRowByPatientId(page: Page, patientId: string): Promise<Locato
   return row.first();
 }
 
+async function getColumnIndexByHeader(table: Locator, headerName: string): Promise<number> {
+  const headers = await table.locator('thead tr th').allTextContents();
+  const idx = headers.findIndex(h => h.trim() === headerName);
+  if (idx === -1) throw new Error(`Header "${headerName}" not found`);
+  return idx + 1;
+}
+
+function getStatusCombobox(row: Locator): Locator {
+  return row.getByRole('combobox').first();
+}
+
+async function openStatusDropdown(row: Locator) {
+  await getStatusCombobox(row).click();
+}
+
+async function selectStatus(page: Page, status: 'New' | 'Observing' | 'Complete' | 'Error' | 'Dismissed') {
+  await page.getByRole('option', { name: status }).click();
+}
+
+async function expectRowStatus(page: Page, row: Locator, status: string) {
+  const table = page.locator('table');
+  const statusIndex = await getColumnIndexByHeader(table, 'Status');
+  const cell = row.locator(`td:nth-child(${statusIndex})`);
+
+  const combo = cell.getByRole('combobox').first();
+  if (await combo.isVisible().catch(() => false)) {
+    const valueText =
+      (await combo.getAttribute('aria-valuetext')) ||
+      (await combo.getAttribute('aria-label')) ||
+      (await combo.textContent()) ||
+      '';
+    expect(valueText).toContain(status);
+    return;
+  }
+
+  const cellText = (await cell.innerText()).replace(/\s+/g, ' ').trim();
+  expect(cellText).toContain(status);
+}
+
 test('상단 고정 설정 동작 확인', async ({ page }) => {
   await gotoTab(page, 'Reviewed');
   await waitTableReady(page);
 
-  const firstPatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(0));
-  const secondPatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(1));
-  console.log(`첫 번째 환자: ${firstPatientId}`);
-  console.log(`두 번째 환자: ${secondPatientId}`);
+  // 1) 첫 번째, 두 번째 row 환자 ID 추출
+  const completePatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(0));
+  const errorPatientId = await extractPatientIdFromRow(page, page.locator('table tbody tr').nth(1));
+  console.log(`Complete 대상 환자: ${completePatientId}`);
+  console.log(`Error 대상 환자: ${errorPatientId}`);
 
-  // 첫 번째 환자 Pin
-  const firstRow = await findRowByPatientId(page, firstPatientId);
-  await firstRow.getByLabel('Pin to top').click();
+  // 2) 첫 번째 환자 → Complete 상태로 맞추기
+  const completeRow = await findRowByPatientId(page, completePatientId);
+  await openStatusDropdown(completeRow);
+  await selectStatus(page, 'Complete');
+  await waitTableReady(page);
+  await page.waitForTimeout(1000);
+  await expectRowStatus(page, await findRowByPatientId(page, completePatientId), 'Complete');
+  console.log(`✅ 첫 번째 환자 Complete 상태 확인: ${completePatientId}`);
+
+  // 3) 두 번째 환자 → Error 상태로 맞추기
+  const errorRow = await findRowByPatientId(page, errorPatientId);
+  await openStatusDropdown(errorRow);
+  await selectStatus(page, 'Error');
+  await waitTableReady(page);
+  await page.waitForTimeout(1000);
+  await expectRowStatus(page, await findRowByPatientId(page, errorPatientId), 'Error');
+  console.log(`✅ 두 번째 환자 Error 상태 확인: ${errorPatientId}`);
+
+  // ── Complete 환자 PIN 설정 ──────────────────────────────────────
+
+  // 4) Complete 환자 Pin to top 클릭 + 토스트 확인
+  const completeRowForPin = await findRowByPatientId(page, completePatientId);
+  await completeRowForPin.getByLabel('Pin to top').click();
   await page.waitForTimeout(1000);
   await expect(page.getByText('상단 고정을 설정했습니다.')).toBeVisible({ timeout: 5000 });
-  console.log('✅ 첫 번째 환자 Pin 토스트 확인');
+  console.log('✅ Complete 환자 Pin 토스트 확인');
   await page.waitForTimeout(5000);
 
-  const pinnedFirstRow = page
+  // 5) Pin 영역에 Complete 환자 노출 확인
+  const pinnedCompleteRow = page
     .locator('table tbody tr')
     .filter({ has: page.getByLabel('Unpin from top') })
-    .filter({ hasText: firstPatientId });
-  await expect(pinnedFirstRow).toBeVisible({ timeout: 10000 });
-  await expect(pinnedFirstRow.getByLabel('Unpin from top')).toBeVisible();
-  console.log('✅ 첫 번째 환자 Pin 영역 노출 확인');
+    .filter({ hasText: completePatientId });
+  await expect(pinnedCompleteRow).toBeVisible({ timeout: 10000 });
+  console.log('✅ Complete 환자 Pin 영역 노출 확인');
 
-  const normalFirstRow = page
+  // 6) Unpin from top 버튼 표시 확인
+  await expect(pinnedCompleteRow.getByLabel('Unpin from top')).toBeVisible();
+  console.log('✅ Complete 환자 Unpin from top 버튼 확인');
+
+  // 7) 일반 영역에 Complete 환자 미표시 확인
+  const normalCompleteRow = page
     .locator('table tbody tr')
     .filter({ has: page.getByLabel('Pin to top') })
-    .filter({ hasText: firstPatientId });
-  await expect(normalFirstRow).toHaveCount(0);
+    .filter({ hasText: completePatientId });
+  await expect(normalCompleteRow).toHaveCount(0);
+  console.log('✅ Complete 환자 일반 영역 미표시 확인');
 
-  await screenShot(page, senarioName, '1. 첫 번째 환자 상단 고정 확인');
+  // 8) Pin 후 Complete 환자 상태 유지 확인
+  await expectRowStatus(page, pinnedCompleteRow, 'Complete');
+  console.log('✅ Complete 환자 상태 유지 확인');
 
-  // 두 번째 환자 Pin
-  const secondRow = await findRowByPatientId(page, secondPatientId);
-  await secondRow.getByLabel('Pin to top').click();
+  await screenShot(page, senarioName, '1. Complete 환자 상단 고정 확인');
+
+  // ── Error 환자 PIN 설정 ────────────────────────────────────────
+
+  // 9) Error 환자 Pin to top 클릭 + 토스트 확인
+  const errorRowForPin = await findRowByPatientId(page, errorPatientId);
+  await errorRowForPin.getByLabel('Pin to top').click();
   await page.waitForTimeout(1000);
   await expect(page.getByText('상단 고정을 설정했습니다.')).toBeVisible({ timeout: 5000 });
-  console.log('✅ 두 번째 환자 Pin 토스트 확인');
+  console.log('✅ Error 환자 Pin 토스트 확인');
 
-  const pinnedSecondRow = page
+  // 10) Pin 영역에 Error 환자 노출 확인
+  const pinnedErrorRow = page
     .locator('table tbody tr')
     .filter({ has: page.getByLabel('Unpin from top') })
-    .filter({ hasText: secondPatientId });
-  await expect(pinnedSecondRow).toBeVisible({ timeout: 10000 });
-  await expect(pinnedSecondRow.getByLabel('Unpin from top')).toBeVisible();
-  console.log('✅ 두 번째 환자 Pin 영역 노출 확인');
+    .filter({ hasText: errorPatientId });
+  await expect(pinnedErrorRow).toBeVisible({ timeout: 10000 });
+  console.log('✅ Error 환자 Pin 영역 노출 확인');
 
-  await screenShot(page, senarioName, '2. 두 번째 환자 상단 고정 확인');
+  // 11) Unpin from top 버튼 표시 확인
+  await expect(pinnedErrorRow.getByLabel('Unpin from top')).toBeVisible();
+  console.log('✅ Error 환자 Unpin from top 버튼 확인');
+
+  // 12) 일반 영역에 Error 환자 미표시 확인
+  const normalErrorRow = page
+    .locator('table tbody tr')
+    .filter({ has: page.getByLabel('Pin to top') })
+    .filter({ hasText: errorPatientId });
+  await expect(normalErrorRow).toHaveCount(0);
+  console.log('✅ Error 환자 일반 영역 미표시 확인');
+
+  // 13) Pin 후 Error 환자 상태 유지 확인
+  await expectRowStatus(page, pinnedErrorRow, 'Error');
+  console.log('✅ Error 환자 상태 유지 확인');
+
+  await screenShot(page, senarioName, '2. Error 환자 상단 고정 확인');
 });
 
 test('상단 고정 해제 동작 확인', async ({ page }) => {

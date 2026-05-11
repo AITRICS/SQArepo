@@ -10,7 +10,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[06. Dismissed - 대시보드 다운로드 확인]';
+const senarioName = 'TC_002_005 Dashboard - Dismissed/[06. Dismissed - 대시보드 다운로드 확인]';
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

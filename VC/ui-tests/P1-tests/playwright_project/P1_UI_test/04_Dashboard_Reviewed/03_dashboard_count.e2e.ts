@@ -11,7 +11,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[03. Reviewed - 대시보드 환자 카운트]'
+const senarioName = 'TC_002_004 Dashboard - Reviewed/[03. Reviewed - 대시보드 환자 카운트]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);
@@ -38,12 +38,17 @@ test('Reviewed 환자 카운트 확인', async ({ page }) => {
 });
 
 test('Reviewed 환자 상태 필터 확인', async ({ page }) => {
+  const dbData = await getReviewedCount();
+  const dbCounts = dbData.length > 0 ? dbData[0] : { all_count: 0, done_count: 0, error_count: 0 };
+
   // 1) COMPLETE OFF, ERROR ON → Complete 없어야 함
   await setCheckbox(page, 'checkbox-DONE', false);
   await setCheckbox(page, 'checkbox-ERROR', true);
   await waitTableReady(page);
 
   await expectNoStatusValue(page, 'Complete');
+  const uiCounts1 = await checkReviewedCounts(page);
+  expect(uiCounts1.error).toBe(dbCounts.error_count);
   await screenShot(page, senarioName, '3. Error On 확인');
   console.log('✅ Error 상태 필터 확인');
 
@@ -53,6 +58,8 @@ test('Reviewed 환자 상태 필터 확인', async ({ page }) => {
   await waitTableReady(page);
 
   await expectNoStatusValue(page, 'Error');
+  const uiCounts2 = await checkReviewedCounts(page);
+  expect(uiCounts2.complete).toBe(dbCounts.done_count);
   await screenShot(page, senarioName, '2. Complete On 확인');
   console.log('✅ Complete 상태 필터 확인');
 

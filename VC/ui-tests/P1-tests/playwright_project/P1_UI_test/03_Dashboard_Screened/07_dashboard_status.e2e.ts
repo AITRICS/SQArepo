@@ -12,7 +12,7 @@ dotenv.config();
 const adminID = process.env.ADMINID || 'defaultAdmin'
 const adminPW = process.env.ADMINPW || 'defaultAdmin!'
 
-const senarioName = '[07. Screened - 대시보드 환자 상태 변경]'
+const senarioName = 'TC_002_003 Dashboard - Screened/[07. Screened - 대시보드 환자 상태 변경]'
 
 test.beforeEach(async ({page}) => {
   test.setTimeout(0);

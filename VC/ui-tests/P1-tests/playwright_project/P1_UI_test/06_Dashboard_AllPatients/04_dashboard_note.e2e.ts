@@ -7,18 +7,21 @@ test.describe.configure({ mode: 'serial' });
 
 dotenv.config();
 
-const adminID = process.env.ADMINID || 'defaultAdmin'
-const adminPW = process.env.ADMINPW || 'defaultAdmin!'
+const adminID = process.env.ADMINID || 'defaultAdmin';
+const adminPW = process.env.ADMINPW || 'defaultAdmin!';
 
-const senarioName = 'TC_002_003 Dashboard - Screened/[02. Screened - 대시보드 노트]'
+const senarioName = 'TC_002_006 Dashboard - All Patients/[04. All Patients - 대시보드 노트]';
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({ page }) => {
   test.setTimeout(0);
-  await page.goto('/ko/login')
+  await page.goto('/ko/login');
   await login(page, adminID, adminPW);
   await page.waitForTimeout(2000);
-  const loadingLocator = page.locator('.absolute').first();
-  await expect(loadingLocator).not.toBeVisible({ timeout: 10000 });
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
+  // TODO: 실제 UI의 All Patients 탭 이름으로 수정 필요
+  await page.getByRole('tab', { name: 'All Patients' }).click();
+  await page.waitForTimeout(2000);
+  await expect(page.locator('.absolute').first()).not.toBeVisible({ timeout: 10000 });
 });
 
 // 노트가 없는 첫 번째 환자 행 반환
